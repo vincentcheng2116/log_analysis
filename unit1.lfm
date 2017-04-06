@@ -1,0 +1,253 @@
+object Form1: TForm1
+  Left = 511
+  Height = 748
+  Top = 122
+  Width = 1261
+  AllowDropFiles = True
+  Caption = 'Log_Analysis'
+  ClientHeight = 728
+  ClientWidth = 1261
+  Menu = MainMenu1
+  OnDragOver = FormDragOver
+  OnDropFiles = FormDropFiles
+  LCLVersion = '1.6.4.0'
+  object Chart1: TChart
+    Left = 0
+    Height = 358
+    Top = 0
+    Width = 1261
+    AxisList = <    
+      item
+        Minors = <>
+        Title.LabelFont.Orientation = 900
+      end    
+      item
+        Alignment = calBottom
+        Minors = <>
+      end>
+    Foot.Brush.Color = clBtnFace
+    Foot.Font.Color = clBlue
+    Title.Brush.Color = clBtnFace
+    Title.Font.Color = clBlue
+    Title.Text.Strings = (
+      'TAChart'
+    )
+    Align = alClient
+    OnDragOver = Chart1DragOver
+    object Chart1LineSeries1: TLineSeries
+      LinePen.Color = clBlue
+      Source = ListChartSource1
+    end
+    object Chart1LineSeries_sigma3n: TLineSeries
+      Transparency = 50
+      Marks.Distance = 1
+      Marks.Arrow.Visible = True
+      Marks.CalloutAngle = 45
+      Marks.Format = '%0:.9g'
+      Marks.Style = smsValue
+      Title = '3sigma'
+      LinePen.Color = clLime
+      LinePen.JoinStyle = pjsBevel
+      LinePen.Style = psDot
+      LinePen.Width = 5
+    end
+    object Chart1LineSeries_sigma3p: TLineSeries
+      Transparency = 50
+      Marks.Distance = 1
+      Marks.Arrow.Visible = True
+      Marks.CalloutAngle = 45
+      Marks.Format = '%0:.9g'
+      Marks.Style = smsValue
+      LinePen.Color = clLime
+      LinePen.Style = psDot
+      LinePen.Width = 5
+    end
+    object Chart1LineSeries_sigma5n: TLineSeries
+      Marks.Distance = 1
+      Marks.Arrow.Visible = True
+      Marks.CalloutAngle = 45
+      Marks.Format = '%0:.9g'
+      Marks.Style = smsValue
+      LinePen.Color = clGreen
+      LinePen.Width = 2
+      Pointer.Pen.Color = clBlue
+    end
+    object Chart1LineSeries_sigma5p: TLineSeries
+      Marks.Distance = 1
+      Marks.Arrow.Visible = True
+      Marks.CalloutAngle = 45
+      Marks.Format = '%0:.9g'
+      Marks.Style = smsValue
+      LinePen.Color = clGreen
+      LinePen.Width = 2
+      Pointer.Pen.Color = clBlue
+    end
+    object Chart1LineSeries_limitn: TLineSeries
+      Marks.Distance = 1
+      Marks.Arrow.Visible = True
+      Marks.CalloutAngle = 45
+      Marks.Format = '%0:.9g'
+      Marks.Style = smsValue
+      LinePen.Color = clRed
+      LinePen.Width = 2
+      Pointer.Pen.Color = clRed
+    end
+    object Chart1LineSeries_limitp: TLineSeries
+      Marks.Distance = 1
+      Marks.Arrow.Visible = True
+      Marks.CalloutAngle = 45
+      Marks.Format = '%0:.9g'
+      Marks.Style = smsValue
+      LinePen.Color = clRed
+      LinePen.Width = 2
+      Pointer.Pen.Color = clRed
+    end
+  end
+  object Panel1: TPanel
+    Left = 0
+    Height = 340
+    Top = 366
+    Width = 1261
+    Align = alBottom
+    Caption = 'Panel1'
+    ClientHeight = 340
+    ClientWidth = 1261
+    TabOrder = 1
+    object StringGrid1: TStringGrid
+      Left = 459
+      Height = 338
+      Top = 1
+      Width = 801
+      Align = alRight
+      ColCount = 20
+      Font.CharSet = ANSI_CHARSET
+      Font.Height = -13
+      Font.Name = 'Consolas'
+      Font.Pitch = fpFixed
+      Font.Quality = fqDraft
+      Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goRangeSelect, goColSizing, goColMoving, goSmoothScroll]
+      ParentFont = False
+      PopupMenu = PopupMenu1
+      RowCount = 20
+      TabOrder = 0
+      TitleFont.CharSet = ANSI_CHARSET
+      TitleFont.Height = -13
+      TitleFont.Name = 'Consolas'
+      TitleFont.Pitch = fpFixed
+      TitleFont.Quality = fqDraft
+    end
+    object Splitter1: TSplitter
+      Left = 454
+      Height = 338
+      Top = 1
+      Width = 5
+      Align = alRight
+      Beveled = True
+      ResizeAnchor = akRight
+    end
+    object Chart2: TChart
+      Left = 1
+      Height = 338
+      Top = 1
+      Width = 453
+      AxisList = <      
+        item
+          Minors = <>
+          Title.LabelFont.Orientation = 900
+        end      
+        item
+          Alignment = calBottom
+          MarginsForMarks = False
+          Marks.Format = '%2:s'
+          Marks.Source = ListChartSource2
+          Marks.Style = smsLabel
+          Minors = <>
+        end>
+      Foot.Brush.Color = clBtnFace
+      Foot.Font.Color = clBlue
+      Title.Brush.Color = clBtnFace
+      Title.Font.Color = clBlue
+      Title.Text.Strings = (
+        'TAChart'
+      )
+      Align = alClient
+      object Chart2BarSeries1: TBarSeries
+        Marks.Visible = False
+        Marks.Format = '%2:s'
+        Marks.Style = smsLabel
+        BarBrush.Color = clRed
+        Source = ListChartSource2
+      end
+    end
+  end
+  object Splitter2: TSplitter
+    Cursor = crVSplit
+    Left = 0
+    Height = 8
+    Top = 358
+    Width = 1261
+    Align = alBottom
+    Beveled = True
+    ResizeAnchor = akBottom
+    ResizeStyle = rsNone
+  end
+  object StatusBar1: TStatusBar
+    Left = 0
+    Height = 22
+    Top = 706
+    Width = 1261
+    Panels = <    
+      item
+        Width = 100
+      end    
+      item
+        Width = 100
+      end    
+      item
+        Width = 100
+      end>
+    SimplePanel = False
+  end
+  object MainMenu1: TMainMenu
+    left = 160
+    top = 24
+    object MenuItem1: TMenuItem
+      Caption = 'Files'
+      object MenuItem_Open: TMenuItem
+        Caption = 'Open'
+        OnClick = MenuItem_OpenClick
+      end
+      object MenuItem_Close: TMenuItem
+        Caption = 'Close'
+      end
+      object MenuItem_exit: TMenuItem
+        Caption = 'Exit'
+        OnClick = MenuItem_exitClick
+      end
+    end
+  end
+  object ListChartSource1: TListChartSource
+    left = 80
+    top = 24
+  end
+  object OpenDialog1: TOpenDialog
+    left = 648
+    top = 504
+  end
+  object PopupMenu1: TPopupMenu
+    left = 1184
+    top = 408
+    object MenuItem_draw: TMenuItem
+      Caption = 'Draw'
+      OnClick = MenuItem_drawClick
+    end
+    object MenuItem2: TMenuItem
+      Caption = 'Analysis'
+      OnClick = MenuItem2Click
+    end
+  end
+  object ListChartSource2: TListChartSource
+    left = 392
+    top = 608
+  end
+end
