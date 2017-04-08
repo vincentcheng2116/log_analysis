@@ -7,7 +7,7 @@ interface
 uses
   Classes, SysUtils, TAGraph, TASources, TASeries, Forms, Controls,
   Graphics,  Dialogs, Menus, Grids, ExtCtrls, ComCtrls, ActnList,
-  math;
+  math,about;
 
 type
 
@@ -297,7 +297,8 @@ end;
 
 procedure TForm1.MenuItem4Click(Sender: TObject);
 begin
-  MessageDlg('Log Analysis tool,'+#13+#10+'   Author: Vincent Cheng (Tel: +886-963-080987),'+#13+#10+'   Company: Maetay'+#13+#10+'   Date: 2017-04-08', mtInformation, [mbOK], 0);
+  //MessageDlg('Log Analysis tool,'+#13+#10+'   Author: Vincent Cheng (Tel: +886-963-080987),'+#13+#10+'   Company: Maetay'+#13+#10+'   Date: 2017-04-08', mtInformation, [mbOK], 0);
+   ShowAboutBox;
 end;
 
 procedure TForm1.MenuItem_drawClick(Sender: TObject);
