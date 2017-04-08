@@ -19,7 +19,7 @@
       <AutoIncrementBuild Value="True"/>
       <MajorVersionNr Value="2017"/>
       <MinorVersionNr Value="4"/>
-      <RevisionNr Value="6"/>
+      <RevisionNr Value="7"/>
       <BuildNr Value="2"/>
       <Attributes pvaPreRelease="True"/>
       <StringTable ProductName="Log Analysis" ProductVersion=""/>
