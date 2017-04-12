@@ -14,6 +14,10 @@ type
   { TForm1 }
 
   TForm1 = class(TForm)
+    Action_title_process: TAction;
+    Action_full_auto: TAction;
+    Action_Delete_same_Contents: TAction;
+    Action_sorting: TAction;
     Action_analysis: TAction;
     Action_move_col_right: TAction;
     Action_move_col_left: TAction;
@@ -40,6 +44,9 @@ type
     MenuItem2: TMenuItem;
     MenuItem3: TMenuItem;
     MenuItem4: TMenuItem;
+    MenuItem5: TMenuItem;
+    MenuItem_delete_same_Contents: TMenuItem;
+    MenuItem_sorting: TMenuItem;
     MenuItem_mark_distribution_value: TMenuItem;
     MenuItem_mark_value: TMenuItem;
     MenuItem_show_pointer: TMenuItem;
@@ -63,13 +70,19 @@ type
     ToolButton5: TToolButton;
     ToolButton6: TToolButton;
     ToolButton7: TToolButton;
+    ToolButton8: TToolButton;
+    ToolButton9: TToolButton;
     procedure Action_analysisExecute(Sender: TObject);
+    procedure Action_Delete_same_ContentsExecute(Sender: TObject);
     procedure Action_del_colExecute(Sender: TObject);
     procedure Action_del_rowExecute(Sender: TObject);
+    procedure Action_full_autoExecute(Sender: TObject);
     procedure Action_insert_colExecute(Sender: TObject);
     procedure Action_insert_rowExecute(Sender: TObject);
     procedure Action_move_col_leftExecute(Sender: TObject);
     procedure Action_move_col_rightExecute(Sender: TObject);
+    procedure Action_sortingExecute(Sender: TObject);
+    procedure Action_title_processExecute(Sender: TObject);
     procedure FormDragOver(Sender, Source: TObject; X, Y: Integer;
       State: TDragState; var Accept: Boolean);
     procedure FormDropFiles(Sender: TObject; const FileNames: array of String);
@@ -82,7 +95,11 @@ type
     procedure MenuItem_mark_valueClick(Sender: TObject);
     procedure MenuItem_OpenClick(Sender: TObject);
     procedure MenuItem_show_pointerClick(Sender: TObject);
+    procedure MenuItem_sortingClick(Sender: TObject);
     procedure MenuItem_title_processClick(Sender: TObject);
+    procedure StringGrid1Click(Sender: TObject);
+    procedure StringGrid1DrawCell(Sender: TObject; aCol, aRow: Integer;
+      aRect: TRect; aState: TGridDrawState);
   private
     { private declarations }
     function loadfile(filename:string):boolean;
@@ -141,6 +158,13 @@ begin
       ListChartSource1.Add(x,val,inttostr(x),clred);
     end;
   end;
+  if x=0 then
+  begin
+    MessageDlg('Notification', 'this column wasn''t a valid data.', mtConfirmation,[mbOK],0) ;
+    exit;
+
+  end;
+
   SetLength(data, x);
   meanandstddev(data,mean1,stdev1);
   StringGrid1.Cells[col1,4]:= floattostr(mean1);
@@ -234,16 +258,110 @@ begin
 
 end;
 
-procedure TForm1.Action_del_colExecute(Sender: TObject);
+procedure TForm1.Action_Delete_same_ContentsExecute(Sender: TObject);
+var
+  s,s1: string;
+  row1,col1:Integer;
 begin
+     col1:=StringGrid1.col;
+     s:= StringGrid1.Cells[col1,StringGrid1.Row];
+     row1:=9;
+     while row1<StringGrid1.RowCount-1 do
+     begin
+       s1:=StringGrid1.Cells[col1,row1];
+       if S1=s then
+       begin
+         StringGrid1.DeleteRow(row1);
+       end
+       else
+       begin
+         inc(row1);
+       end;
+     end;
+end;
+
+procedure TForm1.Action_del_colExecute(Sender: TObject);
+var
+    col_sel_cnt,i,j:Integer;
+
+begin
+  // check if multiselect
+ col_sel_cnt:=StringGrid1.Selection.Right - StringGrid1.Selection.Left;
+ if col_sel_cnt>1 then
+ begin
+   i:=  StringGrid1.Selection.left;
+   for j:=1 to col_sel_cnt do
+   begin
+       StringGrid1.DeleteCol(i);
+   end;
+   exit;
+ end;
   StringGrid1.DeleteCol(StringGrid1.Col);
 end;
 
 
 
 procedure TForm1.Action_del_rowExecute(Sender: TObject);
+var
+  row_sel_cnt,i,j:Integer;
 begin
+   // check if multiselect
+  row_sel_cnt:=StringGrid1.Selection.Bottom - StringGrid1.Selection.Top;
+  if row_sel_cnt>1 then
+  begin
+    i:=  StringGrid1.Selection.Top;
+    for j:=1 to row_sel_cnt do
+    begin
+        StringGrid1.DeleteRow(i);
+    end;
+    exit;
+  end;
    StringGrid1.DeleteRow(StringGrid1.Row);
+end;
+
+procedure TForm1.Action_full_autoExecute(Sender: TObject);
+var
+  i:integer;
+  s:string;
+  d_min,d_max:Extended;
+begin
+  // title process
+  Action_title_processExecute(self);
+  // adjust field width
+  for i:=1 to StringGrid1.ColCount-1 do
+  begin
+    //adj
+    StringGrid1.col:=i;
+    StringGrid1.Row:=10;
+    StringGrid1Click(self);
+  end;
+
+  for i:=1 to StringGrid1.ColCount-1 do
+  begin
+    //adj
+    d_min:= StrToFloatDef( StringGrid1.Cells [i,2],1E99);
+    d_max:= StrToFloatDef( StringGrid1.Cells [i,3],1E99);
+    if (d_min<>1E99) and (d_max<>1E99) then
+    begin
+      StringGrid1.Cells[i,1]:='@';
+    end;
+
+  end;
+  for i:=1 to StringGrid1.ColCount-1 do
+  begin
+    if StringGrid1.Cells[i,1]='@' then
+    begin
+      break;
+    end;
+  end;
+  StringGrid1.Col:=i;
+  Action_analysisExecute(self);
+
+  // check the chart-able item)
+  // mark those field
+  // calculate stdev and means value
+  // draw chart
+
 end;
 
 procedure TForm1.Action_insert_rowExecute(Sender: TObject);
@@ -263,6 +381,51 @@ begin
 
 end;
 
+procedure TForm1.Action_sortingExecute(Sender: TObject);
+begin
+
+    StringGrid1.SortColRow(true,StringGrid1.Col,StringGrid1.FixedRows,StringGrid1.RowCount-1);
+
+end;
+
+procedure TForm1.Action_title_processExecute(Sender: TObject);
+var
+  i,num:integer;
+
+begin
+  // search the last 'SeqNum'
+  num:=0;
+  for i:= 10 to StringGrid1.RowCount-1 do
+  begin
+    if StringGrid1.Cells[0,i]='SeqNum' then
+    begin
+      StatusBar1.Panels[0].Text:=IntToStr(i);
+      num:=i;
+    end;
+  end;
+//  if num=0 then exit;
+  if num+8< StringGrid1.RowCount then
+  begin
+    for i := num to num+8 do
+    begin
+      StringGrid1.MoveColRow(False,i,i-num);
+    end;
+  end;
+
+  i:=9;
+  while i<StringGrid1.RowCount-1 do
+  begin
+    if (StringGrid1.Cells[0,i]='') or (StringGrid1.Cells[0,i]='SeqNum') then
+    begin
+      StringGrid1.DeleteRow(i);
+    end
+    else
+    begin
+      inc(i);
+    end;
+  end;
+
+end;
 
 
 procedure TForm1.FormDragOver(Sender, Source: TObject; X, Y: Integer;
@@ -368,41 +531,50 @@ begin
   Chart1LineSeries1.Pointer.Visible:= MenuItem_show_pointer.Checked;
 end;
 
+procedure TForm1.MenuItem_sortingClick(Sender: TObject);
+begin
+
+end;
+
 procedure TForm1.MenuItem_title_processClick(Sender: TObject);
-var
-  i,num:integer;
+
 
 begin
-  // search the last 'SeqNum'
-  num:=0;
-  for i:= 10 to StringGrid1.RowCount-10 do
-  begin
-    if StringGrid1.Cells[0,i]='SeqNum' then
-    begin
-      StatusBar1.Panels[0].Text:=IntToStr(i);
-      num:=i;
-    end;
-  end;
-  if num=0 then exit;
-  for i := num to num+8 do
-  begin
-    StringGrid1.MoveColRow(False,i,i-num);
-  end;
 
-  i:=9;
-  while i<StringGrid1.RowCount-1 do
+end;
+
+procedure TForm1.StringGrid1Click(Sender: TObject);
+var
+width1,max1:integer;
+begin
+  StatusBar1.Panels[0].Text:=Format('Col:%3d, Row:%3d', [StringGrid1.col,StringGrid1.row]);
+
+  //adj width
+  Width1:= StringGrid1.ColWidths[StringGrid1.Col];
+  max1:=StringGrid1.Canvas.TextWidth(StringGrid1.cells[StringGrid1.col,StringGrid1.Row]+'x');
+  if max1>width1 then
   begin
-    if (StringGrid1.Cells[0,i]='') or (StringGrid1.Cells[0,i]='SeqNum') then
-    begin
-      StringGrid1.DeleteRow(i);
-    end
-    else
-    begin
-      inc(i);
-    end;
+    StringGrid1.ColWidths[StringGrid1.col]:=max1;
   end;
 
 end;
+
+procedure TForm1.StringGrid1DrawCell(Sender: TObject; aCol, aRow: Integer;
+  aRect: TRect; aState: TGridDrawState);
+begin
+  if aRow=1 then
+  begin
+    if StringGrid1.Cells[aCol,aRow]='@' then
+    begin
+          stringgrid1.canvas.Brush.Color:=clYellow;
+    stringgrid1.canvas.FillRect(arect);
+      StringGrid1.Canvas.Font.Color:=clBlack;//  (acol,arow).Canvas.);
+     StringGrid1.Canvas.TextOut(aRect.Left + 2, aRect.Top + 2, '@');
+    end;
+  end;
+end;
+
+
 
 function TForm1.loadfile(filename: string): boolean;
 begin

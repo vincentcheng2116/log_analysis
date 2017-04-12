@@ -1,7 +1,7 @@
 object Form_About: TForm_About
-  Left = 388
+  Left = 387
   Height = 201
-  Top = 128
+  Top = 119
   Width = 557
   BorderStyle = bsDialog
   Caption = 'About'
