@@ -83,6 +83,7 @@ type
     procedure Action_move_col_rightExecute(Sender: TObject);
     procedure Action_sortingExecute(Sender: TObject);
     procedure Action_title_processExecute(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
     procedure FormDragOver(Sender, Source: TObject; X, Y: Integer;
       State: TDragState; var Accept: Boolean);
     procedure FormDropFiles(Sender: TObject; const FileNames: array of String);
@@ -425,6 +426,25 @@ begin
     end;
   end;
 
+end;
+
+procedure TForm1.FormCreate(Sender: TObject);
+var
+   i:Integer;
+   s:String;
+
+begin
+    for i := 1 to 2 do
+  begin
+    s := ParamStr(i);
+    //memo2.Lines.Add(s);
+
+    if FileExists(s) then
+    begin
+      loadfile(s);
+      //Memo1.Lines.LoadFromFile(s);
+    end;
+  end;
 end;
 
 
