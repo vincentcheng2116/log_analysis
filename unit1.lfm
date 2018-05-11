@@ -1,17 +1,20 @@
 object Form1: TForm1
-  Left = 471
+  Left = 479
   Height = 746
-  Top = 134
+  Top = 118
   Width = 1261
   AllowDropFiles = True
   Caption = 'Log_Analysis'
   ClientHeight = 726
   ClientWidth = 1261
+  KeyPreview = True
   Menu = MainMenu1
   OnCreate = FormCreate
   OnDragOver = FormDragOver
   OnDropFiles = FormDropFiles
-  LCLVersion = '1.6.4.0'
+  OnKeyDown = FormKeyDown
+  OnKeyUp = FormKeyUp
+  LCLVersion = '1.8.2.0'
   object Chart1: TChart
     Left = 0
     Height = 356
@@ -19,12 +22,16 @@ object Form1: TForm1
     Width = 1261
     AxisList = <    
       item
+        Marks.LabelBrush.Style = bsClear
         Minors = <>
         Title.LabelFont.Orientation = 900
+        Title.LabelBrush.Style = bsClear
       end    
       item
         Alignment = calBottom
+        Marks.LabelBrush.Style = bsClear
         Minors = <>
+        Title.LabelBrush.Style = bsClear
       end>
     Foot.Brush.Color = clBtnFace
     Foot.Font.Color = clBlue
@@ -137,7 +144,7 @@ object Form1: TForm1
       Font.Name = 'Consolas'
       Font.Pitch = fpFixed
       Font.Quality = fqDraft
-      Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goRangeSelect, goDrawFocusSelected, goColSizing, goColMoving]
+      Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goRangeSelect, goDrawFocusSelected, goColSizing, goColMoving, goDblClickAutoSize]
       ParentFont = False
       PopupMenu = PopupMenu1
       RowCount = 20
@@ -169,16 +176,20 @@ object Form1: TForm1
       Width = 434
       AxisList = <      
         item
+          Marks.LabelBrush.Style = bsClear
           Minors = <>
           Title.LabelFont.Orientation = 900
+          Title.LabelBrush.Style = bsClear
         end      
         item
           Alignment = calBottom
           MarginsForMarks = False
           Marks.Format = '%2:s'
+          Marks.LabelBrush.Style = bsClear
           Marks.Source = ListChartSource2
           Marks.Style = smsLabel
           Minors = <>
+          Title.LabelBrush.Style = bsClear
         end>
       Foot.Brush.Color = clBtnFace
       Foot.Font.Color = clBlue
@@ -249,7 +260,6 @@ object Form1: TForm1
       end
       object ToolButton7: TToolButton
         Left = 1
-        Hint = 'Analysis Data'
         Top = 122
         Action = Action_analysis
         ParentShowHint = False
@@ -291,12 +301,20 @@ object Form1: TForm1
         Width = 200
       end    
       item
-        Width = 100
+        Width = 200
       end    
       item
         Width = 100
       end>
     SimplePanel = False
+  end
+  object StringGrid2: TStringGrid
+    Left = 792
+    Height = 128
+    Top = 520
+    Width = 352
+    TabOrder = 4
+    Visible = False
   end
   object MainMenu1: TMainMenu
     left = 160
@@ -304,11 +322,19 @@ object Form1: TForm1
     object MenuItem1: TMenuItem
       Caption = 'Files'
       object MenuItem_Open: TMenuItem
-        Caption = 'Open'
+        Caption = 'Open Files'
         OnClick = MenuItem_OpenClick
       end
+      object Append_File: TMenuItem
+        Action = Action_append_file
+        Caption = 'Append Files'
+      end
       object MenuItem_Close: TMenuItem
-        Caption = 'Close'
+        Caption = 'Clean Up'
+        OnClick = MenuItem_CloseClick
+      end
+      object MenuItem7: TMenuItem
+        Caption = '-'
       end
       object MenuItem_exit: TMenuItem
         Caption = 'Exit'
@@ -329,6 +355,9 @@ object Form1: TForm1
     top = 24
   end
   object OpenDialog1: TOpenDialog
+    FileName = 'D:\data\lazarus\chart\Log_analysis\6D11_MSE_RF_170330_31_4F.CSV'
+    InitialDir = 'D:\data\lazarus\chart\Log_analysis\'
+    Options = [ofAllowMultiSelect, ofEnableSizing, ofViewDetail]
     left = 648
     top = 504
   end
@@ -758,6 +787,14 @@ object Form1: TForm1
     object Action_title_process: TAction
       Caption = 'Action_title_process'
       OnExecute = Action_title_processExecute
+    end
+    object Action_cleanup: TAction
+      Caption = 'Action_cleanup'
+      OnExecute = Action_cleanupExecute
+    end
+    object Action_append_file: TAction
+      Caption = 'Action_append_file'
+      OnExecute = Action_append_fileExecute
     end
   end
 end

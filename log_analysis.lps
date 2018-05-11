@@ -4,14 +4,13 @@
     <PathDelim Value="\"/>
     <Version Value="10"/>
     <BuildModes Active="Default"/>
-    <Units Count="11">
+    <Units Count="17">
       <Unit0>
         <Filename Value="log_analysis.lpr"/>
         <IsPartOfProject Value="True"/>
-        <EditorIndex Value="1"/>
+        <EditorIndex Value="-1"/>
         <CursorPos X="24" Y="16"/>
-        <UsageCount Value="69"/>
-        <Loaded Value="True"/>
+        <UsageCount Value="75"/>
       </Unit0>
       <Unit1>
         <Filename Value="unit1.pas"/>
@@ -21,12 +20,12 @@
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="Unit1"/>
         <IsVisibleTab Value="True"/>
-        <EditorIndex Value="2"/>
-        <TopLine Value="379"/>
-        <CursorPos X="61" Y="437"/>
-        <UsageCount Value="69"/>
-        <Bookmarks Count="1">
-          <Item0 X="13" Y="448" ID="1"/>
+        <TopLine Value="430"/>
+        <CursorPos X="37" Y="434"/>
+        <UsageCount Value="75"/>
+        <Bookmarks Count="2">
+          <Item0 X="3" Y="288" ID="1"/>
+          <Item1 X="6" Y="623" ID="2"/>
         </Bookmarks>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
@@ -37,11 +36,10 @@
         <ComponentName Value="Form_About"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
+        <EditorIndex Value="-1"/>
         <TopLine Value="68"/>
         <CursorPos Y="71"/>
-        <UsageCount Value="44"/>
-        <Loaded Value="True"/>
-        <LoadedDesigner Value="True"/>
+        <UsageCount Value="50"/>
       </Unit2>
       <Unit3>
         <Filename Value="C:\lazarus\lcl\grids.pas"/>
@@ -101,6 +99,46 @@
         <CursorPos Y="98"/>
         <UsageCount Value="11"/>
       </Unit10>
+      <Unit11>
+        <Filename Value="d:\lazarus\lcl\grids.pas"/>
+        <UnitName Value="Grids"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="11170"/>
+        <CursorPos Y="11194"/>
+        <UsageCount Value="12"/>
+      </Unit11>
+      <Unit12>
+        <Filename Value="d:\lazarus\components\lazutils\dynamicarray.pas"/>
+        <UnitName Value="DynamicArray"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="40"/>
+        <CursorPos Y="63"/>
+        <UsageCount Value="12"/>
+      </Unit12>
+      <Unit13>
+        <Filename Value="d:\lazarus\lcl\include\statuspanels.inc"/>
+        <EditorIndex Value="-1"/>
+        <CursorPos Y="28"/>
+        <UsageCount Value="12"/>
+      </Unit13>
+      <Unit14>
+        <Filename Value="6D11_MSE_RF_170330_31_4F - Copy.CSV"/>
+        <EditorIndex Value="-1"/>
+        <UsageCount Value="10"/>
+        <DefaultSyntaxHighlighter Value="None"/>
+      </Unit14>
+      <Unit15>
+        <Filename Value="C:\Users\vince\AppData\Local\Temp\TortoiseGit\ITTS_AP_debug-e258a2d.000.pas"/>
+        <EditorIndex Value="-1"/>
+        <UsageCount Value="10"/>
+      </Unit15>
+      <Unit16>
+        <Filename Value="d:\lazarus\lcl\include\menuitem.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="67"/>
+        <CursorPos Y="85"/>
+        <UsageCount Value="11"/>
+      </Unit16>
     </Units>
     <JumpHistory HistoryIndex="-1"/>
   </ProjectSession>

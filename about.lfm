@@ -1,14 +1,14 @@
 object Form_About: TForm_About
-  Left = 387
+  Left = 394
   Height = 201
-  Top = 119
+  Top = 117
   Width = 557
   BorderStyle = bsDialog
   Caption = 'About'
   ClientHeight = 201
   ClientWidth = 557
   OnCreate = FormCreate
-  LCLVersion = '1.6.4.0'
+  LCLVersion = '1.8.2.0'
   object Image1: TImage
     Left = 0
     Height = 201
