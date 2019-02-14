@@ -5,7 +5,7 @@ unit about;
 interface
 
 uses
-  Windows,Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, ExtCtrls,
+  Windows, Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, ExtCtrls,
   StdCtrls;
 
 type
@@ -32,8 +32,10 @@ type
 
 var
   Form_About: TForm_About;
-  procedure ShowAboutBox;
-  function GetFileVersion(const sFilename: string; var nValue1, nValue2, nValue3, nValue4: Integer; var version_String: string): string;
+
+procedure ShowAboutBox;
+function GetFileVersion(const sFilename: string;
+  var nValue1, nValue2, nValue3, nValue4: integer; var version_String: string): string;
 
 implementation
 
@@ -51,8 +53,8 @@ var
   v1, v2, v3, v4: integer;
   s: string;
 begin
-//application.ExeName + '         Ver: ' +
-//getfileversion(application.ExeName, v1, v2, v3, v4);
+  //application.ExeName + '         Ver: ' +
+  //getfileversion(application.ExeName, v1, v2, v3, v4);
 
   Caption := Format('About %s', [Application.Title]);
   programIcon.Picture.Assign(Application.Icon);
@@ -62,12 +64,12 @@ begin
   //UpdateDate.caption := DateTimeToStr(FileDateToDateTime(FileAge(Application.ExeName)));
   //Animate1.Play(1,19,100);
 
-
 end;
 
 procedure TForm_About.Copyright2Click(Sender: TObject);
 begin
-    ShellExecute(handle, 'open', 'https://pan.baidu.com/s/1nvGiMOp','', '', SW_SHOWNORMAL);
+  ShellExecute(handle, 'open', 'https://pan.baidu.com/s/1nvGiMOp', '', '',
+    SW_SHOWNORMAL);
 
 end;
 
@@ -75,15 +77,16 @@ end;
 procedure ShowAboutBox;
 begin
   with TForm_About.Create(Application) do
-  try
-    ShowModal;
-  finally
-    Free;
-  end;
+    try
+      ShowModal;
+    finally
+      Free;
+    end;
 end;
 
 
-function GetFileVersion(const sFilename: string; var nValue1, nValue2, nValue3, nValue4: Integer; var version_String: string): string;
+function GetFileVersion(const sFilename: string;
+  var nValue1, nValue2, nValue3, nValue4: integer; var version_String: string): string;
 
 var
   pInfo, pPointer: Pointer;
@@ -101,12 +104,14 @@ begin
   nValue4 := -1;
 
   nSize := GetFileVersionInfoSize(PChar(sFilename), nHandle);
-  if (nSize <> 0) then begin
+  if (nSize <> 0) then
+  begin
     GetMem(pInfo, nSize);
     try
       FillChar(pInfo^, nSize, 0);
 
-      if (GetFileVersionInfo(PChar(sFilename), nHandle, nSize, pInfo)) then begin
+      if (GetFileVersionInfo(PChar(sFilename), nHandle, nSize, pInfo)) then
+      begin
         nVerInfoSize := SizeOf(VS_FIXEDFILEINFO);
         GetMem(pVerInfo, nVerInfoSize);
         try
@@ -118,14 +123,15 @@ begin
           nValue3 := PVSFIXEDFILEINFO(pPointer)^.dwFileVersionLS shr 16;
           nValue4 := PVSFIXEDFILEINFO(pPointer)^.dwFileVersionLS and $FFFF;
 
-          Result := IntToStr(nValue1) + '.' + IntToStr(nValue2) + '.' + IntToStr(nValue3) + '.' + IntToStr(nValue4);
+          Result := IntToStr(nValue1) + '.' + IntToStr(nValue2) +
+            '.' + IntToStr(nValue3) + '.' + IntToStr(nValue4);
 
 
           //version_String := InttoStrDigits(nValue1, 2) + InttoStrDigits(nValue2, 2) + InttoStrDigits(nValue3, 2) + InttoStrDigits(nValue4, 2);
-          version_String := format('%.2d',[nValue1])+
-                            format('%.2d',[nValue2])+
-                            format('%.2d',[nValue3])+
-                            format('%.2d',[nValue4]);
+          version_String := format('%.2d', [nValue1]) +
+            format('%.2d', [nValue2]) +
+            format('%.2d', [nValue3]) +
+            format('%.2d', [nValue4]);
 
         finally
           FreeMem(pVerInfo, nVerInfoSize);
@@ -139,4 +145,3 @@ end;
 
 
 end.
-

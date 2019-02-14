@@ -1,25 +1,27 @@
 object Form1: TForm1
-  Left = 479
+  Left = 345
   Height = 746
-  Top = 118
-  Width = 1261
+  Top = 120
+  Width = 1262
   AllowDropFiles = True
   Caption = 'Log_Analysis'
   ClientHeight = 726
-  ClientWidth = 1261
+  ClientWidth = 1262
   KeyPreview = True
   Menu = MainMenu1
+  OnActivate = FormActivate
   OnCreate = FormCreate
   OnDragOver = FormDragOver
   OnDropFiles = FormDropFiles
+  OnHelp = FormHelp
   OnKeyDown = FormKeyDown
   OnKeyUp = FormKeyUp
-  LCLVersion = '1.8.2.0'
+  LCLVersion = '1.8.4.0'
   object Chart1: TChart
     Left = 0
     Height = 356
     Top = 0
-    Width = 1261
+    Width = 1262
     AxisList = <    
       item
         Marks.LabelBrush.Style = bsClear
@@ -52,6 +54,10 @@ object Form1: TForm1
       Pointer.Visible = False
       ShowPoints = True
       Source = ListChartSource1
+    end
+    object Chart1LineSeries2: TLineSeries
+      LinePen.Color = clFuchsia
+      Source = ListChartSource3
     end
     object Chart1LineSeries_sigma3n: TLineSeries
       Transparency = 50
@@ -122,16 +128,16 @@ object Form1: TForm1
     Left = 0
     Height = 340
     Top = 364
-    Width = 1261
+    Width = 1262
     Align = alClient
     Caption = 'Panel1'
     ClientHeight = 340
-    ClientWidth = 1261
+    ClientWidth = 1262
     ParentShowHint = False
     ShowHint = True
     TabOrder = 1
     object StringGrid1: TStringGrid
-      Left = 443
+      Left = 444
       Height = 338
       Top = 1
       Width = 801
@@ -157,9 +163,12 @@ object Form1: TForm1
       OnClick = StringGrid1Click
       OnDblClick = Action_analysisExecute
       OnDrawCell = StringGrid1DrawCell
+      OnPickListSelect = StringGrid1PickListSelect
+      OnSelection = StringGrid1Selection
+      OnSelectCell = StringGrid1SelectCell
     end
     object Splitter1: TSplitter
-      Left = 435
+      Left = 436
       Height = 338
       Top = 1
       Width = 8
@@ -173,7 +182,7 @@ object Form1: TForm1
       Left = 1
       Height = 338
       Top = 1
-      Width = 434
+      Width = 435
       AxisList = <      
         item
           Marks.LabelBrush.Style = bsClear
@@ -207,7 +216,7 @@ object Form1: TForm1
       end
     end
     object ToolBar1: TToolBar
-      Left = 1244
+      Left = 1245
       Height = 338
       Top = 1
       Width = 16
@@ -283,7 +292,7 @@ object Form1: TForm1
     Left = 0
     Height = 8
     Top = 356
-    Width = 1261
+    Width = 1262
     Align = alTop
     Beveled = True
     Color = clYellow
@@ -295,7 +304,7 @@ object Form1: TForm1
     Left = 0
     Height = 22
     Top = 704
-    Width = 1261
+    Width = 1262
     Panels = <    
       item
         Width = 200
@@ -309,7 +318,7 @@ object Form1: TForm1
     SimplePanel = False
   end
   object StringGrid2: TStringGrid
-    Left = 792
+    Left = 776
     Height = 128
     Top = 520
     Width = 352
@@ -317,21 +326,36 @@ object Form1: TForm1
     Visible = False
   end
   object MainMenu1: TMainMenu
-    left = 160
-    top = 24
+    left = 152
+    top = 32
     object MenuItem1: TMenuItem
       Caption = 'Files'
       object MenuItem_Open: TMenuItem
         Caption = 'Open Files'
         OnClick = MenuItem_OpenClick
       end
-      object Append_File: TMenuItem
-        Action = Action_append_file
-        Caption = 'Append Files'
+      object MenuItem6: TMenuItem
+        Caption = '-'
       end
       object MenuItem_Close: TMenuItem
         Caption = 'Clean Up'
         OnClick = MenuItem_CloseClick
+      end
+      object MenuItem8: TMenuItem
+        Caption = '-'
+      end
+      object MenuItem_load_new_F: TMenuItem
+        Caption = 'Load as new file'
+        OnClick = MenuItem_load_new_FClick
+      end
+      object MenuItem_Append_btm: TMenuItem
+        Caption = 'Append on btm'
+        Checked = True
+        OnClick = MenuItem_Append_btmClick
+      end
+      object MenuItem_add_right_side: TMenuItem
+        Caption = 'Append file on right side'
+        OnClick = MenuItem_add_right_sideClick
       end
       object MenuItem7: TMenuItem
         Caption = '-'
@@ -351,8 +375,8 @@ object Form1: TForm1
     end
   end
   object ListChartSource1: TListChartSource
-    left = 80
-    top = 24
+    left = 208
+    top = 128
   end
   object OpenDialog1: TOpenDialog
     FileName = 'D:\data\lazarus\chart\Log_analysis\6D11_MSE_RF_170330_31_4F.CSV'
@@ -403,10 +427,13 @@ object Form1: TForm1
     object MenuItem5: TMenuItem
       Action = Action_full_auto
     end
+    object MenuItem_clean_up: TMenuItem
+      Action = Action_cleanup
+    end
   end
   object ListChartSource2: TListChartSource
-    left = 392
-    top = 608
+    left = 360
+    top = 616
   end
   object ImageList1: TImageList
     left = 512
@@ -796,5 +823,9 @@ object Form1: TForm1
       Caption = 'Action_append_file'
       OnExecute = Action_append_fileExecute
     end
+  end
+  object ListChartSource3: TListChartSource
+    left = 208
+    top = 192
   end
 end

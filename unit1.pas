@@ -5,9 +5,9 @@ unit Unit1;
 interface
 
 uses
-  Classes, SysUtils, TAGraph, TASources, TASeries, Forms, Controls,
-  Graphics, Dialogs, Menus, Grids, ExtCtrls, ComCtrls, ActnList,
-  Math, about;
+  Classes, SysUtils, TAGraph, TASources, TASeries, Forms, Controls, Graphics,
+  Dialogs, Menus, Grids, ExtCtrls, ComCtrls, ActnList, ValEdit, StdCtrls, Math,
+  about;
 
 type
 
@@ -30,6 +30,7 @@ type
     ActionList1: TActionList;
     Chart1: TChart;
     Chart1LineSeries1: TLineSeries;
+    Chart1LineSeries2: TLineSeries;
     Chart1LineSeries_limitn: TLineSeries;
     Chart1LineSeries_limitp: TLineSeries;
     Chart1LineSeries_sigma5n: TLineSeries;
@@ -41,14 +42,20 @@ type
     ImageList1: TImageList;
     ListChartSource1: TListChartSource;
     ListChartSource2: TListChartSource;
+    ListChartSource3: TListChartSource;
     MainMenu1: TMainMenu;
     MenuItem1: TMenuItem;
     MenuItem2: TMenuItem;
     MenuItem3: TMenuItem;
     MenuItem4: TMenuItem;
     MenuItem5: TMenuItem;
-    Append_File: TMenuItem;
+    MenuItem6: TMenuItem;
+    MenuItem8: TMenuItem;
+    MenuItem_load_new_F: TMenuItem;
+    MenuItem_clean_up: TMenuItem;
+    MenuItem_Append_btm: TMenuItem;
     MenuItem7: TMenuItem;
+    MenuItem_add_right_side: TMenuItem;
     MenuItem_delete_same_Contents: TMenuItem;
     MenuItem_sorting: TMenuItem;
     MenuItem_mark_distribution_value: TMenuItem;
@@ -90,29 +97,43 @@ type
     procedure Action_move_col_rightExecute(Sender: TObject);
     procedure Action_sortingExecute(Sender: TObject);
     procedure Action_title_processExecute(Sender: TObject);
+    procedure FormActivate(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormDragOver(Sender, Source: TObject; X, Y: integer;
       State: TDragState; var Accept: boolean);
     procedure FormDropFiles(Sender: TObject; const FileNames: array of string);
+    function FormHelp(Command: Word; Data: PtrInt; var CallHelp: Boolean
+      ): Boolean;
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure FormKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure MenuItem2Click(Sender: TObject);
     procedure MenuItem3Click(Sender: TObject);
     procedure MenuItem4Click(Sender: TObject);
+    procedure MenuItem6Click(Sender: TObject);
+    procedure MenuItem_add_right_sideClick(Sender: TObject);
+    procedure MenuItem_Append_btmClick(Sender: TObject);
     procedure MenuItem_CloseClick(Sender: TObject);
     procedure MenuItem_drawClick(Sender: TObject);
     procedure MenuItem_exitClick(Sender: TObject);
+    procedure MenuItem_load_new_FClick(Sender: TObject);
     procedure MenuItem_mark_distribution_valueClick(Sender: TObject);
     procedure MenuItem_mark_valueClick(Sender: TObject);
     procedure MenuItem_OpenClick(Sender: TObject);
     procedure MenuItem_show_pointerClick(Sender: TObject);
     procedure MenuItem_sortingClick(Sender: TObject);
     procedure MenuItem_title_processClick(Sender: TObject);
+    procedure StringGrid1CheckboxToggled(sender: TObject; aCol, aRow: Integer;
+      aState: TCheckboxState);
     procedure StringGrid1Click(Sender: TObject);
     procedure StringGrid1DrawCell(Sender: TObject; aCol, aRow: integer;
       aRect: TRect; aState: TGridDrawState);
+    procedure StringGrid1PickListSelect(Sender: TObject);
+    procedure StringGrid1SelectCell(Sender: TObject; aCol, aRow: Integer;
+      var CanSelect: Boolean);
+    procedure StringGrid1Selection(Sender: TObject; aCol, aRow: Integer);
   private
     function Addfile(filename: string): boolean;
+    function Addfile_side(filename: string): boolean;
     { private declarations }
     function loadfile(filename: string): boolean;
   public
@@ -122,7 +143,7 @@ type
 
 var
   Form1: TForm1;
-  shift_status:Boolean;
+  shift_status:byte=1;
 implementation
 
 {$R *.lfm}
@@ -140,13 +161,14 @@ var
   val: extended;
   x: integer;
   Data: array of extended;
-  mean1, stdev1: extended;
+  mean1, stdev1,min1,max1: extended;
   i, j, cnt1: integer;
   range0, range1: extended;
   s: string;
 begin
 
   Chart1LineSeries1.Clear;
+  Chart1LineSeries2.Clear;
   Chart1LineSeries_sigma3n.Clear;
   Chart1LineSeries_sigma3p.Clear;
   Chart1LineSeries_sigma5n.Clear;
@@ -182,6 +204,14 @@ begin
   meanandstddev(Data, mean1, stdev1);
   StringGrid1.Cells[col1, 4] := floattostr(mean1);
   StringGrid1.Cells[col1, 5] := floattostr(stdev1);
+
+  min1:=minvalue( Data);
+  max1:=maxvalue( Data);
+  StringGrid1.Cells[col1, 6] := floattostr(min1);
+  StringGrid1.Cells[col1, 7] := floattostr(max1);
+  StringGrid1.Cells[0, 6] := 'min';
+  StringGrid1.Cells[0, 7] := 'max';
+
 
   // drap distribution
   //-6 sigma ~ +6 sigma
@@ -301,6 +331,15 @@ begin
   StringGrid1.Clean;
   StringGrid2.Clean;
   StringGrid1.FixedRows:=1;
+  Stringgrid1.RowCount:=10;
+  Stringgrid1.colCount:=2;
+
+  StringGrid1.FixedRows := 9;
+  StringGrid1.RowCount := StringGrid1.RowCount+1;
+
+  stringgrid1.Cells[0,4]:= 'Average';
+  stringgrid1.Cells[0,5]:= 'Stdev';
+
 
 end;
 
@@ -474,6 +513,11 @@ begin
 
 end;
 
+procedure TForm1.FormActivate(Sender: TObject);
+begin
+  Action_cleanupExecute(self);
+end;
+
 procedure TForm1.FormCreate(Sender: TObject);
 var
   i: integer;
@@ -514,10 +558,43 @@ begin
     if FileExists(f1) then
     begin
       StatusBar1.Panels[2].Text := F1;
-      if (f_cnt = 0) and (not shift_status) then
-        loadfile(f1)
+      if (f_cnt = 0) then
+      begin
+        case shift_status of
+        0:
+        begin
+          loadfile(f1)
+        end;
+        1:
+        begin
+          Addfile(f1)
+        end;
+        2:
+        begin
+          Addfile_side(f1)
+        end;
+        end ;
+
+      end
       else
-        Addfile(f1);
+      begin
+        case shift_status of
+        0:
+        begin
+          Addfile(f1);
+        end;
+        1:
+        begin
+               Addfile(f1);
+        end;
+        2:
+        begin
+               Addfile_side(f1)
+        end;
+        end ;
+
+      end;
+
     end;
 
   end;
@@ -526,20 +603,32 @@ begin
 
 end;
 
+function TForm1.FormHelp(Command: Word; Data: PtrInt; var CallHelp: Boolean
+  ): Boolean;
+begin
+
+end;
+
 procedure TForm1.FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState
   );
 begin
+  {shift_status :=0;
   if (ssShift in Shift) then
   begin
-    shift_status :=true;
+    shift_status :=1;
     StatusBar1.Panels[1].Text:='Drag to Append file';
   end;
+  if ((ssShift in Shift) and (ssCtrl in Shift)) then
+  begin
+    shift_status :=2;
+    StatusBar1.Panels[1].Text:='Append file on side';
+  end;                 }
 end;
 
 procedure TForm1.FormKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
 begin
-      shift_status :=false;
-      StatusBar1.Panels[1].Text:='Drag to Load file';
+     // shift_status :=0;
+    //  StatusBar1.Panels[1].Text:='Drag to Load file';
 
 end;
 
@@ -560,6 +649,52 @@ begin
   ShowAboutBox;
 end;
 
+procedure TForm1.MenuItem6Click(Sender: TObject);
+begin
+  MenuItem_Append_btm.Checked:=not   MenuItem_Append_btm.Checked ;
+  if (not MenuItem_Append_btm.Checked) then
+  begin
+    MenuItem7.Checked:= true
+  end;
+end;
+
+procedure TForm1.MenuItem_add_right_sideClick(Sender: TObject);
+begin
+  MenuItem_add_right_side.checked:=not  MenuItem_add_right_side.checked ;
+  if MenuItem_add_right_side.checked then
+  begin
+    shift_status:=2;
+    MenuItem_load_new_F.checked:= false;
+    MenuItem_Append_btm.checked:= false;
+  end
+
+
+end;
+
+procedure TForm1.MenuItem_Append_btmClick(Sender: TObject);
+begin
+  MenuItem_Append_btm.checked:=not MenuItem_Append_btm.checked;
+  if  MenuItem_Append_btm.checked then
+  begin
+    shift_status:=1;
+    MenuItem_load_new_F.checked:= false;
+    MenuItem_add_right_side.checked:= false;
+  end
+
+
+end;
+
+procedure TForm1.MenuItem_load_new_FClick(Sender: TObject);
+begin
+  MenuItem_load_new_F.checked:=not   MenuItem_load_new_F.checked ;
+  if MenuItem_load_new_F.checked then
+  begin
+    shift_status:=0;
+    MenuItem_add_right_side.checked:= false;
+    MenuItem_Append_btm.checked:= false;
+  end
+
+end;
 procedure TForm1.MenuItem_CloseClick(Sender: TObject);
 begin
   Action_cleanupExecute(self);
@@ -591,6 +726,8 @@ procedure TForm1.MenuItem_exitClick(Sender: TObject);
 begin
   Close;
 end;
+
+
 
 procedure TForm1.MenuItem_mark_distribution_valueClick(Sender: TObject);
 begin
@@ -653,9 +790,20 @@ begin
 
 end;
 
+procedure TForm1.StringGrid1CheckboxToggled(sender: TObject; aCol,
+  aRow: Integer; aState: TCheckboxState);
+begin
+
+end;
+
 procedure TForm1.StringGrid1Click(Sender: TObject);
 var
-  width1, max1: integer;
+  width1, max1,row1: integer;
+  cols:integer;
+  val:extended;
+    Data1: array of extended;
+    x: integer;
+
 begin
   StatusBar1.Panels[0].Text := Format('Col:%3d, Row:%3d',
     [StringGrid1.col, StringGrid1.row]);
@@ -668,7 +816,25 @@ begin
   begin
     StringGrid1.ColWidths[StringGrid1.col] := max1;
   end;
+  cols:= StringGrid1.Selection.Right-StringGrid1.Selection.Left;
+  StatusBar1.Panels[1].Text:=inttostr(cols);
+ // if cols=1 then
+  begin
 
+    ListChartSource3.Clear;;
+    x := 0;
+    SetLength(Data1, StringGrid1.RowCount);
+  for row1 := 9 to StringGrid1.RowCount - 1 do
+  begin
+    val := StrToFloatDef(StringGrid1.Cells[StringGrid1.Col, row1], 1E99);
+    if val <> 1E99 then
+    begin
+      Data1[x] := val;
+      Inc(x);
+      ListChartSource3.Add(x, val, IntToStr(x), clred);
+    end;
+  end;
+  end;
 end;
 
 procedure TForm1.StringGrid1DrawCell(Sender: TObject; aCol, aRow: integer;
@@ -686,17 +852,55 @@ begin
   end;
 end;
 
+procedure TForm1.StringGrid1PickListSelect(Sender: TObject);
+begin
+
+end;
+
+procedure TForm1.StringGrid1SelectCell(Sender: TObject; aCol, aRow: Integer;
+  var CanSelect: Boolean);
+begin
+end;
+
+procedure TForm1.StringGrid1Selection(Sender: TObject; aCol, aRow: Integer);
+begin
+end;
+
 
 
 function TForm1.loadfile(filename: string): boolean;
+var
+  i,fix:integer;
+  s:string;
 begin
   if FileExists(fileName) then
   begin
     StringGrid1.Clean;
     StringGrid1.FixedRows := 0;
     StringGrid1.LoadFromCSVFile(filename, ',', False, 0, True);
+    // flaxable fix row
+    for i := 1 to 100 do
+    begin
+      if StringGrid1.Cells[0,i]<>'' then
+      begin
+        fix:=i;
+        break;
+      end;
+    end;
+    for i:=fix to 8 do
+    begin
+      StringGrid1.InsertRowWithValues(1,['']);
+    end;
+    s:= ExtractFileName(filename );
+   StringGrid1.Cells[1,1]:=copy(s,length(s)-10,7);
+
     StringGrid1.FixedRows := 9;
     StringGrid1.RowCount := StringGrid1.RowCount+1;
+
+    stringgrid1.Cells[0,4]:= 'Average';
+    stringgrid1.Cells[0,5]:= 'Stdev';
+
+
   end;
 
 end;
@@ -714,10 +918,54 @@ begin
     row1:=StringGrid1.RowCount;
     StringGrid1.RowCount:=StringGrid1.RowCount+StringGrid2.RowCount+1;
     row2:=1;
+    if StringGrid2.ColCount>StringGrid1.ColCount then
+    begin
+      StringGrid1.ColCount := StringGrid2.ColCount;
+    end;
     for cnt:=row1 to row1+ StringGrid2.RowCount-2 do
     begin
       StringGrid1.Rows[cnt]:=StringGrid2.Rows[row2];
       inc(row2);
+    end;
+  end;
+
+end;
+
+function TForm1.Addfile_side(filename: string): boolean;
+var
+  cnt,row1,row2:integer;
+  col0,col1,col2:integer;
+  s:string;
+
+begin
+  if FileExists(fileName) then
+  begin
+    StringGrid2.LoadFromCSVFile(filename, ',', false, 0, True);
+    //StringGrid2.Visible:=True;
+    //move all data got to stringgrid1
+    row1:=StringGrid1.RowCount;
+    row2:=StringGrid2.RowCount-1;
+    //StringGrid1.RowCount:=StringGrid1.RowCount+StringGrid2.RowCount+1;
+    //row2:=1;
+    col0:=StringGrid1.colCount-1;
+    stringgrid1.ColCount:= col0+StringGrid2.ColCount;
+    stringgrid1.RowCount := max(     stringgrid1.RowCount ,StringGrid2.rowcount+7);
+    col1:=stringgrid1.ColCount;
+    col2:=  StringGrid2.ColCount;
+    s:= ExtractFileName(filename );
+
+    for cnt:=1 to row2 do
+    begin
+      StringGrid1.Cells[col0+1,1]:=copy(s,length(s)-10,7);
+
+      for col1:=1 to col2-1 do
+      begin
+        StringGrid1.Cells[col0+col1,cnt+7]:=StringGrid2.Cells[col1,cnt];
+      end;
+
+
+
+
     end;
   end;
 
