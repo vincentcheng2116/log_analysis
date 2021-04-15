@@ -7,20 +7,27 @@ interface
 uses
   Classes, SysUtils, TAGraph, TASources, TASeries, Forms, Controls, Graphics,
   Dialogs, Menus, Grids, ExtCtrls, ComCtrls, ActnList, ValEdit, StdCtrls, Math,
-  about;
+  about, TADrawUtils, TACustomSeries, TATools, TACustomSource, Types;
 
 type
 
   { TForm1 }
 
   TForm1 = class(TForm)
-    Action_append_file: TAction;
-    Action_cleanup: TAction;
-    Action_title_process: TAction;
-    Action_full_auto: TAction;
+    Action_Point_Out_Data: TAction;
+    Action_Find_Previous_Fail: TAction;
+    Action_Title_Process_Field_align: TAction;
+    Action_Find_Next_Fail: TAction;
+    Action_Sort_by_SNO: TAction;
+    Action_Count_Yield_rate: TAction;
+    Action_cell_editable: TAction;
+    Action_Append_File: TAction;
+    Action_CleanUp: TAction;
+    Action_Title_Process: TAction;
+    Action_Full_Auto: TAction;
     Action_Delete_same_Contents: TAction;
-    Action_sorting: TAction;
-    Action_analysis: TAction;
+    Action_Sorting: TAction;
+    Action_Analysis: TAction;
     Action_move_col_right: TAction;
     Action_move_col_left: TAction;
     Action_del_col: TAction;
@@ -39,18 +46,37 @@ type
     Chart1LineSeries_sigma3p: TLineSeries;
     Chart2: TChart;
     Chart2BarSeries1: TBarSeries;
+    ChartToolset1: TChartToolset;
+    ChartToolset1DataPointCrosshairTool1: TDataPointCrosshairTool;
+    ChartToolset1PanDragTool1: TPanDragTool;
+    ChartToolset1ZoomMouseWheelTool_vert: TZoomMouseWheelTool;
+    ChartToolset1ZoomMouseWheelTool_Hor: TZoomMouseWheelTool;
+    ChartToolset1ZoomMouseWheelTool_iso: TZoomMouseWheelTool;
+    ComboBox_log_search: TComboBox;
+    ComboBox_title_search: TComboBox;
     ImageList1: TImageList;
     ListChartSource1: TListChartSource;
     ListChartSource2: TListChartSource;
     ListChartSource3: TListChartSource;
     MainMenu1: TMainMenu;
     MenuItem1: TMenuItem;
+    MenuItem10: TMenuItem;
+    MenuItem11: TMenuItem;
+    MenuItem12: TMenuItem;
+    MenuItem13: TMenuItem;
+    MenuItem14: TMenuItem;
+    MenuItem15: TMenuItem;
+    N4:     TMenuItem;
+    N3:     TMenuItem;
+    N2:     TMenuItem;
+    N1:     TMenuItem;
     MenuItem2: TMenuItem;
     MenuItem3: TMenuItem;
     MenuItem4: TMenuItem;
     MenuItem5: TMenuItem;
     MenuItem6: TMenuItem;
     MenuItem8: TMenuItem;
+    MenuItem9: TMenuItem;
     MenuItem_load_new_F: TMenuItem;
     MenuItem_clean_up: TMenuItem;
     MenuItem_Append_btm: TMenuItem;
@@ -68,6 +94,7 @@ type
     MenuItem_Open: TMenuItem;
     OpenDialog1: TOpenDialog;
     Panel1: TPanel;
+    Panel2: TPanel;
     PopupMenu1: TPopupMenu;
     Splitter1: TSplitter;
     Splitter2: TSplitter;
@@ -84,30 +111,36 @@ type
     ToolButton7: TToolButton;
     ToolButton8: TToolButton;
     ToolButton9: TToolButton;
-    procedure Action_analysisExecute(Sender: TObject);
-    procedure Action_append_fileExecute(Sender: TObject);
-    procedure Action_cleanupExecute(Sender: TObject);
+    procedure Action_AnalysisExecute(Sender: TObject);
+    procedure Action_Append_FileExecute(Sender: TObject);
+    procedure Action_cell_editableExecute(Sender: TObject);
+    procedure Action_CleanUpExecute(Sender: TObject);
+    procedure Action_Count_Yield_rateExecute(Sender: TObject);
     procedure Action_Delete_same_ContentsExecute(Sender: TObject);
     procedure Action_del_colExecute(Sender: TObject);
     procedure Action_del_rowExecute(Sender: TObject);
-    procedure Action_full_autoExecute(Sender: TObject);
+    procedure Action_Find_Next_FailExecute(Sender: TObject);
+    procedure Action_Find_Previous_FailExecute(Sender: TObject);
+    procedure Action_Full_AutoExecute(Sender: TObject);
     procedure Action_insert_colExecute(Sender: TObject);
     procedure Action_insert_rowExecute(Sender: TObject);
     procedure Action_move_col_leftExecute(Sender: TObject);
     procedure Action_move_col_rightExecute(Sender: TObject);
-    procedure Action_sortingExecute(Sender: TObject);
-    procedure Action_title_processExecute(Sender: TObject);
+    procedure Action_SortingExecute(Sender: TObject);
+    procedure Action_Sort_by_SNOExecute(Sender: TObject);
+    procedure Action_Title_ProcessExecute(Sender: TObject);
+    procedure Action_Title_Process_Field_alignExecute(Sender: TObject);
+    procedure Chart1DblClick(Sender: TObject);
+    procedure ChartToolset1DataPointCrosshairTool1Draw(ASender: TDataPointDrawTool);
+    procedure ComboBox_log_searchChange(Sender: TObject);
+    procedure ComboBox_log_searchKeyDown(Sender: TObject; var Key: word; Shift: TShiftState);
+    procedure ComboBox_title_searchChange(Sender: TObject);
+    procedure ComboBox_title_searchKeyDown(Sender: TObject; var Key: word; Shift: TShiftState);
     procedure FormActivate(Sender: TObject);
     procedure FormCreate(Sender: TObject);
-    procedure FormDragOver(Sender, Source: TObject; X, Y: integer;
-      State: TDragState; var Accept: boolean);
+    procedure FormDragOver(Sender, Source: TObject; X, Y: integer; State: TDragState; var Accept: boolean);
     procedure FormDropFiles(Sender: TObject; const FileNames: array of string);
-    function FormHelp(Command: Word; Data: PtrInt; var CallHelp: Boolean
-      ): Boolean;
-    procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
-    procedure FormKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure MenuItem2Click(Sender: TObject);
-    procedure MenuItem3Click(Sender: TObject);
     procedure MenuItem4Click(Sender: TObject);
     procedure MenuItem6Click(Sender: TObject);
     procedure MenuItem_add_right_sideClick(Sender: TObject);
@@ -120,17 +153,13 @@ type
     procedure MenuItem_mark_valueClick(Sender: TObject);
     procedure MenuItem_OpenClick(Sender: TObject);
     procedure MenuItem_show_pointerClick(Sender: TObject);
-    procedure MenuItem_sortingClick(Sender: TObject);
-    procedure MenuItem_title_processClick(Sender: TObject);
-    procedure StringGrid1CheckboxToggled(sender: TObject; aCol, aRow: Integer;
-      aState: TCheckboxState);
     procedure StringGrid1Click(Sender: TObject);
-    procedure StringGrid1DrawCell(Sender: TObject; aCol, aRow: integer;
-      aRect: TRect; aState: TGridDrawState);
-    procedure StringGrid1PickListSelect(Sender: TObject);
-    procedure StringGrid1SelectCell(Sender: TObject; aCol, aRow: Integer;
-      var CanSelect: Boolean);
-    procedure StringGrid1Selection(Sender: TObject; aCol, aRow: Integer);
+    procedure StringGrid1DrawCell(Sender: TObject; aCol, aRow: integer; aRect: TRect; aState: TGridDrawState);
+    procedure StringGrid1KeyDown(Sender: TObject; var Key: word; Shift: TShiftState);
+    procedure StringGrid1MouseDown(Sender: TObject; Button: TMouseButton;
+      Shift: TShiftState; X, Y: Integer);
+    procedure StringGrid1MouseWheel(Sender: TObject; Shift: TShiftState;
+      WheelDelta: Integer; MousePos: TPoint; var Handled: Boolean);
   private
     function Addfile(filename: string): boolean;
     function Addfile_side(filename: string): boolean;
@@ -143,7 +172,8 @@ type
 
 var
   Form1: TForm1;
-  shift_status:byte=1;
+  shift_status: byte = 0;
+
 implementation
 
 {$R *.lfm}
@@ -155,17 +185,23 @@ begin
   StringGrid1.InsertColRow(True, StringGrid1.Col);
 end;
 
-procedure TForm1.Action_analysisExecute(Sender: TObject);
+procedure TForm1.Action_AnalysisExecute(Sender: TObject);
 var
   col1, row1: integer;
-  val: extended;
-  x: integer;
-  Data: array of extended;
-  mean1, stdev1,min1,max1: extended;
+  val:        extended;
+  x:          integer;
+  Data:       array of extended;
+  mean1, stdev1, min1, max1: extended;
   i, j, cnt1: integer;
   range0, range1: extended;
-  s: string;
+  s:          string;
 begin
+
+  stringgrid1.Cells[0, 2] := 'Upper';
+  stringgrid1.Cells[0, 3] := 'Lower';
+  stringgrid1.Cells[0, 4] := 'Average';
+  stringgrid1.Cells[0, 5] := 'Stdev';
+  stringgrid1.Cells[0, 8] := 'Yield%';
 
   Chart1LineSeries1.Clear;
   Chart1LineSeries2.Clear;
@@ -205,8 +241,8 @@ begin
   StringGrid1.Cells[col1, 4] := floattostr(mean1);
   StringGrid1.Cells[col1, 5] := floattostr(stdev1);
 
-  min1:=minvalue( Data);
-  max1:=maxvalue( Data);
+  min1 := MinValue(Data);
+  max1 := MaxValue(Data);
   StringGrid1.Cells[col1, 6] := floattostr(min1);
   StringGrid1.Cells[col1, 7] := floattostr(max1);
   StringGrid1.Cells[0, 6] := 'min';
@@ -223,19 +259,19 @@ begin
   // draw +3 sigma
   range0 := mean1 - 3 * stdev1;
   Chart1LineSeries_sigma3n.AddXY(0, range0, '-3sigma= ' + FloatToStr(range0));  //AddXY
-  Chart1LineSeries_sigma3n.AddXY(x, range0, '-3sigma= ' + FloatToStr(range0)); // AddXY
+  Chart1LineSeries_sigma3n.AddXY(x, range0, '-3sigma= ' + FloatToStr(range0));  // AddXY
 
   range0 := mean1 + 3 * stdev1;
   Chart1LineSeries_sigma3p.AddXY(0, range0, '+3sigma= ' + FloatToStr(range0));  //AddXY
-  Chart1LineSeries_sigma3p.AddXY(x, range0, '+3sigma= ' + FloatToStr(range0)); // AddXY
+  Chart1LineSeries_sigma3p.AddXY(x, range0, '+3sigma= ' + FloatToStr(range0));  // AddXY
 
   range0 := mean1 - 5 * stdev1;
   Chart1LineSeries_sigma5n.AddXY(0, range0, '-5sigma= ' + FloatToStr(range0));  //AddXY
-  Chart1LineSeries_sigma5n.AddXY(x, range0, '-5sigma= ' + FloatToStr(range0)); // AddXY
+  Chart1LineSeries_sigma5n.AddXY(x, range0, '-5sigma= ' + FloatToStr(range0));  // AddXY
 
   range0 := mean1 + 5 * stdev1;
   Chart1LineSeries_sigma5p.AddXY(0, range0, '+5sigma= ' + FloatToStr(range0));  //AddXY
-  Chart1LineSeries_sigma5p.AddXY(x, range0, '+5sigma= ' + FloatToStr(range0)); // AddXY
+  Chart1LineSeries_sigma5p.AddXY(x, range0, '+5sigma= ' + FloatToStr(range0));  // AddXY
 
   range0 := StrToFloatDef(StringGrid1.Cells[col1, 2], 1E99);
   range1 := StrToFloatDef(StringGrid1.Cells[col1, 3], 1E99);
@@ -249,12 +285,11 @@ begin
   end;
 
 
-
   //-7
   ListChartSource2.Clear;
-  x := 0;
+  x      := 0;
   range0 := mean1 - 7 * stdev1;
-  cnt1 := 0;
+  cnt1   := 0;
   for j := Low(Data) to High(Data) do
   begin
     if Data[j] < range0 then
@@ -271,7 +306,7 @@ begin
   begin
     range0 := mean1 + i * stdev1;
     range1 := mean1 + (i + 1) * stdev1;
-    cnt1 := 0;
+    cnt1   := 0;
     for j := Low(Data) to High(Data) do
     begin
       if ((range0 <= Data[j]) and (Data[j] < range1)) then
@@ -286,7 +321,7 @@ begin
   //+7
 
   range0 := mean1 + 7 * stdev1;
-  cnt1 := 0;
+  cnt1   := 0;
   for j := Low(Data) to High(Data) do
   begin
     if Data[j] > range0 then
@@ -296,18 +331,20 @@ begin
   end;
   s := Format('>%3.3e', [range0]);
   ListChartSource2.Add(x, cnt1, s, clRed);
+  Chart1.ZoomFull;
 
+  Action_Count_Yield_rateExecute(self);
 end;
 
-procedure TForm1.Action_append_fileExecute(Sender: TObject);
+procedure TForm1.Action_Append_FileExecute(Sender: TObject);
 var
-cnt:integer;
+  cnt: integer;
 
 begin
   if OpenDialog1.Execute then
   begin
     //OpenDialog1.Files.Count;
-    for cnt:= 0 to (OpenDialog1.Files.Count-1) do
+    for cnt := 0 to (OpenDialog1.Files.Count - 1) do
     begin
       if FileExists(OpenDialog1.Files[cnt]) then
       begin
@@ -318,9 +355,28 @@ begin
 
 end;
 
-procedure TForm1.Action_cleanupExecute(Sender: TObject);
+procedure TForm1.Action_cell_editableExecute(Sender: TObject);
 begin
-  
+
+  if MenuItem9.Checked then
+  begin
+
+    StringGrid1.FixedRows := 1;
+    StringGrid1.Options   := StringGrid1.Options + [goEditing];
+
+  end
+  else
+  begin
+    StringGrid1.FixedRows := 9;
+    StringGrid1.Options   := StringGrid1.Options - [goEditing];
+
+  end;
+
+end;
+
+procedure TForm1.Action_CleanUpExecute(Sender: TObject);
+begin
+
   Chart1LineSeries1.Clear;
   Chart1LineSeries_sigma3n.Clear;
   Chart1LineSeries_sigma3p.Clear;
@@ -330,26 +386,73 @@ begin
   Chart1LineSeries_limitp.Clear;
   StringGrid1.Clean;
   StringGrid2.Clean;
-  StringGrid1.FixedRows:=1;
-  Stringgrid1.RowCount:=10;
-  Stringgrid1.colCount:=2;
+  StringGrid1.FixedRows := 1;
+  Stringgrid1.RowCount  := 10;
+  Stringgrid1.colCount  := 2;
 
   StringGrid1.FixedRows := 9;
-  StringGrid1.RowCount := StringGrid1.RowCount+1;
+  StringGrid1.RowCount  := StringGrid1.RowCount + 1;
 
-  stringgrid1.Cells[0,4]:= 'Average';
-  stringgrid1.Cells[0,5]:= 'Stdev';
+  //  stringgrid1.Cells[0, 4] := 'Average';
+  //  stringgrid1.Cells[0, 5] := 'Stdev';
 
+end;
 
+procedure TForm1.Action_Count_Yield_rateExecute(Sender: TObject);
+var
+  upper, lower, value0: extended;
+  i:     integer;
+  pass_count, fail_count: integer;
+  yield: single;
+begin
+  StatusBar1.Panels[2].Text := 'Can''t count yield (no test limit)';
+  upper := StrToFloatDef(StringGrid1.Cells[StringGrid1.Col, 2], -2E99);
+  lower := StrToFloatDef(StringGrid1.Cells[StringGrid1.Col, 3], -1E99);
+  if upper > lower then
+  begin
+    // count yield rate now
+    StatusBar1.Panels[2].Text := 'Count yield';
+    pass_count := 0;
+    fail_count := 0;
+    for i := 9 to stringgrid1.RowCount - 1 do
+    begin
+      value0 := StrToFloatDef(StringGrid1.Cells[StringGrid1.Col, i], 1E999);
+      if value0 <> 1E9999 then
+      begin
+        if (value0 >= lower) and (value0 <= upper) then
+        begin
+          Inc(pass_count);
+        end
+        else
+        begin
+          Inc(fail_count);
+
+        end;
+
+      end;
+
+    end;
+    if pass_count + fail_count > 0 then
+    begin
+      yield := pass_count / (pass_count + fail_count) * 100;
+      StatusBar1.Panels[2].Text := format('pass:%3d fail: %3d  yield: %3.2f%%', [pass_count, fail_count, yield]);
+      StringGrid1.cells[StringGrid1.Col, 8] := format('%3.2f%%', [yield]);
+    end
+    else
+    begin
+      StatusBar1.Panels[2].Text := format('pass:%3d fail: %3d', [pass_count, fail_count]);
+
+    end;
+  end;
 end;
 
 procedure TForm1.Action_Delete_same_ContentsExecute(Sender: TObject);
 var
-  s, s1: string;
+  s, s1:      string;
   row1, col1: integer;
 begin
   col1 := StringGrid1.col;
-  s := StringGrid1.Cells[col1, StringGrid1.Row];
+  s    := StringGrid1.Cells[col1, StringGrid1.Row];
   row1 := 9;
   while row1 < StringGrid1.RowCount - 1 do
   begin
@@ -385,7 +488,6 @@ begin
 end;
 
 
-
 procedure TForm1.Action_del_rowExecute(Sender: TObject);
 var
   row_sel_cnt, i, j: integer;
@@ -404,14 +506,87 @@ begin
   StringGrid1.DeleteRow(StringGrid1.Row);
 end;
 
-procedure TForm1.Action_full_autoExecute(Sender: TObject);
+procedure TForm1.Action_Find_Next_FailExecute(Sender: TObject);
 var
+  upper, lower, value0: extended;
   i: integer;
-  s: string;
+  pass_count, fail_count: integer;
+
+begin
+  StatusBar1.Panels[2].Text := '(no test limit)';
+  upper := StrToFloatDef(StringGrid1.Cells[StringGrid1.Col, 2], -2E100);
+  lower := StrToFloatDef(StringGrid1.Cells[StringGrid1.Col, 3], -1E100);
+  if upper > lower then
+  begin
+    // count yield rate now
+    StatusBar1.Panels[2].Text := 'fail item';
+    pass_count := 0;
+    fail_count := 0;
+    for i := stringgrid1.Row + 1 to stringgrid1.RowCount - 1 do
+    begin
+      value0 := StrToFloatDef(StringGrid1.Cells[StringGrid1.Col, i], 1E9999);
+      if value0 <> 1E9999 then
+      begin
+        if (value0 < lower) or (value0 > upper) then
+        begin
+          Inc(fail_count);
+          StatusBar1.Panels[2].Text := 'fail item found';
+          StringGrid1.Row           := i;
+          exit;
+        end;
+
+      end;
+
+    end;
+  end;
+
+end;
+
+procedure TForm1.Action_Find_Previous_FailExecute(Sender: TObject);
+var
+  upper, lower, value0: extended;
+  i: integer;
+  pass_count, fail_count: integer;
+
+begin
+  StatusBar1.Panels[2].Text := '(no test limit)';
+  upper := StrToFloatDef(StringGrid1.Cells[StringGrid1.Col, 2], -2E100);
+  lower := StrToFloatDef(StringGrid1.Cells[StringGrid1.Col, 3], -1E100);
+  if upper > lower then
+  begin
+    // count yield rate now
+    StatusBar1.Panels[2].Text := 'fail item';
+    pass_count := 0;
+    fail_count := 0;
+    for i := stringgrid1.Row - 1 downto 9 do
+    begin
+      value0 := StrToFloatDef(StringGrid1.Cells[StringGrid1.Col, i], 1E9999);
+      if value0 <> 1E9999 then
+      begin
+        if (value0 < lower) or (value0 > upper) then
+        begin
+          Inc(fail_count);
+          StatusBar1.Panels[2].Text := 'fail item found';
+          StringGrid1.Row           := i;
+          exit;
+        end;
+
+      end;
+
+    end;
+  end;
+
+end;
+
+procedure TForm1.Action_Full_AutoExecute(Sender: TObject);
+var
+  i:            integer;
+  s:            string;
   d_min, d_max: extended;
 begin
   // title process
-  Action_title_processExecute(self);
+  // Action_title_processExecute(self);  replace with new one
+  Action_Title_Process_Field_alignExecute(self);
   // adjust field width
   for i := 1 to StringGrid1.ColCount - 1 do
   begin
@@ -436,11 +611,13 @@ begin
   begin
     if StringGrid1.Cells[i, 1] = '@' then
     begin
-      break;
+      StringGrid1.Col := i;
+      Action_analysisExecute(self);
+      //break;
     end;
   end;
-  StringGrid1.Col := i;
-  Action_analysisExecute(self);
+  //  StringGrid1.Col := i;
+  //  Action_analysisExecute(self);
 
   // check the chart-able item)
   // mark those field
@@ -466,19 +643,44 @@ begin
 
 end;
 
-procedure TForm1.Action_sortingExecute(Sender: TObject);
+procedure TForm1.Action_SortingExecute(Sender: TObject);
 begin
 
-  StringGrid1.SortColRow(True, StringGrid1.Col, StringGrid1.FixedRows,
+  StringGrid1.SortColRow(True, StringGrid1.Col, 9,
     StringGrid1.RowCount - 1);
 
 end;
 
-procedure TForm1.Action_title_processExecute(Sender: TObject);
+procedure TForm1.Action_Sort_by_SNOExecute(Sender: TObject);
 var
-  i, num: integer;
-
+  i: integer;
 begin
+  StringGrid1.SortColRow(True, 0, 9,
+    StringGrid1.RowCount - 1);
+
+  i := 9;
+  while i < StringGrid1.RowCount - 1 do
+  begin
+    if (StringGrid1.Cells[0, i] = '') and (StringGrid1.Cells[1, i] = '') and (StringGrid1.Cells[2, i] = '') and (StringGrid1.Cells[3, i] = '') then
+    begin
+      StringGrid1.DeleteRow(i);
+    end;
+    Inc(i);
+  end;
+end;
+
+procedure TForm1.Action_Title_ProcessExecute(Sender: TObject);
+var
+  i, num:        integer;
+  val0:          integer;
+  title_shifted: boolean;
+begin
+  // first clean average and stdev
+  //  stringgrid1.Cells[0, 4] := 'Average';
+  //  stringgrid1.Cells[0, 5] := 'Stdev';
+  stringgrid1.Cells[0, 4] := '';
+  stringgrid1.Cells[0, 5] := '';
+
   // search the last 'SeqNum'
   num := 0;
   for i := 10 to StringGrid1.RowCount - 1 do
@@ -501,7 +703,8 @@ begin
   i := 9;
   while i < StringGrid1.RowCount - 1 do
   begin
-    if (StringGrid1.Cells[0, i] = '') or (StringGrid1.Cells[0, i] = 'SeqNum') then
+    val0 := StrToIntDef(StringGrid1.Cells[0, i], -65535);
+    if (val0 = -65535) or (StringGrid1.Cells[0, i] = 'SeqNum') then
     begin
       StringGrid1.DeleteRow(i);
     end
@@ -510,12 +713,358 @@ begin
       Inc(i);
     end;
   end;
+  stringgrid1.Cells[0, 4] := 'Average';
+  stringgrid1.Cells[0, 5] := 'Stdev';
+end;
+
+procedure TForm1.Action_Title_Process_Field_alignExecute(Sender: TObject);
+var
+  i, i0, i1, num0, num1: integer;
+  val0, count_of_next_match: integer;
+  title_shifted: boolean;
+  s: string;
+
+  function insert_col_with_range_of_row(col0, row0, row1: integer): boolean;
+  var
+    c, r: integer;
+  begin
+    for r := row0 to row1 do
+    begin
+      for c := StringGrid1.ColCount - 2 downto col0 do
+      begin
+        StringGrid1.cells[c + 1, r] := StringGrid1.cells[c, r];
+      end;
+      StringGrid1.cells[col0, r] := '';
+    end;
+  end;
+
+  function copy_range_to(col0, row0, col1, row1, col_target, row_target: integer): boolean;
+  var
+    c, r, col_target0: integer;
+  begin
+    for r := row0 to row1 do
+    begin
+      col_target0 := col_target;
+      for c := col0 to col1 do
+      begin
+        stringgrid1.cells[col_target0, row_target] := stringgrid1.cells[c, r];
+        Inc(col_target0);
+
+      end;
+      Inc(row_target);
+    end;
+
+  end;
+
+  procedure delete_one_title_form_row_number(i: integer);
+  begin
+    i0 := i;
+    while i0 < 18 do
+    begin
+      val0 := StrToIntDef(StringGrid1.Cells[0, i0], -65535);
+      if (val0 = -65535) or (StringGrid1.Cells[0, i0] = 'SeqNum') then
+      begin
+        StringGrid1.DeleteRow(i0);
+      end
+      else
+      begin
+        break;
+      end;
+    end;
+  end;
+
+begin
+  while True do
+  begin
+    num0 := 0; // second title
+    for i := 9 to StringGrid1.RowCount - 1 do
+    begin
+      if StringGrid1.Cells[0, i] = 'SeqNum' then
+      begin
+        // got first match 'SeqNum'
+        num0 := i;
+        break;
+      end;
+    end;
+    if num0 = 0 then
+      break;
+
+    // find third title
+    num1 := 0;
+    for i := num0 + 1 to StringGrid1.RowCount - 1 do
+    begin
+      s := StringGrid1.Cells[0, i];
+      if StringGrid1.Cells[0, i] = 'SeqNum' then
+      begin
+        // got first match 'SeqNum'
+        num1 := i - 1; // set the latest record of this filed
+        break;
+      end;
+    end;
+    if num1 = 0 then
+    begin
+      // only two title has been found.
+      num1 := StringGrid1.RowCount - 1;
+    end;
+
+    // title proceess
+    title_shifted := False;
+    for i := 1 to StringGrid1.ColCount - 2 do
+    begin
+      if StringGrid1.cells[i, num0] <> StringGrid1.cells[i, 0] then
+      begin
+        title_shifted       := True;
+        // find count of next match
+        count_of_next_match := 1;
+        for i0 := i + 1 to StringGrid1.ColCount - 1 do
+        begin
+          if StringGrid1.cells[i0, num0] = StringGrid1.cells[i, 0] then
+          begin
+            break;
+          end;
+          Inc(count_of_next_match);
+        end;
+        if count_of_next_match + i + 1 > StringGrid1.ColCount then
+        begin
+          StatusBar1.Panels[2].Text := 'not found'; // title 0 filed larger
+
+          count_of_next_match := -1;
+          for i0 := i + 1 to StringGrid1.ColCount - 1 do
+          begin
+            if StringGrid1.cells[i0, 0] = StringGrid1.cells[i, num0] then
+            begin
+              break;
+            end;
+            Dec(count_of_next_match);
+          end;
+
+          StatusBar1.Panels[2].Text := IntToStr(count_of_next_match);
+
+          if i + 1 - count_of_next_match > StringGrid1.ColCount - 1 then
+          begin
+            //   title can't process
+            StatusBar1.Panels[2].Text := 'title Match';
+            count_of_next_match       := 0;
+          end;
+
+        end
+        else
+        begin
+          StatusBar1.Panels[2].Text := IntToStr(count_of_next_match);
+        end;
+
+        if count_of_next_match > 0 then          // title 0 more  field
+        begin
+
+          for i0 := 1 to count_of_next_match do
+          begin
+            // insert col in title 0
+            StatusBar1.panels[2].Text := 'insert col in title 0';
+            insert_col_with_range_of_row(i, 0, num0 - 1);
+            copy_range_to(i, num0, i, num0 + 8, i, 0); //new field contants
+
+          end;
+          if num0 + 8 < StringGrid1.RowCount then
+          begin
+            for i1 := num0 to num0 + 8 do
+            begin
+              StringGrid1.MoveColRow(False, i1, i1 - num0);
+            end;
+          end;
+          delete_one_title_form_row_number(9);
+          break;
+        end;
+
+        if count_of_next_match < 0 then
+        begin
+          for i0 := -1 downto count_of_next_match do
+          begin
+            StatusBar1.panels[2].Text := 'insert col in second title';
+            insert_col_with_range_of_row(i, num0, num1);
+          end;
+          delete_one_title_form_row_number(num0);
+          break;
+        end;
+        if count_of_next_match = 0 then
+        begin
+
+        end;
+      end;
+
+    end;
+
+    if not title_shifted then
+    begin
+      for i0 := num0 to num0 + 8 do
+      begin
+        if i0 > StringGrid1.RowCount then
+          break;
+        StringGrid1.MoveColRow(False, i0, i0 - num0);
+      end;
+      delete_one_title_form_row_number(9);
+    end;
+
+  end;
 
 end;
 
+procedure TForm1.Chart1DblClick(Sender: TObject);
+begin
+  Chart1.ZoomFull;
+
+end;
+
+procedure TForm1.ChartToolset1DataPointCrosshairTool1Draw(ASender: TDataPointDrawTool);
+var
+  item:          TChartDataItem;
+  ser:           TLineSeries;
+  i, idx, Count: integer;
+  v:             string;
+  a0, a1:        integer;
+begin
+  if (ASender = nil) or (ASender.Series = nil) then
+    Statusbar1.simpleText := ''
+  else
+  begin
+    ser := TLineSeries(ASender.Series);
+    if ser.Name <> 'Chart1LineSeries1' then
+      exit;
+
+    //    Statusbar1.panels[2].Text := Format('Series "%s": index #%d ', [ser.Title, ASender.PointIndex]);
+
+    // get y value by index
+    v  := ListChartSource1.DataPoints[ASender.PointIndex];
+    a0 := pos('|', v);
+    a1 := pos('|', v, a0 + 1);
+    v  := copy(v, a0 + 1, a1 - a0 - 1);
+    Statusbar1.panels[2].Text := Format('index #%d value:%5s', [ASender.PointIndex, v]);
+
+    Count := 0;  // valid count
+    i     := 0;
+    idx   := 9;
+    while i < ASender.PointIndex do
+    begin
+      Inc(idx);
+      if (strtofloatdef(StringGrid1.cells[0, idx], -1E99) <> -1E99) or (strtofloatdef(StringGrid1.cells[StringGrid1.col, idx], -1E99) <> -1E99) then
+      begin
+        Inc(i);
+        Inc(Count);
+        //if count-10=ASender.PointIndex then break;
+      end;
+      if (idx > StringGrid1.rowcount) then
+        break;
+    end;
+    StringGrid1.Row := idx;
+  end;
+end;
+
+procedure TForm1.ComboBox_log_searchChange(Sender: TObject);
+var
+  i, j, col0: integer;
+begin
+  // search keyword
+  StatusBar1.panels[2].Text := '';
+
+  col0 := StringGrid1.col + 1;
+  for i := StringGrid1.row to StringGrid1.RowCount - 1 do
+  begin
+    for j := col0 to StringGrid1.ColCount - 1 do
+    begin
+      if pos(ComboBox_log_search.Text, StringGrid1.Cells[j, i]) <> 0 then
+      begin
+        StringGrid1.col := j;
+        StringGrid1.row := i;
+        exit;
+      end;
+    end;
+    col0 := 1;
+  end;
+  if i >= StringGrid1.ColCount - 1 then
+  begin
+    StatusBar1.panels[2].Text := 'None';
+    StringGrid1.Col           := 0;
+  end;
+
+end;
+
+procedure TForm1.ComboBox_title_searchChange(Sender: TObject);
+var
+  j, col0: integer;
+begin
+  // search keyword
+  StatusBar1.panels[2].Text := '';
+
+  col0 := StringGrid1.col;
+  for j := col0 to StringGrid1.ColCount - 1 do
+  begin
+    if pos(uppercase(ComboBox_title_search.Text), uppercase(StringGrid1.Cells[j, 0])) <> 0 then
+    begin
+      StringGrid1.col := j;
+      StringGrid1.row := 8;
+      exit;
+    end;
+
+  end;
+  if j >= StringGrid1.ColCount - 1 then
+  begin
+    StatusBar1.panels[2].Text := 'None';
+    StringGrid1.Col           := 0;
+  end;
+
+end;
+
+procedure TForm1.ComboBox_title_searchKeyDown(Sender: TObject; var Key: word; Shift: TShiftState);
+var
+  col_old: integer;
+begin
+  //StatusBar1.Panels[2].Text := IntToStr(key);
+  col_old := StringGrid1.col;
+  if (key = 114) or (key = 13) then
+  begin
+    StringGrid1.col := StringGrid1.col + 1;
+
+
+    //start over search again
+    //StringGrid1.row := 8;
+    ComboBox_title_search.OnChange(self);
+    if StringGrid1.Col = 1 then
+      StringGrid1.Col := col_old;
+
+
+    if key = 13 then
+    begin
+      ComboBox_title_search.Items.Insert(0, ComboBox_title_search.Text);
+    end;
+  end;
+
+end;
+
+procedure TForm1.ComboBox_log_searchKeyDown(Sender: TObject; var Key: word; Shift: TShiftState);
+var
+  col_old: integer;
+begin
+  if ComboBox_title_search.Focused then
+    exit;
+  StatusBar1.Panels[2].Text := IntToStr(key);
+  ;
+  if (key = 114) or (key = 13) then
+  begin
+    //start over search again
+    //col_old:=
+    StringGrid1.col := StringGrid1.col + 1;
+    ComboBox_log_search.OnChange(self);
+    if key = 13 then
+    begin
+      ComboBox_title_search.Items.Insert(0, ComboBox_title_search.Text);
+    end;
+
+  end;
+end;
+
+
 procedure TForm1.FormActivate(Sender: TObject);
 begin
-  Action_cleanupExecute(self);
+  //Action_cleanupExecute(self);
 end;
 
 procedure TForm1.FormCreate(Sender: TObject);
@@ -538,21 +1087,20 @@ begin
 end;
 
 
-procedure TForm1.FormDragOver(Sender, Source: TObject; X, Y: integer;
-  State: TDragState; var Accept: boolean);
+procedure TForm1.FormDragOver(Sender, Source: TObject; X, Y: integer; State: TDragState; var Accept: boolean);
 begin
   Accept := True;
 end;
 
 procedure TForm1.FormDropFiles(Sender: TObject; const FileNames: array of string);
 var
-  f1: string;
+  f1:    string;
   f_cnt: integer;
 begin
-  f_cnt:= high(FileNames);
+  f_cnt := high(FileNames);
   f_cnt := 0;
 
-  for f_cnt:=0 to high(FileNames) do
+  for f_cnt := 0 to high(FileNames) do
   begin
     f1 := FileNames[f_cnt];
     if FileExists(f1) then
@@ -561,37 +1109,37 @@ begin
       if (f_cnt = 0) then
       begin
         case shift_status of
-        0:
-        begin
-          loadfile(f1)
+          0:
+          begin
+            loadfile(f1);
+          end;
+          1:
+          begin
+            Addfile(f1);
+          end;
+          2:
+          begin
+            Addfile_side(f1);
+          end;
         end;
-        1:
-        begin
-          Addfile(f1)
-        end;
-        2:
-        begin
-          Addfile_side(f1)
-        end;
-        end ;
 
       end
       else
       begin
         case shift_status of
-        0:
-        begin
-          Addfile(f1);
+          0:
+          begin
+            Addfile(f1);
+          end;
+          1:
+          begin
+            Addfile(f1);
+          end;
+          2:
+          begin
+            Addfile_side(f1);
+          end;
         end;
-        1:
-        begin
-               Addfile(f1);
-        end;
-        2:
-        begin
-               Addfile_side(f1)
-        end;
-        end ;
 
       end;
 
@@ -603,43 +1151,10 @@ begin
 
 end;
 
-function TForm1.FormHelp(Command: Word; Data: PtrInt; var CallHelp: Boolean
-  ): Boolean;
-begin
-
-end;
-
-procedure TForm1.FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState
-  );
-begin
-  {shift_status :=0;
-  if (ssShift in Shift) then
-  begin
-    shift_status :=1;
-    StatusBar1.Panels[1].Text:='Drag to Append file';
-  end;
-  if ((ssShift in Shift) and (ssCtrl in Shift)) then
-  begin
-    shift_status :=2;
-    StatusBar1.Panels[1].Text:='Append file on side';
-  end;                 }
-end;
-
-procedure TForm1.FormKeyUp(Sender: TObject; var Key: Word; Shift: TShiftState);
-begin
-     // shift_status :=0;
-    //  StatusBar1.Panels[1].Text:='Drag to Load file';
-
-end;
 
 procedure TForm1.MenuItem2Click(Sender: TObject);
 begin
   Action_analysisExecute(self);
-
-end;
-
-procedure TForm1.MenuItem3Click(Sender: TObject);
-begin
 
 end;
 
@@ -651,50 +1166,47 @@ end;
 
 procedure TForm1.MenuItem6Click(Sender: TObject);
 begin
-  MenuItem_Append_btm.Checked:=not   MenuItem_Append_btm.Checked ;
+  MenuItem_Append_btm.Checked := not MenuItem_Append_btm.Checked;
   if (not MenuItem_Append_btm.Checked) then
   begin
-    MenuItem7.Checked:= true
+    MenuItem7.Checked := True;
   end;
 end;
 
 procedure TForm1.MenuItem_add_right_sideClick(Sender: TObject);
 begin
-  MenuItem_add_right_side.checked:=not  MenuItem_add_right_side.checked ;
-  if MenuItem_add_right_side.checked then
+  if MenuItem_add_right_side.Checked then
   begin
-    shift_status:=2;
-    MenuItem_load_new_F.checked:= false;
-    MenuItem_Append_btm.checked:= false;
-  end
-
+    shift_status := 2;
+    MenuItem_load_new_F.Checked := False;
+    MenuItem_Append_btm.Checked := False;
+  end;
 
 end;
 
 procedure TForm1.MenuItem_Append_btmClick(Sender: TObject);
 begin
-  MenuItem_Append_btm.checked:=not MenuItem_Append_btm.checked;
-  if  MenuItem_Append_btm.checked then
+  if MenuItem_Append_btm.Checked then
   begin
-    shift_status:=1;
-    MenuItem_load_new_F.checked:= false;
-    MenuItem_add_right_side.checked:= false;
-  end
-
+    shift_status := 1;
+    MenuItem_load_new_F.Checked := False;
+    MenuItem_add_right_side.Checked := False;
+  end;
 
 end;
 
 procedure TForm1.MenuItem_load_new_FClick(Sender: TObject);
 begin
-  MenuItem_load_new_F.checked:=not   MenuItem_load_new_F.checked ;
-  if MenuItem_load_new_F.checked then
+  //  MenuItem_load_new_F.Checked := not MenuItem_load_new_F.Checked;
+  if MenuItem_load_new_F.Checked then
   begin
-    shift_status:=0;
-    MenuItem_add_right_side.checked:= false;
-    MenuItem_Append_btm.checked:= false;
-  end
+    shift_status := 0;
+    MenuItem_add_right_side.Checked := False;
+    MenuItem_Append_btm.Checked := False;
+  end;
 
 end;
+
 procedure TForm1.MenuItem_CloseClick(Sender: TObject);
 begin
   Action_cleanupExecute(self);
@@ -704,8 +1216,8 @@ end;
 procedure TForm1.MenuItem_drawClick(Sender: TObject);
 var
   col1, row1: integer;
-  val: extended;
-  x: integer;
+  val:        extended;
+  x:          integer;
 begin
   col1 := StringGrid1.Col;
   ListChartSource1.Clear;
@@ -726,7 +1238,6 @@ procedure TForm1.MenuItem_exitClick(Sender: TObject);
 begin
   Close;
 end;
-
 
 
 procedure TForm1.MenuItem_mark_distribution_valueClick(Sender: TObject);
@@ -756,17 +1267,17 @@ end;
 
 procedure TForm1.MenuItem_OpenClick(Sender: TObject);
 var
-  cnt:integer;
+  cnt: integer;
 begin
   if OpenDialog1.Execute then
   begin
     //OpenDialog1.Files.Count;
-    for cnt:= 0 to (OpenDialog1.Files.Count-1) do
+    for cnt := 0 to (OpenDialog1.Files.Count - 1) do
     begin
       if FileExists(OpenDialog1.Files[cnt]) then
       begin
-        if cnt=0 then
-           loadfile(OpenDialog1.Files[cnt])
+        if cnt = 0 then
+          loadfile(OpenDialog1.Files[cnt])
         else
           Addfile(OpenDialog1.Files[cnt]);
       end;
@@ -779,66 +1290,47 @@ begin
   Chart1LineSeries1.Pointer.Visible := MenuItem_show_pointer.Checked;
 end;
 
-procedure TForm1.MenuItem_sortingClick(Sender: TObject);
-begin
-
-end;
-
-procedure TForm1.MenuItem_title_processClick(Sender: TObject);
-
-begin
-
-end;
-
-procedure TForm1.StringGrid1CheckboxToggled(sender: TObject; aCol,
-  aRow: Integer; aState: TCheckboxState);
-begin
-
-end;
-
 procedure TForm1.StringGrid1Click(Sender: TObject);
 var
-  width1, max1,row1: integer;
-  cols:integer;
-  val:extended;
-    Data1: array of extended;
-    x: integer;
+  width1, max1, row1: integer;
+  cols:  integer;
+  val:   extended;
+  Data1: array of extended;
+  x:     integer;
 
 begin
-  StatusBar1.Panels[0].Text := Format('Col:%3d, Row:%3d',
-    [StringGrid1.col, StringGrid1.row]);
+  StatusBar1.Panels[0].Text := Format('Col:%3d, Row:%3d', [StringGrid1.col, StringGrid1.row]);
 
   //adj width
   Width1 := StringGrid1.ColWidths[StringGrid1.Col];
-  max1 := StringGrid1.Canvas.TextWidth(
-    StringGrid1.cells[StringGrid1.col, StringGrid1.Row] + 'x');
+  max1   := StringGrid1.Canvas.TextWidth(StringGrid1.cells[StringGrid1.col, StringGrid1.Row] + 'x');
   if max1 > width1 then
   begin
     StringGrid1.ColWidths[StringGrid1.col] := max1;
   end;
-  cols:= StringGrid1.Selection.Right-StringGrid1.Selection.Left;
-  StatusBar1.Panels[1].Text:=inttostr(cols);
- // if cols=1 then
+  cols := StringGrid1.Selection.Right - StringGrid1.Selection.Left;
+  StatusBar1.Panels[1].Text := IntToStr(cols);
+  // if cols=1 then
   begin
 
-    ListChartSource3.Clear;;
+    ListChartSource3.Clear;
+    ;
     x := 0;
     SetLength(Data1, StringGrid1.RowCount);
-  for row1 := 9 to StringGrid1.RowCount - 1 do
-  begin
-    val := StrToFloatDef(StringGrid1.Cells[StringGrid1.Col, row1], 1E99);
-    if val <> 1E99 then
+    for row1 := 9 to StringGrid1.RowCount - 1 do
     begin
-      Data1[x] := val;
-      Inc(x);
-      ListChartSource3.Add(x, val, IntToStr(x), clred);
+      val := StrToFloatDef(StringGrid1.Cells[StringGrid1.Col, row1], 1E99);
+      if val <> 1E99 then
+      begin
+        Data1[x] := val;
+        Inc(x);
+        ListChartSource3.Add(x, val, IntToStr(x), clred);
+      end;
     end;
-  end;
   end;
 end;
 
-procedure TForm1.StringGrid1DrawCell(Sender: TObject; aCol, aRow: integer;
-  aRect: TRect; aState: TGridDrawState);
+procedure TForm1.StringGrid1DrawCell(Sender: TObject; aCol, aRow: integer; aRect: TRect; aState: TGridDrawState);
 begin
   if aRow = 1 then
   begin
@@ -850,28 +1342,95 @@ begin
       StringGrid1.Canvas.TextOut(aRect.Left + 2, aRect.Top + 2, '@');
     end;
   end;
+  if (aRow > 3) and (aRow < 9) then
+  begin
+    case aRow of
+      4:
+      begin
+        stringgrid1.canvas.Brush.Color := clAqua;
+        stringgrid1.canvas.FillRect(arect);
+      end;
+      5:
+      begin
+        stringgrid1.canvas.Brush.Color := clAqua;
+        stringgrid1.canvas.FillRect(arect);
+      end;
+      6:
+      begin
+        stringgrid1.canvas.Brush.Color := clSkyBlue;
+        stringgrid1.canvas.FillRect(arect);
+      end;
+      7:
+      begin
+        stringgrid1.canvas.Brush.Color := clSkyBlue;
+        stringgrid1.canvas.FillRect(arect);
+      end;
+      8:
+      begin
+        stringgrid1.canvas.Brush.Color := $FF80FF;
+        stringgrid1.canvas.FillRect(arect);
+      end;
+
+    end;
+    //stringgrid1.canvas.Brush.Color := clYellow;
+    //stringgrid1.canvas.FillRect(arect);
+    StringGrid1.Canvas.Font.Color := clBlack;//  (acol,arow).Canvas.);
+    //StringGrid1.Canvas.TextOut(aRect.Left + 2, aRect.Top + 2, '@');
+    StringGrid1.Canvas.TextOut(aRect.Left + 2, aRect.Top + 2, StringGrid1.cells[aCol, aRow]);
+  end;
+
 end;
 
-procedure TForm1.StringGrid1PickListSelect(Sender: TObject);
+procedure TForm1.StringGrid1KeyDown(Sender: TObject; var Key: word; Shift: TShiftState);
 begin
+  if ((key = 40) and (ssCtrl in Shift))  then   // down key
+  begin
+    Action_find_next_failExecute(self);
+    Key := 0;
+  end;
+  if (key = 38) and (ssCtrl in Shift) then   // up key
+  begin
+    Action_Find_Previous_FailExecute(self);
+    Key := 0;
+  end;
 
 end;
 
-procedure TForm1.StringGrid1SelectCell(Sender: TObject; aCol, aRow: Integer;
-  var CanSelect: Boolean);
+procedure TForm1.StringGrid1MouseDown(Sender: TObject; Button: TMouseButton;
+  Shift: TShiftState; X, Y: Integer);
 begin
+  if ((ssExtra1 in Shift))  then   // down key
+  begin
+    Action_find_next_failExecute(self);
+  end;
+  if ((ssExtra2 in Shift))  then   // up key
+  begin
+    Action_Find_Previous_FailExecute(self);
+  end;
+
 end;
 
-procedure TForm1.StringGrid1Selection(Sender: TObject; aCol, aRow: Integer);
+procedure TForm1.StringGrid1MouseWheel(Sender: TObject; Shift: TShiftState;
+  WheelDelta: Integer; MousePos: TPoint; var Handled: Boolean);
 begin
+  if (ssALT in shift) and (WheelDelta>0) then
+  begin
+    Action_Find_Previous_FailExecute(self);
+    Handled:=true;
+    //WheelDelta:=0;
+  end;
+  if (ssALT in shift) and (WheelDelta<0) then
+  begin
+    Action_Find_Next_FailExecute(self);
+    Handled:=true;
+    //WheelDelta:=0;
+  end;
 end;
-
-
 
 function TForm1.loadfile(filename: string): boolean;
 var
-  i,fix:integer;
-  s:string;
+  i, fix: integer;
+  s:      string;
 begin
   if FileExists(fileName) then
   begin
@@ -881,25 +1440,24 @@ begin
     // flaxable fix row
     for i := 1 to 100 do
     begin
-      if StringGrid1.Cells[0,i]<>'' then
+      if StringGrid1.Cells[0, i] <> '' then
       begin
-        fix:=i;
+        fix := i;
         break;
       end;
     end;
-    for i:=fix to 8 do
+    for i := fix to 8 do
     begin
-      StringGrid1.InsertRowWithValues(1,['']);
+      StringGrid1.InsertRowWithValues(1, ['']);
     end;
-    s:= ExtractFileName(filename );
-   StringGrid1.Cells[1,1]:=copy(s,length(s)-10,7);
+    s := ExtractFileName(filename);
+    StringGrid1.Cells[1, 1] := copy(s, length(s) - 10, 7);
 
     StringGrid1.FixedRows := 9;
-    StringGrid1.RowCount := StringGrid1.RowCount+1;
+    StringGrid1.RowCount  := StringGrid1.RowCount + 1;
 
-    stringgrid1.Cells[0,4]:= 'Average';
-    stringgrid1.Cells[0,5]:= 'Stdev';
-
+    //    stringgrid1.Cells[0, 4] := 'Average';
+    //    stringgrid1.Cells[0, 5] := 'Stdev';
 
   end;
 
@@ -907,25 +1465,25 @@ end;
 
 function TForm1.Addfile(filename: string): boolean;
 var
-  cnt,row1,row2:integer;
+  cnt, row1, row2: integer;
 
 begin
   if FileExists(fileName) then
   begin
-    StringGrid2.LoadFromCSVFile(filename, ',', false, 0, True);
+    StringGrid2.LoadFromCSVFile(filename, ',', False, 0, True);
     //StringGrid2.Visible:=True;
     //move all data got to stringgrid1
-    row1:=StringGrid1.RowCount;
-    StringGrid1.RowCount:=StringGrid1.RowCount+StringGrid2.RowCount+1;
-    row2:=1;
-    if StringGrid2.ColCount>StringGrid1.ColCount then
+    row1 := StringGrid1.RowCount;
+    StringGrid1.RowCount := StringGrid1.RowCount + StringGrid2.RowCount + 1;
+    row2 := 1;
+    if StringGrid2.ColCount > StringGrid1.ColCount then
     begin
       StringGrid1.ColCount := StringGrid2.ColCount;
     end;
-    for cnt:=row1 to row1+ StringGrid2.RowCount-2 do
+    for cnt := row1 to row1 + StringGrid2.RowCount - 2 do
     begin
-      StringGrid1.Rows[cnt]:=StringGrid2.Rows[row2];
-      inc(row2);
+      StringGrid1.Rows[cnt] := StringGrid2.Rows[row2];
+      Inc(row2);
     end;
   end;
 
@@ -933,38 +1491,35 @@ end;
 
 function TForm1.Addfile_side(filename: string): boolean;
 var
-  cnt,row1,row2:integer;
-  col0,col1,col2:integer;
-  s:string;
+  cnt, row1, row2: integer;
+  col0, col1, col2: integer;
+  s: string;
 
 begin
   if FileExists(fileName) then
   begin
-    StringGrid2.LoadFromCSVFile(filename, ',', false, 0, True);
+    StringGrid2.LoadFromCSVFile(filename, ',', False, 0, True);
     //StringGrid2.Visible:=True;
     //move all data got to stringgrid1
-    row1:=StringGrid1.RowCount;
-    row2:=StringGrid2.RowCount-1;
+    row1 := StringGrid1.RowCount;
+    row2 := StringGrid2.RowCount - 1;
     //StringGrid1.RowCount:=StringGrid1.RowCount+StringGrid2.RowCount+1;
     //row2:=1;
-    col0:=StringGrid1.colCount-1;
-    stringgrid1.ColCount:= col0+StringGrid2.ColCount;
-    stringgrid1.RowCount := max(     stringgrid1.RowCount ,StringGrid2.rowcount+7);
-    col1:=stringgrid1.ColCount;
-    col2:=  StringGrid2.ColCount;
-    s:= ExtractFileName(filename );
+    col0 := StringGrid1.colCount - 1;
+    stringgrid1.ColCount := col0 + StringGrid2.ColCount;
+    stringgrid1.RowCount := max(stringgrid1.RowCount, StringGrid2.rowcount + 7);
+    col1 := stringgrid1.ColCount;
+    col2 := StringGrid2.ColCount;
+    s    := ExtractFileName(filename);
 
-    for cnt:=1 to row2 do
+    for cnt := 1 to row2 do
     begin
-      StringGrid1.Cells[col0+1,1]:=copy(s,length(s)-10,7);
+      StringGrid1.Cells[col0 + 1, 1] := copy(s, length(s) - 10, 7);
 
-      for col1:=1 to col2-1 do
+      for col1 := 1 to col2 - 1 do
       begin
-        StringGrid1.Cells[col0+col1,cnt+7]:=StringGrid2.Cells[col1,cnt];
+        StringGrid1.Cells[col0 + col1, cnt + 7] := StringGrid2.Cells[col1, cnt];
       end;
-
-
-
 
     end;
   end;
@@ -972,7 +1527,75 @@ begin
 end;
 
 
-
 end.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 

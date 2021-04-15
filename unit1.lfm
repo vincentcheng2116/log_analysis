@@ -1,7 +1,7 @@
 object Form1: TForm1
-  Left = 345
+  Left = 472
   Height = 746
-  Top = 120
+  Top = 207
   Width = 1262
   AllowDropFiles = True
   Caption = 'Log_Analysis'
@@ -13,13 +13,11 @@ object Form1: TForm1
   OnCreate = FormCreate
   OnDragOver = FormDragOver
   OnDropFiles = FormDropFiles
-  OnHelp = FormHelp
-  OnKeyDown = FormKeyDown
-  OnKeyUp = FormKeyUp
-  LCLVersion = '1.8.4.0'
+  OnKeyDown = ComboBox_log_searchKeyDown
+  LCLVersion = '2.0.12.0'
   object Chart1: TChart
     Left = 0
-    Height = 356
+    Height = 288
     Top = 0
     Width = 1262
     AxisList = <    
@@ -42,7 +40,9 @@ object Form1: TForm1
     Title.Text.Strings = (
       'TAChart'
     )
+    Toolset = ChartToolset1
     Align = alTop
+    OnDblClick = Chart1DblClick
     object Chart1LineSeries1: TLineSeries
       Marks.Visible = False
       Marks.Format = '%0:.9g'
@@ -51,7 +51,7 @@ object Form1: TForm1
       Pointer.HorizSize = 2
       Pointer.Style = psDiamond
       Pointer.VertSize = 2
-      Pointer.Visible = False
+      Pointer.Visible = True
       ShowPoints = True
       Source = ListChartSource1
     end
@@ -126,63 +126,30 @@ object Form1: TForm1
   end
   object Panel1: TPanel
     Left = 0
-    Height = 340
-    Top = 364
+    Height = 408
+    Top = 296
     Width = 1262
     Align = alClient
     Caption = 'Panel1'
-    ClientHeight = 340
+    ClientHeight = 408
     ClientWidth = 1262
     ParentShowHint = False
     ShowHint = True
     TabOrder = 1
-    object StringGrid1: TStringGrid
-      Left = 444
-      Height = 338
-      Top = 1
-      Width = 801
-      Align = alRight
-      ColCount = 20
-      FixedColor = clMoneyGreen
-      Flat = True
-      Font.CharSet = ANSI_CHARSET
-      Font.Height = -13
-      Font.Name = 'Consolas'
-      Font.Pitch = fpFixed
-      Font.Quality = fqDraft
-      Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goRangeSelect, goDrawFocusSelected, goColSizing, goColMoving, goDblClickAutoSize]
-      ParentFont = False
-      PopupMenu = PopupMenu1
-      RowCount = 20
-      TabOrder = 0
-      TitleFont.CharSet = ANSI_CHARSET
-      TitleFont.Height = -13
-      TitleFont.Name = 'Consolas'
-      TitleFont.Pitch = fpFixed
-      TitleFont.Quality = fqDraft
-      OnClick = StringGrid1Click
-      OnDblClick = Action_analysisExecute
-      OnDrawCell = StringGrid1DrawCell
-      OnPickListSelect = StringGrid1PickListSelect
-      OnSelection = StringGrid1Selection
-      OnSelectCell = StringGrid1SelectCell
-    end
     object Splitter1: TSplitter
-      Left = 436
-      Height = 338
+      Left = 392
+      Height = 406
       Top = 1
       Width = 8
-      Align = alRight
       Beveled = True
       Color = clYellow
       ParentColor = False
-      ResizeAnchor = akRight
     end
     object Chart2: TChart
       Left = 1
-      Height = 338
+      Height = 406
       Top = 1
-      Width = 435
+      Width = 391
       AxisList = <      
         item
           Marks.LabelBrush.Style = bsClear
@@ -207,7 +174,7 @@ object Form1: TForm1
       Title.Text.Strings = (
         'TAChart'
       )
-      Align = alClient
+      Align = alLeft
       object Chart2BarSeries1: TBarSeries
         Marks.Format = '%0:.9g'
         Marks.Style = smsValue
@@ -215,75 +182,142 @@ object Form1: TForm1
         Source = ListChartSource2
       end
     end
-    object ToolBar1: TToolBar
-      Left = 1245
-      Height = 338
+    object Panel2: TPanel
+      Left = 400
+      Height = 406
       Top = 1
-      Width = 16
-      Align = alRight
-      ButtonHeight = 16
-      ButtonWidth = 16
-      Caption = 'ToolBar1'
-      Images = ImageList1
-      TabOrder = 3
-      object ToolButton1: TToolButton
+      Width = 861
+      Align = alClient
+      Caption = 'Panel2'
+      ClientHeight = 406
+      ClientWidth = 861
+      TabOrder = 2
+      object StringGrid1: TStringGrid
         Left = 1
-        Hint = 'Delete this column'
-        Top = 2
-        Action = Action_del_col
-        ImageIndex = 0
+        Height = 379
+        Top = 26
+        Width = 859
+        Align = alClient
+        ColCount = 2
+        FixedColor = clMoneyGreen
+        FixedRows = 8
+        Flat = True
+        Font.CharSet = ANSI_CHARSET
+        Font.Height = -13
+        Font.Name = 'Consolas'
+        Font.Pitch = fpFixed
+        Font.Quality = fqDraft
+        Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goRangeSelect, goDrawFocusSelected, goColSizing, goColMoving, goRelaxedRowSelect, goDblClickAutoSize, goFixedColSizing]
+        ParentFont = False
+        PopupMenu = PopupMenu1
+        RowCount = 9
+        TabOrder = 0
+        OnClick = StringGrid1Click
+        OnDblClick = Action_AnalysisExecute
+        OnDrawCell = StringGrid1DrawCell
+        OnKeyDown = StringGrid1KeyDown
+        OnMouseDown = StringGrid1MouseDown
+        OnMouseWheel = StringGrid1MouseWheel
       end
-      object ToolButton2: TToolButton
+      object ToolBar1: TToolBar
         Left = 1
-        Hint = 'Delete this row'
-        Top = 22
-        Action = Action_del_row
-        ImageIndex = 1
-      end
-      object ToolButton3: TToolButton
-        Left = 1
-        Hint = 'Insert Column'
-        Top = 42
-        Action = Action_insert_col
-      end
-      object ToolButton4: TToolButton
-        Left = 1
-        Hint = 'Insert Row'
-        Top = 62
-        Action = Action_insert_row
-      end
-      object ToolButton5: TToolButton
-        Left = 1
-        Hint = 'Move this Column forward'
-        Top = 82
-        Action = Action_move_col_left
-        ImageIndex = 4
-      end
-      object ToolButton6: TToolButton
-        Left = 1
-        Hint = 'Move this Column backward'
-        Top = 102
-        Action = Action_move_col_right
-        ParentShowHint = False
-        ShowHint = True
-      end
-      object ToolButton7: TToolButton
-        Left = 1
-        Top = 122
-        Action = Action_analysis
-        ParentShowHint = False
-        ShowHint = True
-      end
-      object ToolButton8: TToolButton
-        Left = 1
-        Hint = 'Sorting'
-        Top = 142
-        Action = Action_sorting
-      end
-      object ToolButton9: TToolButton
-        Left = 1
-        Top = 162
-        Action = Action_full_auto
+        Height = 25
+        Top = 1
+        Width = 859
+        AutoSize = True
+        ButtonHeight = 16
+        ButtonWidth = 16
+        Caption = 'ToolBar1'
+        Images = ImageList1
+        TabOrder = 1
+        object ToolButton1: TToolButton
+          Left = 1
+          Top = 2
+          Action = Action_del_col
+          ImageIndex = 0
+        end
+        object ToolButton2: TToolButton
+          Left = 21
+          Top = 2
+          Action = Action_del_row
+          ImageIndex = 1
+        end
+        object ToolButton3: TToolButton
+          Left = 41
+          Top = 2
+          Action = Action_insert_col
+        end
+        object ToolButton4: TToolButton
+          Left = 61
+          Top = 2
+          Action = Action_insert_row
+        end
+        object ToolButton5: TToolButton
+          Left = 81
+          Top = 2
+          Action = Action_move_col_left
+          ImageIndex = 4
+        end
+        object ToolButton6: TToolButton
+          Left = 101
+          Top = 2
+          Action = Action_move_col_right
+          ParentShowHint = False
+          ShowHint = True
+        end
+        object ToolButton7: TToolButton
+          Left = 121
+          Top = 2
+          Action = Action_Analysis
+          ParentShowHint = False
+          ShowHint = True
+        end
+        object ToolButton8: TToolButton
+          Left = 141
+          Top = 2
+          Action = Action_Sorting
+        end
+        object ToolButton9: TToolButton
+          Left = 161
+          Top = 2
+          Action = Action_Full_Auto
+        end
+        object ComboBox_log_search: TComboBox
+          Left = 281
+          Height = 22
+          Top = 2
+          Width = 100
+          AutoComplete = True
+          AutoCompleteText = [cbactEnabled, cbactEndOfLineComplete, cbactSearchAscending]
+          AutoDropDown = True
+          Font.CharSet = ANSI_CHARSET
+          Font.Color = clBlack
+          Font.Height = -12
+          Font.Name = 'Consolas'
+          Font.Pitch = fpFixed
+          Font.Quality = fqDraft
+          ItemHeight = 14
+          OnChange = ComboBox_log_searchChange
+          OnKeyDown = ComboBox_log_searchKeyDown
+          ParentFont = False
+          TabOrder = 0
+          Text = 'Log Search'
+        end
+        object ComboBox_title_search: TComboBox
+          Left = 181
+          Height = 23
+          Top = 2
+          Width = 100
+          AutoComplete = True
+          AutoCompleteText = [cbactEnabled, cbactEndOfLineComplete, cbactSearchAscending]
+          AutoDropDown = True
+          Color = clMoneyGreen
+          ItemHeight = 15
+          OnChange = ComboBox_title_searchChange
+          OnKeyDown = ComboBox_title_searchKeyDown
+          TabOrder = 1
+          Text = 'Title Search'
+        end
       end
     end
   end
@@ -291,7 +325,7 @@ object Form1: TForm1
     Cursor = crVSplit
     Left = 0
     Height = 8
-    Top = 356
+    Top = 288
     Width = 1262
     Align = alTop
     Beveled = True
@@ -318,16 +352,16 @@ object Form1: TForm1
     SimplePanel = False
   end
   object StringGrid2: TStringGrid
-    Left = 776
+    Left = 744
     Height = 128
-    Top = 520
+    Top = 544
     Width = 352
     TabOrder = 4
     Visible = False
   end
   object MainMenu1: TMainMenu
-    left = 152
-    top = 32
+    Left = 152
+    Top = 32
     object MenuItem1: TMenuItem
       Caption = 'Files'
       object MenuItem_Open: TMenuItem
@@ -345,16 +379,25 @@ object Form1: TForm1
         Caption = '-'
       end
       object MenuItem_load_new_F: TMenuItem
+        AutoCheck = True
         Caption = 'Load as new file'
+        Checked = True
+        GroupIndex = 1
+        RadioItem = True
         OnClick = MenuItem_load_new_FClick
       end
       object MenuItem_Append_btm: TMenuItem
+        AutoCheck = True
         Caption = 'Append on btm'
-        Checked = True
+        GroupIndex = 1
+        RadioItem = True
         OnClick = MenuItem_Append_btmClick
       end
       object MenuItem_add_right_side: TMenuItem
+        AutoCheck = True
         Caption = 'Append file on right side'
+        GroupIndex = 1
+        RadioItem = True
         OnClick = MenuItem_add_right_sideClick
       end
       object MenuItem7: TMenuItem
@@ -367,7 +410,6 @@ object Form1: TForm1
     end
     object MenuItem3: TMenuItem
       Caption = 'Help'
-      OnClick = MenuItem3Click
       object MenuItem4: TMenuItem
         Caption = 'About'
         OnClick = MenuItem4Click
@@ -375,30 +417,31 @@ object Form1: TForm1
     end
   end
   object ListChartSource1: TListChartSource
-    left = 208
-    top = 128
+    Left = 256
+    Top = 72
   end
   object OpenDialog1: TOpenDialog
     FileName = 'D:\data\lazarus\chart\Log_analysis\6D11_MSE_RF_170330_31_4F.CSV'
     InitialDir = 'D:\data\lazarus\chart\Log_analysis\'
     Options = [ofAllowMultiSelect, ofEnableSizing, ofViewDetail]
-    left = 648
-    top = 504
+    Left = 648
+    Top = 504
   end
   object PopupMenu1: TPopupMenu
-    left = 1168
-    top = 408
+    Left = 1168
+    Top = 408
     object MenuItem_title_process: TMenuItem
       Caption = 'Title Process (remove duplicated title)'
-      OnClick = Action_title_processExecute
+      Visible = False
+      OnClick = Action_Title_ProcessExecute
+    end
+    object MenuItem13: TMenuItem
+      Action = Action_Title_Process_Field_align
+      Caption = 'Title_Process_Field_align'
     end
     object MenuItem_draw: TMenuItem
       Caption = 'Draw'
       OnClick = MenuItem_drawClick
-    end
-    object MenuItem2: TMenuItem
-      Caption = 'Analysis'
-      OnClick = MenuItem2Click
     end
     object MenuItem_show_pointer: TMenuItem
       AutoCheck = True
@@ -416,28 +459,73 @@ object Form1: TForm1
       Checked = True
       OnClick = MenuItem_mark_distribution_valueClick
     end
+    object MenuItem15: TMenuItem
+      Action = Action_Point_Out_Data
+      AutoCheck = True
+    end
+    object MenuItem2: TMenuItem
+      Caption = 'Analysis (Double Click)'
+      OnClick = MenuItem2Click
+    end
+    object N2: TMenuItem
+      Caption = '-'
+    end
     object MenuItem_sorting: TMenuItem
-      Action = Action_sorting
-      OnClick = MenuItem_sortingClick
+      Action = Action_Sorting
+      Caption = 'Sorting'
+    end
+    object MenuItem11: TMenuItem
+      Action = Action_Sort_by_SNO
+      Caption = 'Sort_by_SNO'
+    end
+    object N3: TMenuItem
+      Caption = '-'
     end
     object MenuItem_delete_same_Contents: TMenuItem
       Action = Action_Delete_same_Contents
       Caption = 'Delete whole row if has same Contents'
     end
-    object MenuItem5: TMenuItem
-      Action = Action_full_auto
-    end
     object MenuItem_clean_up: TMenuItem
-      Action = Action_cleanup
+      Action = Action_CleanUp
+      Caption = 'Cleanup'
+    end
+    object MenuItem9: TMenuItem
+      Action = Action_cell_editable
+      AutoCheck = True
+      Caption = 'Cell_Editable'
+    end
+    object MenuItem10: TMenuItem
+      Action = Action_Count_Yield_rate
+      Caption = 'Count_Yield_Rate'
+    end
+    object N4: TMenuItem
+      Caption = '-'
+    end
+    object MenuItem14: TMenuItem
+      Action = Action_Find_Previous_Fail
+      Caption = 'Find_Previous_Fail'
+      ShortCut = 16422
+    end
+    object MenuItem12: TMenuItem
+      Action = Action_Find_Next_Fail
+      Caption = 'Find_Next_Fail'
+      ShortCut = 16424
+    end
+    object N1: TMenuItem
+      Caption = '-'
+    end
+    object MenuItem5: TMenuItem
+      Action = Action_Full_Auto
+      Caption = 'Full_Auto'
     end
   end
   object ListChartSource2: TListChartSource
-    left = 360
-    top = 616
+    Left = 360
+    Top = 616
   end
   object ImageList1: TImageList
-    left = 512
-    top = 384
+    Left = 400
+    Top = 392
     Bitmap = {
       4C690A0000001000000010000000E2E1E0FFE2E1E0FFE2E1E0FFE2E1E0FF6221
       60FFE2E1E0FFE2E1E0FFE2E1E0FFE2E1E0FFE2E1E0FFE2E1E0FFE2E1E0FFE2E1
@@ -763,8 +851,8 @@ object Form1: TForm1
     }
   end
   object ActionList1: TActionList
-    left = 576
-    top = 384
+    Left = 568
+    Top = 472
     object Action_del_col: TAction
       Caption = 'Action_del_col'
       OnExecute = Action_del_colExecute
@@ -792,40 +880,92 @@ object Form1: TForm1
       ImageIndex = 5
       OnExecute = Action_move_col_rightExecute
     end
-    object Action_analysis: TAction
+    object Action_Analysis: TAction
       Caption = 'Action_analysis'
       ImageIndex = 6
-      OnExecute = Action_analysisExecute
+      OnExecute = Action_AnalysisExecute
     end
-    object Action_sorting: TAction
+    object Action_Sorting: TAction
       Caption = 'Action_sorting'
       ImageIndex = 7
-      OnExecute = Action_sortingExecute
+      OnExecute = Action_SortingExecute
     end
     object Action_Delete_same_Contents: TAction
       Caption = 'Delete the Column if same Contents'
       OnExecute = Action_Delete_same_ContentsExecute
     end
-    object Action_full_auto: TAction
+    object Action_Full_Auto: TAction
       Caption = 'Action_full_auto'
       ImageIndex = 9
-      OnExecute = Action_full_autoExecute
+      OnExecute = Action_Full_AutoExecute
     end
-    object Action_title_process: TAction
-      Caption = 'Action_title_process'
-      OnExecute = Action_title_processExecute
+    object Action_Title_Process: TAction
+      Caption = 'Action_Title_Process'
+      OnExecute = Action_Title_ProcessExecute
     end
-    object Action_cleanup: TAction
+    object Action_CleanUp: TAction
       Caption = 'Action_cleanup'
-      OnExecute = Action_cleanupExecute
+      OnExecute = Action_CleanUpExecute
     end
-    object Action_append_file: TAction
-      Caption = 'Action_append_file'
-      OnExecute = Action_append_fileExecute
+    object Action_Append_File: TAction
+      Caption = 'Action_Append_File'
+      OnExecute = Action_Append_FileExecute
+    end
+    object Action_cell_editable: TAction
+      AutoCheck = True
+      Caption = 'Action_cell_editable'
+      OnExecute = Action_cell_editableExecute
+    end
+    object Action_Count_Yield_rate: TAction
+      Caption = 'Action_Count_Yield_rate'
+      OnExecute = Action_Count_Yield_rateExecute
+    end
+    object Action_Sort_by_SNO: TAction
+      Caption = 'Action_Sort_by_SNO'
+      OnExecute = Action_Sort_by_SNOExecute
+    end
+    object Action_Find_Next_Fail: TAction
+      Caption = 'Action_find_next_fail'
+      OnExecute = Action_Find_Next_FailExecute
+    end
+    object Action_Title_Process_Field_align: TAction
+      Caption = 'Action_Title_Process_Field_align'
+      OnExecute = Action_Title_Process_Field_alignExecute
+    end
+    object Action_Find_Previous_Fail: TAction
+      Caption = 'Action_Find_Previous_Fail'
+      OnExecute = Action_Find_Previous_FailExecute
+    end
+    object Action_Point_Out_Data: TAction
+      AutoCheck = True
+      Caption = 'Action_Point_Out_Data'
+      Checked = True
     end
   end
   object ListChartSource3: TListChartSource
-    left = 208
-    top = 192
+    Left = 312
+    Top = 136
+  end
+  object ChartToolset1: TChartToolset
+    Left = 682
+    Top = 148
+    object ChartToolset1DataPointCrosshairTool1: TDataPointCrosshairTool
+      OnDraw = ChartToolset1DataPointCrosshairTool1Draw
+    end
+    object ChartToolset1ZoomMouseWheelTool_iso: TZoomMouseWheelTool
+      ZoomFactor = 1.1
+    end
+    object ChartToolset1ZoomMouseWheelTool_Hor: TZoomMouseWheelTool
+      Shift = [ssAlt]
+      ZoomFactor = 1.1
+      ZoomRatio = 0.90909090909091
+    end
+    object ChartToolset1ZoomMouseWheelTool_vert: TZoomMouseWheelTool
+      Shift = [ssShift]
+      ZoomRatio = 1.1
+    end
+    object ChartToolset1PanDragTool1: TPanDragTool
+      Shift = [ssMiddle]
+    end
   end
 end
