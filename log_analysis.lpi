@@ -17,11 +17,10 @@
     <VersionInfo>
       <UseVersionInfo Value="True"/>
       <AutoIncrementBuild Value="True"/>
-      <MajorVersionNr Value="2021"/>
-      <MinorVersionNr Value="4"/>
-      <RevisionNr Value="15"/>
-      <BuildNr Value="3"/>
-      <Attributes pvaPreRelease="True"/>
+      <MajorVersionNr Value="20"/>
+      <MinorVersionNr Value="21"/>
+      <RevisionNr Value="5"/>
+      <BuildNr Value="25"/>
       <StringTable ProductName="Log Analysis"/>
     </VersionInfo>
     <BuildModes Count="3">
@@ -102,13 +101,13 @@
     </PublishOptions>
     <RunParams>
       <local>
-        <CommandLineParams Value="&quot;d:\data\lazarus\chart\Log_analysis\03_log_example.CSV&quot;"/>
+        <CommandLineParams Value="&quot;d:\data\lazarus\chart\Log_analysis\01_log_example.CSV&quot;"/>
       </local>
       <FormatVersion Value="2"/>
       <Modes Count="1">
         <Mode0 Name="default">
           <local>
-            <CommandLineParams Value="&quot;d:\data\lazarus\chart\Log_analysis\03_log_example.CSV&quot;"/>
+            <CommandLineParams Value="&quot;d:\data\lazarus\chart\Log_analysis\01_log_example.CSV&quot;"/>
           </local>
         </Mode0>
       </Modes>
