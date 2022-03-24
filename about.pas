@@ -1,6 +1,13 @@
 unit about;
 
 {$mode objfpc}{$H+}
+// for online function
+// use synapse40 component
+// information in http://synapse.ararat.cz/
+
+
+
+
 
 interface
 
@@ -17,6 +24,7 @@ type
     Copyright2: TLabel;
     Image1:     TImage;
     Label1:     TLabel;
+    Label_online_ver: TLabel;
     Label_Ver:  TLabel;
     Panel1:     TPanel;
     ProgramName: TLabel;
@@ -126,7 +134,7 @@ begin
 
   Label_Ver.ShowHint := True;
   Label_Ver.Hint     := 'Online: ' + file_name + sLineBreak + 'version: ' + s_version + sLineBreak + 'website: ' + s_website + sLineBreak + 'Click to download file';
-
+  Label_online_ver.caption :='Online version: '+ s_version ;
 end;
 
 procedure TForm_About.Label_VerClick(Sender: TObject);
@@ -162,6 +170,7 @@ end;
 
 procedure ShowAboutBox;
 begin
+//  Form_About.Visible:=true;
   with TForm_About.Create(Application) do
     try
       ShowModal;

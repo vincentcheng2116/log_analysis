@@ -1,68 +1,68 @@
 object Form_About: TForm_About
-  Left = 394
-  Height = 176
-  Top = 117
-  Width = 612
+  Left = 665
+  Height = 220
+  Top = 436
+  Width = 765
   BorderStyle = bsDialog
   Caption = 'About'
-  ClientHeight = 176
-  ClientWidth = 612
+  ClientHeight = 220
+  ClientWidth = 765
+  DesignTimePPI = 120
   OnCreate = FormCreate
-  LCLVersion = '2.0.12.0'
+  Position = poScreenCenter
+  LCLVersion = '2.2.0.4'
   object Panel1: TPanel
     Left = 0
-    Height = 176
+    Height = 220
     Top = 0
-    Width = 612
+    Width = 765
     Align = alClient
-    ClientHeight = 176
-    ClientWidth = 612
+    ClientHeight = 220
+    ClientWidth = 765
     TabOrder = 0
     object Label1: TLabel
       Left = 1
-      Height = 47
+      Height = 59
       Top = 1
-      Width = 610
+      Width = 763
       Align = alTop
       Alignment = taCenter
       AutoSize = False
       Caption = 'File Name Here'
       Font.CharSet = ANSI_CHARSET
       Font.Color = clBlue
-      Font.Height = -32
+      Font.Height = -40
       Font.Name = 'Arial'
-      ParentColor = False
       ParentFont = False
     end
     object ProgramName: TLabel
       Left = 1
-      Height = 25
-      Top = 48
-      Width = 610
+      Height = 31
+      Top = 60
+      Width = 763
       Align = alTop
       Alignment = taCenter
       AutoSize = False
       Caption = 'Program Name'
       Font.Color = clGreen
-      Font.Height = -11
+      Font.Height = -14
       Font.Name = 'MS Sans Serif'
-      ParentColor = False
       ParentFont = False
     end
     object Label_Ver: TLabel
+      Cursor = crHandPoint
       Left = 1
-      Height = 31
-      Top = 73
-      Width = 610
+      Height = 39
+      Top = 91
+      Width = 763
       Align = alTop
       Alignment = taCenter
       AutoSize = False
       Caption = 'Ver'
       Font.Color = clBlack
-      Font.Height = -19
+      Font.Height = -24
       Font.Name = 'MS Sans Serif'
       Font.Style = [fsBold]
-      ParentColor = False
       ParentFont = False
       OnClick = Label_VerClick
     end
@@ -76,39 +76,46 @@ object Form_About: TForm_About
     end
     object Copyright1: TLabel
       Left = 1
-      Height = 32
-      Top = 104
-      Width = 610
+      Height = 40
+      Top = 130
+      Width = 763
       Align = alTop
       Alignment = taCenter
       AutoSize = False
       Caption = 'Author: Vincent Cheng (+886-963-080987)'
       Font.Color = clRed
-      Font.Height = -13
+      Font.Height = -16
       Font.Name = 'MS Sans Serif'
       Font.Style = [fsBold]
-      ParentColor = False
       ParentFont = False
     end
     object Copyright2: TLabel
+      Cursor = crHandPoint
       Left = 1
-      Height = 39
-      Top = 136
-      Width = 610
+      Height = 49
+      Top = 170
+      Width = 763
       Align = alClient
       Alignment = taCenter
       AutoSize = False
       Caption = 'Click here to check online information'
       Font.CharSet = ANSI_CHARSET
       Font.Color = clNavy
-      Font.Height = -13
+      Font.Height = -16
       Font.Name = 'MS Sans Serif'
       Font.Pitch = fpVariable
       Font.Quality = fqDraft
       Font.Style = [fsBold]
-      ParentColor = False
       ParentFont = False
       OnClick = Copyright2Click
+    end
+    object Label_online_ver: TLabel
+      Cursor = crHandPoint
+      Left = 16
+      Height = 19
+      Top = 192
+      Width = 116
+      Caption = 'Label_online_ver'
     end
   end
 end

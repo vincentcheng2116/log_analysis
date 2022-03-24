@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CONFIG>
   <ProjectOptions>
-    <Version Value="11"/>
+    <Version Value="12"/>
     <PathDelim Value="\"/>
     <General>
+      <Flags>
+        <CompatibilityMode Value="True"/>
+      </Flags>
       <SessionStorage Value="InProjectDir"/>
-      <MainUnit Value="0"/>
       <Title Value="log_analysis"/>
       <ResourceType Value="res"/>
       <UseXPManifest Value="True"/>
@@ -17,10 +19,10 @@
     <VersionInfo>
       <UseVersionInfo Value="True"/>
       <AutoIncrementBuild Value="True"/>
-      <MajorVersionNr Value="20"/>
-      <MinorVersionNr Value="21"/>
-      <RevisionNr Value="5"/>
-      <BuildNr Value="25"/>
+      <MajorVersionNr Value="22"/>
+      <MinorVersionNr Value="3"/>
+      <RevisionNr Value="24"/>
+      <BuildNr Value="1"/>
       <StringTable ProductName="Log Analysis"/>
     </VersionInfo>
     <BuildModes Count="3">

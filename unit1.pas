@@ -72,6 +72,7 @@ type
     MenuItem18: TMenuItem;
     MenuItem19: TMenuItem;
     MenuItem20: TMenuItem;
+    MenuItem_Reload_file: TMenuItem;
     N4:     TMenuItem;
     N3:     TMenuItem;
     N2:     TMenuItem;
@@ -160,6 +161,7 @@ type
     procedure MenuItem_mark_distribution_valueClick(Sender: TObject);
     procedure MenuItem_mark_valueClick(Sender: TObject);
     procedure MenuItem_OpenClick(Sender: TObject);
+    procedure MenuItem_Reload_fileClick(Sender: TObject);
     procedure MenuItem_show_pointerClick(Sender: TObject);
     procedure StringGrid1Click(Sender: TObject);
     procedure StringGrid1DrawCell(Sender: TObject; aCol, aRow: integer; aRect: TRect; aState: TGridDrawState);
@@ -167,6 +169,7 @@ type
     procedure StringGrid1MouseDown(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: integer);
     procedure StringGrid1MouseWheel(Sender: TObject; Shift: TShiftState; WheelDelta: integer; MousePos: TPoint; var Handled: boolean);
   private
+    function Action_Analysis_range(x0, y0, x1, y1: integer): boolean;
     function Addfile(filename: string): boolean;
     function Addfile_side(filename: string): boolean;
     { private declarations }
@@ -342,6 +345,178 @@ begin
 
   Action_Count_Yield_rateExecute(self);
 end;
+
+
+function TForm1.Action_Analysis_range(x0,y0,x1,y1:integer):boolean;
+var
+  col1, row1: integer;
+  val:        extended;
+  x,y:          integer;
+  Data:       array of extended;
+  mean1, stdev1, min1, max1: extended;
+  i, j, cnt1: integer;
+  range0, range1: extended;
+  s:          string;
+begin
+
+  stringgrid1.Cells[0, 2] := 'Upper';
+  stringgrid1.Cells[0, 3] := 'Lower';
+  stringgrid1.Cells[0, 4] := 'Average';
+  stringgrid1.Cells[0, 5] := 'Stdev';
+  stringgrid1.Cells[0, 8] := 'Yield%';
+
+
+  //draw data in listChartSource.
+  SetLength(Data, y1-y0+1);
+  col1 := x0;
+
+while col1<=x1 do
+begin
+
+    Chart1LineSeries1.Clear;
+    Chart1LineSeries2.Clear;
+    Chart1LineSeries_sigma3n.Clear;
+    Chart1LineSeries_sigma3p.Clear;
+    Chart1LineSeries_sigma5n.Clear;
+    Chart1LineSeries_sigma5p.Clear;
+    Chart1LineSeries_limitn.Clear;
+    Chart1LineSeries_limitp.Clear;
+
+
+  x := 0;
+  for row1 := y0 to y1 do
+  begin
+    val := StrToFloatDef(StringGrid1.Cells[col1, row1], 1E99);
+    if val <> 1E99 then
+    begin
+      Data[x] := val;
+      Inc(x);
+      ListChartSource1.Add(x, val, IntToStr(x), clred);
+    end;
+  end;
+  if x = 0 then
+  begin
+    MessageDlg('Notification', 'this column wasn''t a valid data.',
+      mtConfirmation, [mbOK], 0);
+    exit;
+
+  end;
+
+  SetLength(Data, x);
+  meanandstddev(Data, mean1, stdev1);
+  StringGrid1.Cells[col1, 4] := floattostr(mean1);
+  StringGrid1.Cells[col1, 5] := floattostr(stdev1);
+
+  min1 := MinValue(Data);
+  max1 := MaxValue(Data);
+  StringGrid1.Cells[col1, 6] := floattostr(min1);
+  StringGrid1.Cells[col1, 7] := floattostr(max1);
+  StringGrid1.Cells[0, 6] := 'min';
+  StringGrid1.Cells[0, 7] := 'max';
+
+  StringGrid1.Cells[col1, 8] := floattostr(max1-min1);
+  StringGrid1.Cells[0, 8] := 'diff';
+
+  // drap distribution
+  //-6 sigma ~ +6 sigma
+  //mean1-(stdev1*6)
+  //mean1-(stdev1*5)
+  //mean1-(stdev1*4)
+  //mean1-(stdev1*3)
+  // draw -3 sigma
+  // draw +3 sigma
+  range0 := mean1 - 3 * stdev1;
+  Chart1LineSeries_sigma3n.AddXY(0, range0, '-3sigma= ' + FloatToStr(range0));  //AddXY
+  Chart1LineSeries_sigma3n.AddXY(x, range0, '-3sigma= ' + FloatToStr(range0));  // AddXY
+
+  range0 := mean1 + 3 * stdev1;
+  Chart1LineSeries_sigma3p.AddXY(0, range0, '+3sigma= ' + FloatToStr(range0));  //AddXY
+  Chart1LineSeries_sigma3p.AddXY(x, range0, '+3sigma= ' + FloatToStr(range0));  // AddXY
+
+  range0 := mean1 - 5 * stdev1;
+  Chart1LineSeries_sigma5n.AddXY(0, range0, '-5sigma= ' + FloatToStr(range0));  //AddXY
+  Chart1LineSeries_sigma5n.AddXY(x, range0, '-5sigma= ' + FloatToStr(range0));  // AddXY
+
+  range0 := mean1 + 5 * stdev1;
+  Chart1LineSeries_sigma5p.AddXY(0, range0, '+5sigma= ' + FloatToStr(range0));  //AddXY
+  Chart1LineSeries_sigma5p.AddXY(x, range0, '+5sigma= ' + FloatToStr(range0));  // AddXY
+
+  range0 := StrToFloatDef(StringGrid1.Cells[col1, 2], 1E99);
+  range1 := StrToFloatDef(StringGrid1.Cells[col1, 3], 1E99);
+  if (range0 <> 1E99) and (range1 <> 1E99) then
+  begin
+    Chart1LineSeries_limitn.AddXY(0, range0, 'Upper limit= ' + FloatToStr(range0));
+    Chart1LineSeries_limitn.AddXY(x, range0, 'Upper limit= ' + FloatToStr(range0));
+    Chart1LineSeries_limitp.AddXY(0, range1, 'Lower limit= ' + FloatToStr(range1));
+    Chart1LineSeries_limitp.AddXY(x, range1, 'Lower limit= ' + FloatToStr(range1));
+
+  end;
+
+
+
+    //-7
+    ListChartSource2.Clear;
+    x      := 0;
+    range0 := mean1 - 7 * stdev1;
+    cnt1   := 0;
+    for j := Low(Data) to High(Data) do
+    begin
+      if Data[j] < range0 then
+      begin
+        Inc(cnt1);
+      end;
+    end;
+    s := Format('<%3.3e', [range0]);
+    ListChartSource2.Add(x, cnt1, s, clRed);
+
+
+    Inc(x);
+    for i := -6 to 5 do
+    begin
+      range0 := mean1 + i * stdev1;
+      range1 := mean1 + (i + 1) * stdev1;
+      cnt1   := 0;
+      for j := Low(Data) to High(Data) do
+      begin
+        if ((range0 <= Data[j]) and (Data[j] < range1)) then
+        begin
+          Inc(cnt1);
+        end;
+      end;
+      s := Format('%3.3e', [(range0 + range1) / 2]);
+      ListChartSource2.Add(x, cnt1, s, clRed);
+      Inc(x);
+    end;
+    //+7
+
+    range0 := mean1 + 7 * stdev1;
+    cnt1   := 0;
+    for j := Low(Data) to High(Data) do
+    begin
+      if Data[j] > range0 then
+      begin
+        Inc(cnt1);
+      end;
+    end;
+    s := Format('>%3.3e', [range0]);
+    ListChartSource2.Add(x, cnt1, s, clRed);
+
+
+      Chart1.ZoomFull;
+
+
+  inc(col1);
+end;
+
+
+  //Action_Count_Yield_rateExecute(self);
+
+
+
+end;
+
+
+
 
 procedure TForm1.Action_Append_FileExecute(Sender: TObject);
 var
@@ -1377,6 +1552,11 @@ begin
   end;
 end;
 
+procedure TForm1.MenuItem_Reload_fileClick(Sender: TObject);
+begin
+  loadfile(latest_file_name);
+end;
+
 procedure TForm1.MenuItem_show_pointerClick(Sender: TObject);
 begin
   Chart1LineSeries1.Pointer.Visible := MenuItem_show_pointer.Checked;
@@ -1384,8 +1564,8 @@ end;
 
 procedure TForm1.StringGrid1Click(Sender: TObject);
 var
-  width1, max1, row1: integer;
-  cols:  integer;
+  width1, max1,max2, row1: integer;
+  cols,rows:  integer;
   val:   extended;
   Data1: array of extended;
   x:     integer;
@@ -1396,12 +1576,22 @@ begin
   //adj width
   Width1 := StringGrid1.ColWidths[StringGrid1.Col];
   max1   := StringGrid1.Canvas.TextWidth(StringGrid1.cells[StringGrid1.col, StringGrid1.Row] + 'x');
-  if max1 > width1 then
-  begin
-    StringGrid1.ColWidths[StringGrid1.col] := max1;
-  end;
+  max2   := StringGrid1.Canvas.TextWidth(StringGrid1.cells[StringGrid1.col, 0] + 'x');
+
+  max1:=max(max1,width1);
+  max1:=max(max2,max1);
+  StringGrid1.ColWidths[StringGrid1.Col]:=max1;
+
   cols := StringGrid1.Selection.Right - StringGrid1.Selection.Left;
-  StatusBar1.Panels[1].Text := IntToStr(cols);
+  rows := StringGrid1.Selection.Bottom-StringGrid1.Selection.Top;
+  StatusBar1.Panels[1].Text := Format('Sel x:%3d y:%3d ', [cols+1,rows+1]);
+
+   if rows>=1 then //small renge calc
+   begin
+     Action_Analysis_range(StringGrid1.Selection.Left,StringGrid1.Selection.Top    , StringGrid1.Selection.Right, StringGrid1.Selection.Bottom);
+     exit;
+   end;
+
   // if cols=1 then
   begin
 
