@@ -1,36 +1,36 @@
 unit about;
 
 {$mode objfpc}{$H+}
-// for online function
-// use synapse40 component
-// information in http://synapse.ararat.cz/
-
-
-
+ // for online function
+ // use synapse40 component
+ // information in http://synapse.ararat.cz/
 
 
 interface
 
 uses
   Windows, Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, ExtCtrls,
-  StdCtrls, fpjson, jsonparser, fphttpclient, httpsend;
+  StdCtrls, ActnList, Buttons, fpjson, jsonparser, fphttpclient, httpsend;
 
 type
 
   { TForm_About }
 
   TForm_About = class(TForm)
-    Copyright1: TLabel;
-    Copyright2: TLabel;
-    Image1:     TImage;
-    Label1:     TLabel;
-    Label_online_ver: TLabel;
-    Label_Ver:  TLabel;
-    Panel1:     TPanel;
-    ProgramName: TLabel;
+    Action_Check_for_Update: TAction;
+    ActionList1: TActionList;
+    BitBtn_onLine_info: TBitBtn;
+    SpeedButton_download: TBitBtn;
+    author_info: TLabel;
+    Image1:      TImage;
+    Label_application_short_name: TLabel;
+    label_version_UpdateDate: TLabel;
+    Panel1:      TPanel;
+    procedure Action_Check_for_UpdateExecute(Sender: TObject);
+    procedure BitBtn_onLine_infoClick(Sender: TObject);
     procedure Copyright2Click(Sender: TObject);
     procedure FormCreate(Sender: TObject);
-    procedure Label_VerClick(Sender: TObject);
+    function get_onlin_info: boolean;
   private
     { private declarations }
   public
@@ -38,16 +38,22 @@ type
   end;
 
 var
-  Form_About: TForm_About;
+  Form_About:    TForm_About;
   file_name, s_version, s_website: string;
-  Source_DIR: string; // ='http://intretech-tw.synology.me/NAS_file_Share/';     common position + foldername (app name)
-  app_name:   string;
+  Source_DIR:    string; // ='http://intretech-tw.synology.me/NAS_file_Share/';     common position + foldername (app name)
+  app_name:      string;
+  version_Str:   ansistring;
+  web_site_info: string;
+
+  author: string;
+  contact_info: string;
+
 
 const
   DestFile    = 'index.json';
   Source_INFO = 'index.json';
 
-function get_onlin_info: boolean;
+
 procedure ShowAboutBox;
 function GetFileVersion(const sFilename: string; var nValue1, nValue2, nValue3, nValue4: integer; var version_String: string): string;
 
@@ -57,7 +63,8 @@ implementation
 
 { TForm_About }
 
-function get_onlin_info: boolean;
+
+function TForm_About.get_onlin_info: boolean;
 
 var
   // s: Ansistring;
@@ -65,6 +72,7 @@ var
   JSonObject: TJSonObject;
   JSonValue:  TJSONData;
   s_web:      string;
+  s1:         TJSONString;
   //s: TStringList;
 begin
   Result := False;
@@ -87,10 +95,39 @@ begin
     JSonValue  := GetJSON(LStrings.Text);
     JSonObject := TJSONObject(JSonValue);
     file_name  := JSonObject.Get('file_name');
-    s_version  := JSonObject.Get('version');
-    s_website  := JSonObject.Get('website');
+
+    s_version    := JSonObject.Get('version');
+    s_website    := JSonObject.Get('website');
+    author       := '';
+    contact_info := '';
+
+    if JSonObject.Find('author', s1) then
+    begin
+      author := JSonObject.Get('author');
+    end;
+
+    if JSonObject.Find('contact_info', s1) then
+    begin
+      contact_info := JSonObject.Get('contact_info');
+    end;
+    author_info.Caption := author + ' ' + contact_info;
 
     Result := True;
+
+    BitBtn_onLine_info.hint   := s_website;
+    web_site_info             := 'Version:  ' + s_version + sLineBreak + 'available online';
+    SpeedButton_download.Hint := web_site_info;
+
+    if version_Str <> s_version then
+    begin
+      SpeedButton_download.Caption := 'Different ' + web_site_info;
+    end
+    else
+    begin
+      SpeedButton_download.Caption := 'version up-to-date (' + s_version + ')';
+    end;
+
+
   finally
     LStrings.Free;
   end;
@@ -103,6 +140,7 @@ var
   v1, v2, v3, v4: integer;
   s:          string;
   cur_handle: HWND;
+  filedate:   extended;
 
 begin
   file_name  := ExtractFileName(Application.ExeName); // xxx.exe
@@ -120,43 +158,19 @@ begin
   Image1.Picture.Icon.Handle := cur_handle; // gets the 64x64 icon
 
 
-  ProgramName.Caption := application.ExeName; //Application.Title;
-  Label1.Caption      := ExtractFileName(application.ExeName);
-  Label_Ver.Caption   := 'Ver: ' + getfileversion(application.ExeName, v1, v2, v3, v4, s);
-  //UpdateDate.caption := DateTimeToStr(FileDateToDateTime(FileAge(Application.ExeName)));
-  //Animate1.Play(1,19,100);
+  Label_application_short_name.Caption := ExtractFileName(application.ExeName);
+  Label_application_short_name.Hint    := application.ExeName;
 
-//  memo1.Lines.Add(Source_DIR + Source_INFO);
+  filedate    := FileDateToDateTime(FileAge(Application.ExeName));
+  version_Str := GetFileVersion(ansistring(Application.ExeName), v1, v2, v3, v4, s);
+
+  label_version_UpdateDate.Caption := 'Ver: ' + version_Str + ', Released on ' + formatdatetime('yyyy/mm/dd', filedate);
+
+  label_version_UpdateDate.Hint := 'Online: ' + file_name + sLineBreak + 'version: ' + s_version + sLineBreak + 'website: ' +
+    s_website + sLineBreak + 'Click to download file';
+
+
   get_onlin_info;
-//  memo1.Lines.Add(file_name);
-//  memo1.Lines.Add(s_version);
-//  memo1.Lines.Add(s_website);
-
-  Label_Ver.ShowHint := True;
-  Label_Ver.Hint     := 'Online: ' + file_name + sLineBreak + 'version: ' + s_version + sLineBreak + 'website: ' + s_website + sLineBreak + 'Click to download file';
-  Label_online_ver.caption :='Online version: '+ s_version ;
-end;
-
-procedure TForm_About.Label_VerClick(Sender: TObject);
-var
-  s_web_file_name: string;
-  httpClient:      THTTPSend;
-begin
-  // download file
-  s_web_file_name := Source_DIR + file_name;
-//  memo1.Lines.add('downloading: ' + s_web_file_name);
-  httpClient := THTTPSend.Create;
-  if httpClient.HTTPMethod('GET', s_web_file_name) then
-  begin
-    httpClient.Document.SaveToFile(file_name);
-  end
-  else
-  begin
-    MessageDlg('fail to doownload', mtInformation, [mbYes, mbNo, mbCancel], 0);
-  end;
-  httpClient.Free;
-  ShellExecute(Handle, 'open', pchar(extractfilepath(Application.ExeName) + file_name), '', '', SW_SHOWNORMAL);
-
 
 end;
 
@@ -167,10 +181,50 @@ begin
 
 end;
 
+procedure TForm_About.Action_Check_for_UpdateExecute(Sender: TObject);
+var
+  s_web_file_name: string;
+  httpClient:      THTTPSend;
+begin
+  // download file
+  if (MessageDlg('File: ' + file_name + sLineBreak + 'Version: ' + s_version + sLineBreak + 'download online?', mtConfirmation,
+    [mbYes, mbNo, mbCancel], 0) = mrYes) then
+  begin
+
+    s_web_file_name := Source_DIR + file_name;
+    //  memo1.Lines.add('downloading: ' + s_web_file_name);
+    httpClient      := THTTPSend.Create;
+    if httpClient.HTTPMethod('GET', s_web_file_name) then
+    begin
+      httpClient.Document.SaveToFile(file_name);
+    end
+    else
+    begin
+      MessageDlg('fail to doownload', mtInformation, [mbYes, mbNo, mbCancel], 0);
+    end;
+    httpClient.Free;
+    ShellExecute(Handle, 'open', PChar(extractfilepath(Application.ExeName) + file_name), '', '', SW_SHOWNORMAL);
+
+  end;
+end;
+
+procedure TForm_About.BitBtn_onLine_infoClick(Sender: TObject);
+begin
+  if s_website <> '' then
+  begin
+    ShellExecute(Handle, 'open', PChar(s_website), '', '', SW_SHOWNORMAL); // s_website was refer to json format online
+  end
+  else
+  begin
+    ShellExecute(Handle, 'open', 'http://wiki.intretech.com:8090/display/TWNCO/', '', '', SW_SHOWNORMAL);
+  end;
+
+end;
+
 
 procedure ShowAboutBox;
 begin
-//  Form_About.Visible:=true;
+  //  Form_About.Visible:=true;
   with TForm_About.Create(Application) do
     try
       ShowModal;

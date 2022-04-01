@@ -1,12 +1,12 @@
 object Form_About: TForm_About
-  Left = 665
+  Left = 1394
   Height = 220
-  Top = 436
-  Width = 765
+  Top = 385
+  Width = 733
   BorderStyle = bsDialog
   Caption = 'About'
   ClientHeight = 220
-  ClientWidth = 765
+  ClientWidth = 733
   DesignTimePPI = 120
   OnCreate = FormCreate
   Position = poScreenCenter
@@ -15,56 +15,42 @@ object Form_About: TForm_About
     Left = 0
     Height = 220
     Top = 0
-    Width = 765
+    Width = 733
     Align = alClient
     ClientHeight = 220
-    ClientWidth = 765
+    ClientWidth = 733
     TabOrder = 0
-    object Label1: TLabel
-      Left = 1
-      Height = 59
-      Top = 1
-      Width = 763
-      Align = alTop
+    object Label_application_short_name: TLabel
+      Left = 136
+      Height = 45
+      Top = 8
+      Width = 560
       Alignment = taCenter
-      AutoSize = False
-      Caption = 'File Name Here'
+      Anchors = [akTop, akLeft, akRight]
+      Caption = 'Label_application_short_name'
       Font.CharSet = ANSI_CHARSET
       Font.Color = clBlue
       Font.Height = -40
       Font.Name = 'Arial'
       ParentFont = False
+      ParentShowHint = False
+      ShowHint = True
     end
-    object ProgramName: TLabel
-      Left = 1
-      Height = 31
-      Top = 60
-      Width = 763
-      Align = alTop
+    object label_version_UpdateDate: TLabel
+      Left = 136
+      Height = 24
+      Top = 72
+      Width = 560
       Alignment = taCenter
-      AutoSize = False
-      Caption = 'Program Name'
-      Font.Color = clGreen
-      Font.Height = -14
-      Font.Name = 'MS Sans Serif'
-      ParentFont = False
-    end
-    object Label_Ver: TLabel
-      Cursor = crHandPoint
-      Left = 1
-      Height = 39
-      Top = 91
-      Width = 763
-      Align = alTop
-      Alignment = taCenter
-      AutoSize = False
-      Caption = 'Ver'
+      Anchors = [akTop, akLeft, akRight]
+      Caption = 'label_version_UpdateDate'
       Font.Color = clBlack
-      Font.Height = -24
+      Font.Height = -18
       Font.Name = 'MS Sans Serif'
       Font.Style = [fsBold]
       ParentFont = False
-      OnClick = Label_VerClick
+      ParentShowHint = False
+      ShowHint = True
     end
     object Image1: TImage
       Left = 0
@@ -74,14 +60,13 @@ object Form_About: TForm_About
       AutoSize = True
       Stretch = True
     end
-    object Copyright1: TLabel
-      Left = 1
-      Height = 40
-      Top = 130
-      Width = 763
-      Align = alTop
-      Alignment = taCenter
-      AutoSize = False
+    object author_info: TLabel
+      Left = 376
+      Height = 20
+      Top = 184
+      Width = 342
+      Alignment = taRightJustify
+      Anchors = [akRight, akBottom]
       Caption = 'Author: Vincent Cheng (+886-963-080987)'
       Font.Color = clRed
       Font.Height = -16
@@ -89,33 +74,37 @@ object Form_About: TForm_About
       Font.Style = [fsBold]
       ParentFont = False
     end
-    object Copyright2: TLabel
-      Cursor = crHandPoint
-      Left = 1
-      Height = 49
-      Top = 170
-      Width = 763
-      Align = alClient
-      Alignment = taCenter
-      AutoSize = False
-      Caption = 'Click here to check online information'
-      Font.CharSet = ANSI_CHARSET
-      Font.Color = clNavy
-      Font.Height = -16
-      Font.Name = 'MS Sans Serif'
-      Font.Pitch = fpVariable
-      Font.Quality = fqDraft
-      Font.Style = [fsBold]
-      ParentFont = False
-      OnClick = Copyright2Click
+    object SpeedButton_download: TBitBtn
+      Left = 8
+      Height = 30
+      Top = 184
+      Width = 240
+      Action = Action_Check_for_Update
+      Anchors = [akLeft]
+      ParentShowHint = False
+      ShowHint = True
+      TabOrder = 0
     end
-    object Label_online_ver: TLabel
-      Cursor = crHandPoint
-      Left = 16
-      Height = 19
-      Top = 192
-      Width = 116
-      Caption = 'Label_online_ver'
+    object BitBtn_onLine_info: TBitBtn
+      Left = 224
+      Height = 38
+      Top = 112
+      Width = 368
+      Anchors = [akTop, akLeft, akRight]
+      Caption = 'More Online information'
+      OnClick = BitBtn_onLine_infoClick
+      ParentShowHint = False
+      ShowHint = True
+      TabOrder = 1
+    end
+  end
+  object ActionList1: TActionList
+    Left = 680
+    Top = 120
+    object Action_Check_for_Update: TAction
+      Category = 'Check for Update'
+      Caption = 'Action_Check_for_Update'
+      OnExecute = Action_Check_for_UpdateExecute
     end
   end
 end

@@ -72,6 +72,7 @@ type
     MenuItem18: TMenuItem;
     MenuItem19: TMenuItem;
     MenuItem20: TMenuItem;
+    MenuItem_include_none_limit_field: TMenuItem;
     MenuItem_Reload_file: TMenuItem;
     N4:     TMenuItem;
     N3:     TMenuItem;
@@ -182,8 +183,9 @@ type
 var
   Form1: TForm1;
   shift_status: byte = 0;
-//  key_down_status: TShiftState;
-  latest_file_name:string;
+  //  key_down_status: TShiftState;
+  latest_file_name: string;
+
 implementation
 
 {$R *.lfm}
@@ -347,16 +349,16 @@ begin
 end;
 
 
-function TForm1.Action_Analysis_range(x0,y0,x1,y1:integer):boolean;
+function TForm1.Action_Analysis_range(x0, y0, x1, y1: integer): boolean;
 var
   col1, row1: integer;
-  val:        extended;
-  x,y:          integer;
-  Data:       array of extended;
+  val: extended;
+  x, y: integer;
+  Data: array of extended;
   mean1, stdev1, min1, max1: extended;
   i, j, cnt1: integer;
   range0, range1: extended;
-  s:          string;
+  s: string;
 begin
 
   stringgrid1.Cells[0, 2] := 'Upper';
@@ -367,11 +369,11 @@ begin
 
 
   //draw data in listChartSource.
-  SetLength(Data, y1-y0+1);
+  SetLength(Data, y1 - y0 + 1);
   col1 := x0;
 
-while col1<=x1 do
-begin
+  while col1 <= x1 do
+  begin
 
     Chart1LineSeries1.Clear;
     Chart1LineSeries2.Clear;
@@ -383,75 +385,74 @@ begin
     Chart1LineSeries_limitp.Clear;
 
 
-  x := 0;
-  for row1 := y0 to y1 do
-  begin
-    val := StrToFloatDef(StringGrid1.Cells[col1, row1], 1E99);
-    if val <> 1E99 then
+    x := 0;
+    for row1 := y0 to y1 do
     begin
-      Data[x] := val;
-      Inc(x);
-      ListChartSource1.Add(x, val, IntToStr(x), clred);
+      val := StrToFloatDef(StringGrid1.Cells[col1, row1], 1E99);
+      if val <> 1E99 then
+      begin
+        Data[x] := val;
+        Inc(x);
+        ListChartSource1.Add(x, val, IntToStr(x), clred);
+      end;
     end;
-  end;
-  if x = 0 then
-  begin
-    MessageDlg('Notification', 'this column wasn''t a valid data.',
-      mtConfirmation, [mbOK], 0);
-    exit;
+    if x = 0 then
+    begin
+      MessageDlg('Notification', 'this column wasn''t a valid data.',
+        mtConfirmation, [mbOK], 0);
+      exit;
 
-  end;
+    end;
 
-  SetLength(Data, x);
-  meanandstddev(Data, mean1, stdev1);
-  StringGrid1.Cells[col1, 4] := floattostr(mean1);
-  StringGrid1.Cells[col1, 5] := floattostr(stdev1);
+    SetLength(Data, x);
+    meanandstddev(Data, mean1, stdev1);
+    StringGrid1.Cells[col1, 4] := floattostr(mean1);
+    StringGrid1.Cells[col1, 5] := floattostr(stdev1);
 
-  min1 := MinValue(Data);
-  max1 := MaxValue(Data);
-  StringGrid1.Cells[col1, 6] := floattostr(min1);
-  StringGrid1.Cells[col1, 7] := floattostr(max1);
-  StringGrid1.Cells[0, 6] := 'min';
-  StringGrid1.Cells[0, 7] := 'max';
+    min1 := MinValue(Data);
+    max1 := MaxValue(Data);
+    StringGrid1.Cells[col1, 6] := floattostr(min1);
+    StringGrid1.Cells[col1, 7] := floattostr(max1);
+    StringGrid1.Cells[0, 6] := 'min';
+    StringGrid1.Cells[0, 7] := 'max';
 
-  StringGrid1.Cells[col1, 8] := floattostr(max1-min1);
-  StringGrid1.Cells[0, 8] := 'diff';
+    StringGrid1.Cells[col1, 8] := floattostr(max1 - min1);
+    StringGrid1.Cells[0, 8]    := 'diff';
 
-  // drap distribution
-  //-6 sigma ~ +6 sigma
-  //mean1-(stdev1*6)
-  //mean1-(stdev1*5)
-  //mean1-(stdev1*4)
-  //mean1-(stdev1*3)
-  // draw -3 sigma
-  // draw +3 sigma
-  range0 := mean1 - 3 * stdev1;
-  Chart1LineSeries_sigma3n.AddXY(0, range0, '-3sigma= ' + FloatToStr(range0));  //AddXY
-  Chart1LineSeries_sigma3n.AddXY(x, range0, '-3sigma= ' + FloatToStr(range0));  // AddXY
+    // drap distribution
+    //-6 sigma ~ +6 sigma
+    //mean1-(stdev1*6)
+    //mean1-(stdev1*5)
+    //mean1-(stdev1*4)
+    //mean1-(stdev1*3)
+    // draw -3 sigma
+    // draw +3 sigma
+    range0 := mean1 - 3 * stdev1;
+    Chart1LineSeries_sigma3n.AddXY(0, range0, '-3sigma= ' + FloatToStr(range0));  //AddXY
+    Chart1LineSeries_sigma3n.AddXY(x, range0, '-3sigma= ' + FloatToStr(range0));  // AddXY
 
-  range0 := mean1 + 3 * stdev1;
-  Chart1LineSeries_sigma3p.AddXY(0, range0, '+3sigma= ' + FloatToStr(range0));  //AddXY
-  Chart1LineSeries_sigma3p.AddXY(x, range0, '+3sigma= ' + FloatToStr(range0));  // AddXY
+    range0 := mean1 + 3 * stdev1;
+    Chart1LineSeries_sigma3p.AddXY(0, range0, '+3sigma= ' + FloatToStr(range0));  //AddXY
+    Chart1LineSeries_sigma3p.AddXY(x, range0, '+3sigma= ' + FloatToStr(range0));  // AddXY
 
-  range0 := mean1 - 5 * stdev1;
-  Chart1LineSeries_sigma5n.AddXY(0, range0, '-5sigma= ' + FloatToStr(range0));  //AddXY
-  Chart1LineSeries_sigma5n.AddXY(x, range0, '-5sigma= ' + FloatToStr(range0));  // AddXY
+    range0 := mean1 - 5 * stdev1;
+    Chart1LineSeries_sigma5n.AddXY(0, range0, '-5sigma= ' + FloatToStr(range0));  //AddXY
+    Chart1LineSeries_sigma5n.AddXY(x, range0, '-5sigma= ' + FloatToStr(range0));  // AddXY
 
-  range0 := mean1 + 5 * stdev1;
-  Chart1LineSeries_sigma5p.AddXY(0, range0, '+5sigma= ' + FloatToStr(range0));  //AddXY
-  Chart1LineSeries_sigma5p.AddXY(x, range0, '+5sigma= ' + FloatToStr(range0));  // AddXY
+    range0 := mean1 + 5 * stdev1;
+    Chart1LineSeries_sigma5p.AddXY(0, range0, '+5sigma= ' + FloatToStr(range0));  //AddXY
+    Chart1LineSeries_sigma5p.AddXY(x, range0, '+5sigma= ' + FloatToStr(range0));  // AddXY
 
-  range0 := StrToFloatDef(StringGrid1.Cells[col1, 2], 1E99);
-  range1 := StrToFloatDef(StringGrid1.Cells[col1, 3], 1E99);
-  if (range0 <> 1E99) and (range1 <> 1E99) then
-  begin
-    Chart1LineSeries_limitn.AddXY(0, range0, 'Upper limit= ' + FloatToStr(range0));
-    Chart1LineSeries_limitn.AddXY(x, range0, 'Upper limit= ' + FloatToStr(range0));
-    Chart1LineSeries_limitp.AddXY(0, range1, 'Lower limit= ' + FloatToStr(range1));
-    Chart1LineSeries_limitp.AddXY(x, range1, 'Lower limit= ' + FloatToStr(range1));
+    range0 := StrToFloatDef(StringGrid1.Cells[col1, 2], 1E99);
+    range1 := StrToFloatDef(StringGrid1.Cells[col1, 3], 1E99);
+    if (range0 <> 1E99) and (range1 <> 1E99) then
+    begin
+      Chart1LineSeries_limitn.AddXY(0, range0, 'Upper limit= ' + FloatToStr(range0));
+      Chart1LineSeries_limitn.AddXY(x, range0, 'Upper limit= ' + FloatToStr(range0));
+      Chart1LineSeries_limitp.AddXY(0, range1, 'Lower limit= ' + FloatToStr(range1));
+      Chart1LineSeries_limitp.AddXY(x, range1, 'Lower limit= ' + FloatToStr(range1));
 
-  end;
-
+    end;
 
 
     //-7
@@ -502,20 +503,16 @@ begin
     ListChartSource2.Add(x, cnt1, s, clRed);
 
 
-      Chart1.ZoomFull;
+    Chart1.ZoomFull;
 
 
-  inc(col1);
-end;
+    Inc(col1);
+  end;
 
 
   //Action_Count_Yield_rateExecute(self);
 
-
-
 end;
-
-
 
 
 procedure TForm1.Action_Append_FileExecute(Sender: TObject);
@@ -762,9 +759,13 @@ end;
 
 procedure TForm1.Action_Full_AutoExecute(Sender: TObject);
 var
-  i:            integer;
+  i, j:         integer;
   s:            string;
   d_min, d_max: extended;
+  v2:           extended;
+  v1:           extended;
+  diff_cnt:     integer;
+  row0:integer;
 begin
   // title process
   // Action_title_processExecute(self);  replace with new one
@@ -778,7 +779,7 @@ begin
     StringGrid1Click(self);
   end;
 
-  for i := 1 to StringGrid1.ColCount - 1 do
+  for i :=5 to StringGrid1.ColCount - 1 do
   begin
     //adj
     d_min := StrToFloatDef(StringGrid1.Cells[i, 2], 1E99);
@@ -786,9 +787,29 @@ begin
     if (d_min <> 1E99) and (d_max <> 1E99) then
     begin
       StringGrid1.Cells[i, 1] := '@';
+    end
+    else
+    if MenuItem_include_none_limit_field.Checked then
+
+    begin
+      diff_cnt := 0;
+      row0:=min(110, Stringgrid1.RowCount) ;
+      for j := 10 to  row0 do
+      begin
+        v1 := StrToFloatDef(StringGrid1.Cells[i, j], 1E99);
+        v2 := StrToFloatDef(StringGrid1.Cells[i, j + 1], 1E99);
+        if (v1 <> v2) then Inc(diff_cnt);
+      end;
+      if diff_cnt > 70 then
+      begin
+        StringGrid1.Cells[i, 1] := '@';
+
+      end;
+
     end;
 
   end;
+
   for i := 1 to StringGrid1.ColCount - 1 do
   begin
     if StringGrid1.Cells[i, 1] = '@' then
@@ -860,25 +881,25 @@ end;
 procedure TForm1.Action_Save_As_New_Log_FileExecute(Sender: TObject);
 var
   c, r: integer;
-  cnt0:integer;
-  file_name_tmp,file_name_tmp0:string;
+  cnt0: integer;
+  file_name_tmp, file_name_tmp0: string;
 begin
   StringGrid1.FixedRows := 0;
 
   // save as new log file
 
-  SaveDialog1.InitialDir:=ExtractFileDir(latest_file_name);
+  SaveDialog1.InitialDir := ExtractFileDir(latest_file_name);
 
-  file_name_tmp0:=ExtractFileName(latest_file_name);
-  file_name_tmp0:=copy(file_name_tmp0,1, length(file_name_tmp0)-4);
+  file_name_tmp0 := ExtractFileName(latest_file_name);
+  file_name_tmp0 := copy(file_name_tmp0, 1, length(file_name_tmp0) - 4);
 
-  cnt0:=0;
-  while true do
+  cnt0 := 0;
+  while True do
   begin
-    file_name_tmp:=file_name_tmp0+'_'+inttostr( cnt0 )  +'.csv';
-    if FileExists(SaveDialog1.InitialDir+'\'+file_name_tmp) then
+    file_name_tmp := file_name_tmp0 + '_' + IntToStr(cnt0) + '.csv';
+    if FileExists(SaveDialog1.InitialDir + '\' + file_name_tmp) then
     begin
-      inc(cnt0);
+      Inc(cnt0);
     end
     else
     begin
@@ -887,7 +908,7 @@ begin
   end;
 
 
-  SaveDialog1.FileName :=file_name_tmp;
+  SaveDialog1.FileName := file_name_tmp;
 
   if SaveDialog1.Execute then
   begin
@@ -1330,7 +1351,7 @@ var
   s: string;
 
 begin
-  latest_file_name:= Application.ExeName;
+  latest_file_name := Application.ExeName;
 
   for i := 1 to 2 do
   begin
@@ -1352,8 +1373,8 @@ end;
 
 procedure TForm1.FormDropFiles(Sender: TObject; const FileNames: array of string);
 var
-  f1:            string;
-  f_cnt:         integer;
+  f1:    string;
+  f_cnt: integer;
 begin
   f_cnt := high(FileNames);
   f_cnt := 0;
@@ -1405,8 +1426,8 @@ begin
 
   end;
 
-  f1           := FileNames[f_cnt];
-  latest_file_name:=f1;
+  f1 := FileNames[f_cnt];
+  latest_file_name := f1;
   StatusBar1.Panels[0].Text := Format('Col:%3d, Row:%3d /[%3d]  ', [StringGrid1.col, StringGrid1.row, StringGrid1.RowCount]);
 
 end;
@@ -1523,7 +1544,7 @@ var
   cnt:        integer;
   FileNames0: array of string;
 begin
-  OpenDialog1.InitialDir:= ExtractFileDir(latest_file_name);
+  OpenDialog1.InitialDir := ExtractFileDir(latest_file_name);
   if OpenDialog1.Execute then
   begin
 
@@ -1564,11 +1585,11 @@ end;
 
 procedure TForm1.StringGrid1Click(Sender: TObject);
 var
-  width1, max1,max2, row1: integer;
-  cols,rows:  integer;
-  val:   extended;
-  Data1: array of extended;
-  x:     integer;
+  width1, max1, max2, row1: integer;
+  cols, rows: integer;
+  val:        extended;
+  Data1:      array of extended;
+  x:          integer;
 
 begin
   StatusBar1.Panels[0].Text := Format('Col:%3d, Row:%3d /[%3d]  ', [StringGrid1.col, StringGrid1.row, StringGrid1.RowCount]);
@@ -1578,19 +1599,19 @@ begin
   max1   := StringGrid1.Canvas.TextWidth(StringGrid1.cells[StringGrid1.col, StringGrid1.Row] + 'x');
   max2   := StringGrid1.Canvas.TextWidth(StringGrid1.cells[StringGrid1.col, 0] + 'x');
 
-  max1:=max(max1,width1);
-  max1:=max(max2,max1);
-  StringGrid1.ColWidths[StringGrid1.Col]:=max1;
+  max1 := max(max1, width1);
+  max1 := max(max2, max1);
+  StringGrid1.ColWidths[StringGrid1.Col] := max1;
 
   cols := StringGrid1.Selection.Right - StringGrid1.Selection.Left;
-  rows := StringGrid1.Selection.Bottom-StringGrid1.Selection.Top;
-  StatusBar1.Panels[1].Text := Format('Sel x:%3d y:%3d ', [cols+1,rows+1]);
+  rows := StringGrid1.Selection.Bottom - StringGrid1.Selection.Top;
+  StatusBar1.Panels[1].Text := Format('Sel x:%3d y:%3d ', [cols + 1, rows + 1]);
 
-   if rows>=1 then //small renge calc
-   begin
-     Action_Analysis_range(StringGrid1.Selection.Left,StringGrid1.Selection.Top    , StringGrid1.Selection.Right, StringGrid1.Selection.Bottom);
-     exit;
-   end;
+  if rows >= 1 then //small renge calc
+  begin
+    Action_Analysis_range(StringGrid1.Selection.Left, StringGrid1.Selection.Top, StringGrid1.Selection.Right, StringGrid1.Selection.Bottom);
+    exit;
+  end;
 
   // if cols=1 then
   begin
@@ -1738,7 +1759,7 @@ begin
 
     //    stringgrid1.Cells[0, 4] := 'Average';
     //    stringgrid1.Cells[0, 5] := 'Stdev';
-   latest_file_name:=fileName;
+    latest_file_name := fileName;
   end;
 
 end;
@@ -1808,79 +1829,3 @@ end;
 
 
 end.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

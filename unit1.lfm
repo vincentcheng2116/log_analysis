@@ -1,12 +1,12 @@
 object Form1: TForm1
   Left = 786
-  Height = 932
+  Height = 928
   Top = 388
-  Width = 1577
+  Width = 1557
   AllowDropFiles = True
   Caption = 'Log_Analysis'
-  ClientHeight = 907
-  ClientWidth = 1577
+  ClientHeight = 903
+  ClientWidth = 1557
   DesignTimePPI = 120
   KeyPreview = True
   Menu = MainMenu1
@@ -20,7 +20,7 @@ object Form1: TForm1
     Left = 0
     Height = 360
     Top = 0
-    Width = 1577
+    Width = 1557
     AxisList = <    
       item
         Marks.LabelBrush.Style = bsClear
@@ -127,19 +127,19 @@ object Form1: TForm1
   end
   object Panel1: TPanel
     Left = 0
-    Height = 510
+    Height = 506
     Top = 370
-    Width = 1577
+    Width = 1557
     Align = alClient
     Caption = 'Panel1'
-    ClientHeight = 510
-    ClientWidth = 1577
+    ClientHeight = 506
+    ClientWidth = 1557
     ParentShowHint = False
     ShowHint = True
     TabOrder = 1
     object Splitter1: TSplitter
       Left = 490
-      Height = 508
+      Height = 504
       Top = 1
       Width = 10
       Beveled = True
@@ -148,7 +148,7 @@ object Form1: TForm1
     end
     object Chart2: TChart
       Left = 1
-      Height = 508
+      Height = 504
       Top = 1
       Width = 489
       AxisList = <      
@@ -185,19 +185,19 @@ object Form1: TForm1
     end
     object Panel2: TPanel
       Left = 500
-      Height = 508
+      Height = 504
       Top = 1
-      Width = 1076
+      Width = 1056
       Align = alClient
       Caption = 'Panel2'
-      ClientHeight = 508
-      ClientWidth = 1076
+      ClientHeight = 504
+      ClientWidth = 1056
       TabOrder = 2
       object StringGrid1: TStringGrid
         Left = 1
-        Height = 477
+        Height = 473
         Top = 30
-        Width = 1074
+        Width = 1054
         Align = alClient
         ColCount = 2
         FixedColor = clMoneyGreen
@@ -230,7 +230,7 @@ object Form1: TForm1
         Left = 1
         Height = 29
         Top = 1
-        Width = 1074
+        Width = 1054
         AutoSize = True
         ButtonHeight = 20
         ButtonWidth = 20
@@ -339,7 +339,7 @@ object Form1: TForm1
     Left = 0
     Height = 10
     Top = 360
-    Width = 1577
+    Width = 1557
     Align = alTop
     Beveled = True
     Color = clYellow
@@ -350,8 +350,8 @@ object Form1: TForm1
   object StatusBar1: TStatusBar
     Left = 0
     Height = 27
-    Top = 880
-    Width = 1577
+    Top = 876
+    Width = 1557
     Panels = <    
       item
         Width = 250
@@ -563,6 +563,11 @@ object Form1: TForm1
     object MenuItem5: TMenuItem
       Action = Action_Full_Auto
       Caption = 'Full_Auto'
+    end
+    object MenuItem_include_none_limit_field: TMenuItem
+      AutoCheck = True
+      Caption = 'Include no test  limit field'
+      Checked = True
     end
   end
   object ListChartSource2: TListChartSource
