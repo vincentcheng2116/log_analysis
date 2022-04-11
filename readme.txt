@@ -23,3 +23,26 @@ double click show standard devision and related analysis parameter
 right click to actve some other feature
 ) 
 to analysis immediately.
+
+
+important
+=================================
+new feature : online update 
+user 
+synapse40  to achieve this feature.
+
+unzip  synapse40.zip  to  lazarus's component directory.
+i.e. c:\lazarus\components\synapse40\
+or maybe in d:\lazarus\components\synapse40\
+
+in lazarus,  add a component by 
+menu--> package-->open package file--> 
+D:\lazarus\components\synapse40\source\lib\laz_synapse.lpk
+or 
+c:\lazarus\components\synapse40\source\lib\laz_synapse.lpk
+
+load it, compile it, and use --> install it
+
+
+
+
