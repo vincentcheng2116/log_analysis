@@ -1719,13 +1719,23 @@ begin
     Action_Find_Previous_FailExecute(self);
     Handled := True;
     //WheelDelta:=0;
+    exit;
   end;
   if (ssALT in shift) and (WheelDelta < 0) then
   begin
     Action_Find_Next_FailExecute(self);
     Handled := True;
     //WheelDelta:=0;
+    exit;
   end;
+    StatusBar1.Panels[2].Text:=inttostr( wheeldelta);
+  if abs(wheeldelta)>240 then
+  begin
+    stringgrid1.Row:= stringgrid1.Row-wheeldelta div 24;
+
+  end;
+
+
 end;
 
 function TForm1.loadfile(filename: string): boolean;

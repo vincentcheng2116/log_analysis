@@ -10,7 +10,7 @@
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="-1"/>
         <CursorPos X="143" Y="13"/>
-        <UsageCount Value="198"/>
+        <UsageCount Value="200"/>
       </Unit0>
       <Unit1>
         <Filename Value="unit1.pas"/>
@@ -20,14 +20,16 @@
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="Unit1"/>
         <IsVisibleTab Value="True"/>
-        <EditorIndex Value="-1"/>
-        <CursorPos X="33" Y="4"/>
-        <UsageCount Value="198"/>
+        <TopLine Value="1702"/>
+        <CursorPos X="56" Y="1734"/>
+        <UsageCount Value="200"/>
         <Bookmarks Count="3">
           <Item0 X="30" Y="540" ID="3"/>
           <Item1 Y="550" ID="4"/>
           <Item2 X="10" Y="364" ID="1"/>
         </Bookmarks>
+        <Loaded Value="True"/>
+        <LoadedDesigner Value="True"/>
       </Unit1>
       <Unit2>
         <Filename Value="about.pas"/>
@@ -35,12 +37,14 @@
         <ComponentName Value="Form_About"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
-        <EditorIndex Value="-1"/>
+        <EditorIndex Value="1"/>
         <CursorPos X="35" Y="13"/>
-        <UsageCount Value="173"/>
+        <UsageCount Value="176"/>
         <Bookmarks Count="1">
           <Item0 Y="42" ID="2"/>
         </Bookmarks>
+        <Loaded Value="True"/>
+        <LoadedDesigner Value="True"/>
       </Unit2>
       <Unit3>
         <Filename Value="C:\lazarus\lcl\grids.pas"/>
@@ -285,21 +289,78 @@
         <UsageCount Value="10"/>
       </Unit36>
     </Units>
-    <General>
-      <ActiveWindowIndexAtStart Value="-1"/>
-    </General>
-    <JumpHistory HistoryIndex="-1"/>
+    <JumpHistory Count="14" HistoryIndex="13">
+      <Position1>
+        <Filename Value="unit1.pas"/>
+        <Caret Line="4" Column="33"/>
+      </Position1>
+      <Position2>
+        <Filename Value="unit1.pas"/>
+        <Caret Line="211" Column="3" TopLine="200"/>
+      </Position2>
+      <Position3>
+        <Filename Value="unit1.pas"/>
+        <Caret Line="927" Column="15" TopLine="922"/>
+      </Position3>
+      <Position4>
+        <Filename Value="unit1.pas"/>
+        <Caret Line="894" Column="89" TopLine="881"/>
+      </Position4>
+      <Position5>
+        <Filename Value="unit1.pas"/>
+        <Caret Line="1721" Column="82" TopLine="1715"/>
+      </Position5>
+      <Position6>
+        <Filename Value="unit1.pas"/>
+        <Caret Line="1716" Column="63" TopLine="1715"/>
+      </Position6>
+      <Position7>
+        <Filename Value="unit1.pas"/>
+        <Caret Line="1725" Column="27" TopLine="1715"/>
+      </Position7>
+      <Position8>
+        <Filename Value="unit1.pas"/>
+        <Caret Line="138" Column="116" TopLine="100"/>
+      </Position8>
+      <Position9>
+        <Filename Value="unit1.pas"/>
+        <Caret Line="1731" Column="127" TopLine="1714"/>
+      </Position9>
+      <Position10>
+        <Filename Value="unit1.pas"/>
+        <Caret Line="1010" Column="52" TopLine="1003"/>
+      </Position10>
+      <Position11>
+        <Filename Value="unit1.pas"/>
+        <Caret Line="695" TopLine="687"/>
+      </Position11>
+      <Position12>
+        <Filename Value="unit1.pas"/>
+        <Caret Line="1728" Column="7" TopLine="1715"/>
+      </Position12>
+      <Position13>
+        <Filename Value="unit1.pas"/>
+        <Caret Line="1731" Column="52" TopLine="1699"/>
+      </Position13>
+      <Position14>
+        <Filename Value="unit1.pas"/>
+        <Caret Line="1734" Column="50" TopLine="1699"/>
+      </Position14>
+    </JumpHistory>
     <RunParams>
       <FormatVersion Value="2"/>
       <Modes ActiveMode="default"/>
     </RunParams>
-    <HistoryLists Count="2">
+    <HistoryLists Count="3">
       <List0 Name="LaunchingApplication" Type="File" Count="1">
         <Item1 Value="C:\WINDOWS\system32\cmd.exe /C ${TargetCmdLine}"/>
       </List0>
-      <List1 Name="CommandLineParameters" Count="1">
-        <Item1 Value="&quot;d:\data\lazarus\chart\Log_analysis\01_log_example.CSV&quot;"/>
+      <List1 Name="CommandLineParameters" Count="3">
+        <Item1 Value="&quot;d:\data\lazarus\chart\Log_analysis\BENCHMARK_FT_210429_50_3B_0.csv&quot;"/>
+        <Item2 Value="&quot;d:\data\lazarus\chart\Log_analysis\MAZINGERZ_all_with_fail.csv&quot;"/>
+        <Item3 Value="&quot;d:\data\lazarus\chart\Log_analysis\01_log_example.CSV&quot;"/>
       </List1>
+      <List2 Name="WorkingDirectory" Type="File" Count="1"/>
     </HistoryLists>
   </ProjectSession>
   <Debugging>

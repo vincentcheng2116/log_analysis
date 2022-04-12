@@ -127,19 +127,19 @@ object Form1: TForm1
   end
   object Panel1: TPanel
     Left = 0
-    Height = 506
+    Height = 504
     Top = 370
     Width = 1557
     Align = alClient
     Caption = 'Panel1'
-    ClientHeight = 506
+    ClientHeight = 504
     ClientWidth = 1557
     ParentShowHint = False
     ShowHint = True
     TabOrder = 1
     object Splitter1: TSplitter
       Left = 490
-      Height = 504
+      Height = 502
       Top = 1
       Width = 10
       Beveled = True
@@ -148,7 +148,7 @@ object Form1: TForm1
     end
     object Chart2: TChart
       Left = 1
-      Height = 504
+      Height = 502
       Top = 1
       Width = 489
       AxisList = <      
@@ -185,18 +185,18 @@ object Form1: TForm1
     end
     object Panel2: TPanel
       Left = 500
-      Height = 504
+      Height = 502
       Top = 1
       Width = 1056
       Align = alClient
       Caption = 'Panel2'
-      ClientHeight = 504
+      ClientHeight = 502
       ClientWidth = 1056
       TabOrder = 2
       object StringGrid1: TStringGrid
         Left = 1
-        Height = 473
-        Top = 30
+        Height = 470
+        Top = 31
         Width = 1054
         Align = alClient
         ColCount = 2
@@ -228,7 +228,7 @@ object Form1: TForm1
       end
       object ToolBar1: TToolBar
         Left = 1
-        Height = 29
+        Height = 30
         Top = 1
         Width = 1054
         AutoSize = True
@@ -318,14 +318,14 @@ object Form1: TForm1
         end
         object ComboBox_title_search: TComboBox
           Left = 181
-          Height = 27
+          Height = 28
           Top = 2
           Width = 125
           AutoComplete = True
           AutoCompleteText = [cbactEnabled, cbactEndOfLineComplete, cbactSearchAscending]
           AutoDropDown = True
           Color = clMoneyGreen
-          ItemHeight = 19
+          ItemHeight = 20
           OnChange = ComboBox_title_searchChange
           OnKeyDown = ComboBox_title_searchKeyDown
           TabOrder = 1
@@ -349,8 +349,8 @@ object Form1: TForm1
   end
   object StatusBar1: TStatusBar
     Left = 0
-    Height = 27
-    Top = 876
+    Height = 29
+    Top = 874
     Width = 1557
     Panels = <    
       item

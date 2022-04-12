@@ -104,13 +104,13 @@
     </PublishOptions>
     <RunParams>
       <local>
-        <CommandLineParams Value="&quot;d:\data\lazarus\chart\Log_analysis\01_log_example.CSV&quot;"/>
+        <CommandLineParams Value="&quot;d:\data\lazarus\chart\Log_analysis\BENCHMARK_FT_210429_50_3B_0.csv&quot;"/>
       </local>
       <FormatVersion Value="2"/>
       <Modes Count="1">
         <Mode0 Name="default">
           <local>
-            <CommandLineParams Value="&quot;d:\data\lazarus\chart\Log_analysis\01_log_example.CSV&quot;"/>
+            <CommandLineParams Value="&quot;d:\data\lazarus\chart\Log_analysis\BENCHMARK_FT_210429_50_3B_0.csv&quot;"/>
           </local>
         </Mode0>
       </Modes>
