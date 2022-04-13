@@ -20,13 +20,13 @@
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="Unit1"/>
         <IsVisibleTab Value="True"/>
-        <TopLine Value="1702"/>
-        <CursorPos X="56" Y="1734"/>
+        <TopLine Value="668"/>
+        <CursorPos X="3" Y="699"/>
         <UsageCount Value="200"/>
         <Bookmarks Count="3">
-          <Item0 X="30" Y="540" ID="3"/>
-          <Item1 Y="550" ID="4"/>
-          <Item2 X="10" Y="364" ID="1"/>
+          <Item0 X="30" Y="565" ID="3"/>
+          <Item1 Y="575" ID="4"/>
+          <Item2 X="10" Y="389" ID="1"/>
         </Bookmarks>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
@@ -289,7 +289,7 @@
         <UsageCount Value="10"/>
       </Unit36>
     </Units>
-    <JumpHistory Count="14" HistoryIndex="13">
+    <JumpHistory Count="22" HistoryIndex="21">
       <Position1>
         <Filename Value="unit1.pas"/>
         <Caret Line="4" Column="33"/>
@@ -344,8 +344,40 @@
       </Position13>
       <Position14>
         <Filename Value="unit1.pas"/>
-        <Caret Line="1734" Column="50" TopLine="1699"/>
+        <Caret Line="1734" Column="56" TopLine="1702"/>
       </Position14>
+      <Position15>
+        <Filename Value="unit1.pas"/>
+        <Caret Line="1741" Column="56" TopLine="1709"/>
+      </Position15>
+      <Position16>
+        <Filename Value="unit1.pas"/>
+        <Caret Line="374" Column="117" TopLine="353"/>
+      </Position16>
+      <Position17>
+        <Filename Value="unit1.pas"/>
+        <Caret Line="375" Column="117" TopLine="354"/>
+      </Position17>
+      <Position18>
+        <Filename Value="unit1.pas"/>
+        <Caret Line="637" TopLine="636"/>
+      </Position18>
+      <Position19>
+        <Filename Value="unit1.pas"/>
+        <Caret Line="374" Column="13" TopLine="354"/>
+      </Position19>
+      <Position20>
+        <Filename Value="unit1.pas"/>
+        <Caret Line="381" Column="92" TopLine="354"/>
+      </Position20>
+      <Position21>
+        <Filename Value="unit1.pas"/>
+        <Caret Line="694" Column="81" TopLine="618"/>
+      </Position21>
+      <Position22>
+        <Filename Value="unit1.pas"/>
+        <Caret Line="372" Column="117" TopLine="348"/>
+      </Position22>
     </JumpHistory>
     <RunParams>
       <FormatVersion Value="2"/>
@@ -360,7 +392,6 @@
         <Item2 Value="&quot;d:\data\lazarus\chart\Log_analysis\MAZINGERZ_all_with_fail.csv&quot;"/>
         <Item3 Value="&quot;d:\data\lazarus\chart\Log_analysis\01_log_example.CSV&quot;"/>
       </List1>
-      <List2 Name="WorkingDirectory" Type="File" Count="1"/>
     </HistoryLists>
   </ProjectSession>
   <Debugging>
@@ -370,7 +401,7 @@
         <WatchScope Value="wpsLocal"/>
         <WatchKind Value="wpkWrite"/>
         <Source Value="unit1.pas"/>
-        <Line Value="1434"/>
+        <Line Value="1459"/>
       </Item>
     </BreakPoints>
   </Debugging>

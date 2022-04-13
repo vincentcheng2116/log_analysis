@@ -14,6 +14,7 @@ type
   { TForm1 }
 
   TForm1 = class(TForm)
+    Action_Keep_Unique: TAction;
     Action_remove_empth_row: TAction;
     Action_Save_As_New_Log_File: TAction;
     Action_Find_Previous_Fail: TAction;
@@ -72,6 +73,7 @@ type
     MenuItem18: TMenuItem;
     MenuItem19: TMenuItem;
     MenuItem20: TMenuItem;
+    MenuItem21: TMenuItem;
     MenuItem_include_none_limit_field: TMenuItem;
     MenuItem_Reload_file: TMenuItem;
     N4:     TMenuItem;
@@ -120,6 +122,7 @@ type
     ToolButton7: TToolButton;
     ToolButton8: TToolButton;
     ToolButton9: TToolButton;
+    procedure Action_Keep_UniqueExecute(Sender: TObject);
     procedure Action_AnalysisExecute(Sender: TObject);
     procedure Action_Append_FileExecute(Sender: TObject);
     procedure Action_cell_editableExecute(Sender: TObject);
@@ -346,6 +349,28 @@ begin
   Chart1.ZoomFull;
 
   Action_Count_Yield_rateExecute(self);
+end;
+
+procedure TForm1.Action_Keep_UniqueExecute(Sender: TObject);
+var
+  s, s1:      string;
+  row1, col1: integer;
+begin
+  col1 := StringGrid1.col;
+  s    := StringGrid1.Cells[col1, StringGrid1.Row];
+  row1 := 9;
+  while row1 < StringGrid1.RowCount - 1 do
+  begin
+    s1 := StringGrid1.Cells[col1, row1];
+    if S1 <> s then
+    begin
+      StringGrid1.DeleteRow(row1);
+    end
+    else
+    begin
+      Inc(row1);
+    end;
+  end;
 end;
 
 
@@ -657,7 +682,7 @@ begin
   if col_sel_cnt > 1 then
   begin
     i := StringGrid1.Selection.left;
-    for j := 1 to col_sel_cnt do
+    for j := 1 to col_sel_cnt + 1 do
     begin
       StringGrid1.DeleteCol(i);
     end;
@@ -676,7 +701,7 @@ begin
   if row_sel_cnt > 1 then
   begin
     i := StringGrid1.Selection.Top;
-    for j := 1 to row_sel_cnt do
+    for j := 1 to row_sel_cnt + 1 do
     begin
       StringGrid1.DeleteRow(i);
     end;

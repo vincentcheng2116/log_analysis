@@ -1,13 +1,12 @@
 object Form1: TForm1
-  Left = 786
-  Height = 928
-  Top = 388
-  Width = 1557
+  Left = 437
+  Height = 742
+  Top = 214
+  Width = 1246
   AllowDropFiles = True
   Caption = 'Log_Analysis'
-  ClientHeight = 903
-  ClientWidth = 1557
-  DesignTimePPI = 120
+  ClientHeight = 722
+  ClientWidth = 1246
   KeyPreview = True
   Menu = MainMenu1
   OnActivate = FormActivate
@@ -18,9 +17,9 @@ object Form1: TForm1
   LCLVersion = '2.2.0.4'
   object Chart1: TChart
     Left = 0
-    Height = 360
+    Height = 288
     Top = 0
-    Width = 1557
+    Width = 1246
     AxisList = <    
       item
         Marks.LabelBrush.Style = bsClear
@@ -127,30 +126,30 @@ object Form1: TForm1
   end
   object Panel1: TPanel
     Left = 0
-    Height = 504
-    Top = 370
-    Width = 1557
+    Height = 404
+    Top = 296
+    Width = 1246
     Align = alClient
     Caption = 'Panel1'
-    ClientHeight = 504
-    ClientWidth = 1557
+    ClientHeight = 404
+    ClientWidth = 1246
     ParentShowHint = False
     ShowHint = True
     TabOrder = 1
     object Splitter1: TSplitter
-      Left = 490
-      Height = 502
+      Left = 392
+      Height = 402
       Top = 1
-      Width = 10
+      Width = 8
       Beveled = True
       Color = clYellow
       ParentColor = False
     end
     object Chart2: TChart
       Left = 1
-      Height = 502
+      Height = 402
       Top = 1
-      Width = 489
+      Width = 391
       AxisList = <      
         item
           Marks.LabelBrush.Style = bsClear
@@ -184,27 +183,27 @@ object Form1: TForm1
       end
     end
     object Panel2: TPanel
-      Left = 500
-      Height = 502
+      Left = 400
+      Height = 402
       Top = 1
-      Width = 1056
+      Width = 845
       Align = alClient
       Caption = 'Panel2'
-      ClientHeight = 502
-      ClientWidth = 1056
+      ClientHeight = 402
+      ClientWidth = 845
       TabOrder = 2
       object StringGrid1: TStringGrid
         Left = 1
-        Height = 470
-        Top = 31
-        Width = 1054
+        Height = 375
+        Top = 26
+        Width = 843
         Align = alClient
         ColCount = 2
         FixedColor = clMoneyGreen
         FixedRows = 8
         Flat = True
         Font.CharSet = ANSI_CHARSET
-        Font.Height = -16
+        Font.Height = -13
         Font.Name = 'Consolas'
         Font.Pitch = fpFixed
         Font.Quality = fqDraft
@@ -214,7 +213,7 @@ object Form1: TForm1
         RowCount = 9
         TabOrder = 0
         TitleFont.CharSet = ANSI_CHARSET
-        TitleFont.Height = -16
+        TitleFont.Height = -13
         TitleFont.Name = 'Consolas'
         TitleFont.Pitch = fpFixed
         TitleFont.Quality = fqDraft
@@ -228,12 +227,12 @@ object Form1: TForm1
       end
       object ToolBar1: TToolBar
         Left = 1
-        Height = 30
+        Height = 25
         Top = 1
-        Width = 1054
+        Width = 843
         AutoSize = True
-        ButtonHeight = 20
-        ButtonWidth = 20
+        ButtonHeight = 16
+        ButtonWidth = 16
         Caption = 'ToolBar1'
         Images = ImageList1
         TabOrder = 1
@@ -296,20 +295,20 @@ object Form1: TForm1
           Action = Action_Full_Auto
         end
         object ComboBox_log_search: TComboBox
-          Left = 306
-          Height = 26
+          Left = 281
+          Height = 22
           Top = 2
-          Width = 125
+          Width = 100
           AutoComplete = True
           AutoCompleteText = [cbactEnabled, cbactEndOfLineComplete, cbactSearchAscending]
           AutoDropDown = True
           Font.CharSet = ANSI_CHARSET
           Font.Color = clBlack
-          Font.Height = -15
+          Font.Height = -12
           Font.Name = 'Consolas'
           Font.Pitch = fpFixed
           Font.Quality = fqDraft
-          ItemHeight = 18
+          ItemHeight = 14
           OnChange = ComboBox_log_searchChange
           OnKeyDown = ComboBox_log_searchKeyDown
           ParentFont = False
@@ -318,14 +317,14 @@ object Form1: TForm1
         end
         object ComboBox_title_search: TComboBox
           Left = 181
-          Height = 28
+          Height = 23
           Top = 2
-          Width = 125
+          Width = 100
           AutoComplete = True
           AutoCompleteText = [cbactEnabled, cbactEndOfLineComplete, cbactSearchAscending]
           AutoDropDown = True
           Color = clMoneyGreen
-          ItemHeight = 20
+          ItemHeight = 15
           OnChange = ComboBox_title_searchChange
           OnKeyDown = ComboBox_title_searchKeyDown
           TabOrder = 1
@@ -337,9 +336,9 @@ object Form1: TForm1
   object Splitter2: TSplitter
     Cursor = crVSplit
     Left = 0
-    Height = 10
-    Top = 360
-    Width = 1557
+    Height = 8
+    Top = 288
+    Width = 1246
     Align = alTop
     Beveled = True
     Color = clYellow
@@ -349,33 +348,33 @@ object Form1: TForm1
   end
   object StatusBar1: TStatusBar
     Left = 0
-    Height = 29
-    Top = 874
-    Width = 1557
+    Height = 22
+    Top = 700
+    Width = 1246
     Panels = <    
       item
-        Width = 250
+        Width = 200
       end    
       item
-        Width = 250
+        Width = 200
       end    
       item
-        Width = 125
+        Width = 100
       end>
     SimplePanel = False
   end
   object StringGrid2: TStringGrid
-    Left = 1100
-    Height = 160
-    Top = 690
-    Width = 440
+    Left = 880
+    Height = 128
+    Top = 552
+    Width = 352
     TabOrder = 4
     Visible = False
   end
   object MainMenu1: TMainMenu
     Images = ImageList1
-    Left = 64
-    Top = 32
+    Left = 51
+    Top = 26
     object MenuItem1: TMenuItem
       Caption = 'Files'
       object MenuItem_Open: TMenuItem
@@ -443,20 +442,20 @@ object Form1: TForm1
     end
   end
   object ListChartSource1: TListChartSource
-    Left = 320
-    Top = 90
+    Left = 256
+    Top = 72
   end
   object OpenDialog1: TOpenDialog
     FileName = 'D:\data\lazarus\chart\Log_analysis\6D11_MSE_RF_170330_31_4F.CSV'
     InitialDir = 'D:\data\lazarus\chart\Log_analysis\'
     Options = [ofAllowMultiSelect, ofEnableSizing, ofViewDetail]
-    Left = 810
-    Top = 630
+    Left = 648
+    Top = 504
   end
   object PopupMenu1: TPopupMenu
     Images = ImageList1
-    Left = 880
-    Top = 510
+    Left = 704
+    Top = 408
     object MenuItem16: TMenuItem
       Action = Action_Save_As_New_Log_File
       Caption = 'Save_As_New_Log_File'
@@ -524,6 +523,9 @@ object Form1: TForm1
       Action = Action_Delete_same_Contents
       Caption = 'Delete whole row if has same Contents'
     end
+    object MenuItem21: TMenuItem
+      Action = Action_Keep_Unique
+    end
     object MenuItem_clean_up: TMenuItem
       Action = Action_CleanUp
       Caption = 'Cleanup'
@@ -571,12 +573,12 @@ object Form1: TForm1
     end
   end
   object ListChartSource2: TListChartSource
-    Left = 450
-    Top = 770
+    Left = 360
+    Top = 616
   end
   object ImageList1: TImageList
-    Left = 780
-    Top = 510
+    Left = 624
+    Top = 408
     Bitmap = {
       4C7A1B0000001000000010000000EB1300000000000078DAED9C0B78145596C7
       5B5D751404DC1D1DE380ABA819615745A246E5037A208E2CB4022ABBCB28332C
@@ -743,8 +745,8 @@ object Form1: TForm1
   end
   object ActionList1: TActionList
     Images = ImageList1
-    Left = 710
-    Top = 590
+    Left = 568
+    Top = 472
     object Action_del_col: TAction
       Caption = 'Action_del_col'
       ImageIndex = 0
@@ -849,14 +851,18 @@ object Form1: TForm1
       Caption = 'Action_remove_empth_row'
       OnExecute = Action_remove_empth_rowExecute
     end
+    object Action_Keep_Unique: TAction
+      Caption = 'Action_Keep_Unique'
+      OnExecute = Action_Keep_UniqueExecute
+    end
   end
   object ListChartSource3: TListChartSource
-    Left = 390
-    Top = 170
+    Left = 312
+    Top = 136
   end
   object ChartToolset1: TChartToolset
-    Left = 853
-    Top = 185
+    Left = 682
+    Top = 148
     object ChartToolset1DataPointCrosshairTool1: TDataPointCrosshairTool
       OnDraw = ChartToolset1DataPointCrosshairTool1Draw
     end
@@ -878,7 +884,7 @@ object Form1: TForm1
   end
   object SaveDialog1: TSaveDialog
     Filter = 'CSV file|*.csv'
-    Left = 764
-    Top = 438
+    Left = 611
+    Top = 350
   end
 end
