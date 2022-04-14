@@ -245,8 +245,9 @@ begin
   end;
   if x = 0 then
   begin
-    MessageDlg('Notification', 'this column wasn''t a valid data.',
-      mtConfirmation, [mbOK], 0);
+    StatusBar1.Panels[2].Text := 'this column wasn''t a valid data.';
+    {MessageDlg('Notification', 'this column wasn''t a valid data.',
+      mtConfirmation, [mbOK], 0);}
     exit;
 
   end;
@@ -423,8 +424,9 @@ begin
     end;
     if x = 0 then
     begin
-      MessageDlg('Notification', 'this column wasn''t a valid data.',
-        mtConfirmation, [mbOK], 0);
+      StatusBar1.Panels[2].Text := 'this column wasn''t a valid data.';
+      {MessageDlg('Notification', 'this column wasn''t a valid data.',
+        mtConfirmation, [mbOK], 0);}
       exit;
 
     end;
@@ -956,6 +958,13 @@ procedure TForm1.Action_Sort_by_SNOExecute(Sender: TObject);
 var
   i: integer;
 begin
+  i  := 9;
+  while i < StringGrid1.RowCount - 1 do
+  begin
+
+    StringGrid1.Cells[0, i] := format('%3s',[StringGrid1.Cells[0, i]]);
+    Inc(i);
+  end;
   StringGrid1.SortColRow(True, 0, 9,
     StringGrid1.RowCount - 1);
 

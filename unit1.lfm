@@ -1,11 +1,11 @@
 object Form1: TForm1
-  Left = 437
-  Height = 742
-  Top = 214
+  Left = 433
+  Height = 754
+  Top = 136
   Width = 1246
   AllowDropFiles = True
   Caption = 'Log_Analysis'
-  ClientHeight = 722
+  ClientHeight = 734
   ClientWidth = 1246
   KeyPreview = True
   Menu = MainMenu1
@@ -126,19 +126,19 @@ object Form1: TForm1
   end
   object Panel1: TPanel
     Left = 0
-    Height = 404
+    Height = 416
     Top = 296
     Width = 1246
     Align = alClient
     Caption = 'Panel1'
-    ClientHeight = 404
+    ClientHeight = 416
     ClientWidth = 1246
     ParentShowHint = False
     ShowHint = True
     TabOrder = 1
     object Splitter1: TSplitter
       Left = 392
-      Height = 402
+      Height = 414
       Top = 1
       Width = 8
       Beveled = True
@@ -147,7 +147,7 @@ object Form1: TForm1
     end
     object Chart2: TChart
       Left = 1
-      Height = 402
+      Height = 414
       Top = 1
       Width = 391
       AxisList = <      
@@ -184,17 +184,17 @@ object Form1: TForm1
     end
     object Panel2: TPanel
       Left = 400
-      Height = 402
+      Height = 414
       Top = 1
       Width = 845
       Align = alClient
       Caption = 'Panel2'
-      ClientHeight = 402
+      ClientHeight = 414
       ClientWidth = 845
       TabOrder = 2
       object StringGrid1: TStringGrid
         Left = 1
-        Height = 375
+        Height = 387
         Top = 26
         Width = 843
         Align = alClient
@@ -349,7 +349,7 @@ object Form1: TForm1
   object StatusBar1: TStatusBar
     Left = 0
     Height = 22
-    Top = 700
+    Top = 712
     Width = 1246
     Panels = <    
       item
@@ -525,6 +525,7 @@ object Form1: TForm1
     end
     object MenuItem21: TMenuItem
       Action = Action_Keep_Unique
+      Caption = 'Keep_Unique'
     end
     object MenuItem_clean_up: TMenuItem
       Action = Action_CleanUp
