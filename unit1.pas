@@ -357,21 +357,28 @@ var
   s, s1:      string;
   row1, col1: integer;
 begin
+  StringGrid1.SortColRow(True, StringGrid1.Col, 9,
+    StringGrid1.RowCount - 1);
   col1 := StringGrid1.col;
   s    := StringGrid1.Cells[col1, StringGrid1.Row];
-  row1 := 9;
+  row1 := 10;
   while row1 < StringGrid1.RowCount - 1 do
   begin
     s1 := StringGrid1.Cells[col1, row1];
     if S1 <> s then
     begin
-      StringGrid1.DeleteRow(row1);
-    end
-    else
+      Inc(row1);
+    end;
+    if StringGrid1.Cells[col1, row1-1] < s then
     begin
       Inc(row1);
     end;
+    if S1 = s then
+    begin
+      StringGrid1.DeleteRow(row1-1);
+    end;
   end;
+
 end;
 
 
