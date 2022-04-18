@@ -527,6 +527,10 @@ object Form1: TForm1
       Action = Action_Keep_Unique
       Caption = 'Keep_Unique'
     end
+    object MenuItem22: TMenuItem
+      Action = Action_Keep_AllUnique
+      Caption = 'Keep_AllUnique'
+    end
     object MenuItem_clean_up: TMenuItem
       Action = Action_CleanUp
       Caption = 'Cleanup'
@@ -855,6 +859,10 @@ object Form1: TForm1
     object Action_Keep_Unique: TAction
       Caption = 'Action_Keep_Unique'
       OnExecute = Action_Keep_UniqueExecute
+    end
+    object Action_Keep_AllUnique: TAction
+      Caption = 'Action_Keep_AllUnique'
+      OnExecute = Action_Keep_AllUniqueExecute
     end
   end
   object ListChartSource3: TListChartSource
