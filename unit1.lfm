@@ -1,12 +1,13 @@
 object Form1: TForm1
-  Left = 433
-  Height = 754
-  Top = 136
-  Width = 1246
+  Left = 556
+  Height = 942
+  Top = 195
+  Width = 1558
   AllowDropFiles = True
   Caption = 'Log_Analysis'
-  ClientHeight = 734
-  ClientWidth = 1246
+  ClientHeight = 917
+  ClientWidth = 1558
+  DesignTimePPI = 120
   KeyPreview = True
   Menu = MainMenu1
   OnActivate = FormActivate
@@ -14,12 +15,12 @@ object Form1: TForm1
   OnDragOver = FormDragOver
   OnDropFiles = FormDropFiles
   OnKeyDown = ComboBox_log_searchKeyDown
-  LCLVersion = '2.2.0.4'
+  LCLVersion = '2.2.6.0'
   object Chart1: TChart
     Left = 0
-    Height = 288
+    Height = 360
     Top = 0
-    Width = 1246
+    Width = 1558
     AxisList = <    
       item
         Marks.LabelBrush.Style = bsClear
@@ -126,30 +127,30 @@ object Form1: TForm1
   end
   object Panel1: TPanel
     Left = 0
-    Height = 416
-    Top = 296
-    Width = 1246
+    Height = 520
+    Top = 370
+    Width = 1558
     Align = alClient
     Caption = 'Panel1'
-    ClientHeight = 416
-    ClientWidth = 1246
+    ClientHeight = 520
+    ClientWidth = 1558
     ParentShowHint = False
     ShowHint = True
     TabOrder = 1
     object Splitter1: TSplitter
-      Left = 392
-      Height = 414
+      Left = 490
+      Height = 518
       Top = 1
-      Width = 8
+      Width = 10
       Beveled = True
       Color = clYellow
       ParentColor = False
     end
     object Chart2: TChart
       Left = 1
-      Height = 414
+      Height = 518
       Top = 1
-      Width = 391
+      Width = 489
       AxisList = <      
         item
           Marks.LabelBrush.Style = bsClear
@@ -174,7 +175,9 @@ object Form1: TForm1
       Title.Text.Strings = (
         'TAChart'
       )
+      Toolset = ChartToolset1
       Align = alLeft
+      OnDblClick = Chart2DblClick
       object Chart2BarSeries1: TBarSeries
         BarBrush.Color = clRed
         Marks.Format = '%0:.9g'
@@ -183,27 +186,27 @@ object Form1: TForm1
       end
     end
     object Panel2: TPanel
-      Left = 400
-      Height = 414
+      Left = 500
+      Height = 518
       Top = 1
-      Width = 845
+      Width = 1057
       Align = alClient
       Caption = 'Panel2'
-      ClientHeight = 414
-      ClientWidth = 845
+      ClientHeight = 518
+      ClientWidth = 1057
       TabOrder = 2
       object StringGrid1: TStringGrid
         Left = 1
-        Height = 387
-        Top = 26
-        Width = 843
+        Height = 487
+        Top = 30
+        Width = 1055
         Align = alClient
         ColCount = 2
         FixedColor = clMoneyGreen
         FixedRows = 8
         Flat = True
         Font.CharSet = ANSI_CHARSET
-        Font.Height = -13
+        Font.Height = -16
         Font.Name = 'Consolas'
         Font.Pitch = fpFixed
         Font.Quality = fqDraft
@@ -213,7 +216,7 @@ object Form1: TForm1
         RowCount = 9
         TabOrder = 0
         TitleFont.CharSet = ANSI_CHARSET
-        TitleFont.Height = -13
+        TitleFont.Height = -16
         TitleFont.Name = 'Consolas'
         TitleFont.Pitch = fpFixed
         TitleFont.Quality = fqDraft
@@ -227,12 +230,12 @@ object Form1: TForm1
       end
       object ToolBar1: TToolBar
         Left = 1
-        Height = 25
+        Height = 29
         Top = 1
-        Width = 843
+        Width = 1055
         AutoSize = True
-        ButtonHeight = 16
-        ButtonWidth = 16
+        ButtonHeight = 20
+        ButtonWidth = 20
         Caption = 'ToolBar1'
         Images = ImageList1
         TabOrder = 1
@@ -295,20 +298,20 @@ object Form1: TForm1
           Action = Action_Full_Auto
         end
         object ComboBox_log_search: TComboBox
-          Left = 281
-          Height = 22
+          Left = 306
+          Height = 26
           Top = 2
-          Width = 100
+          Width = 125
           AutoComplete = True
           AutoCompleteText = [cbactEnabled, cbactEndOfLineComplete, cbactSearchAscending]
           AutoDropDown = True
           Font.CharSet = ANSI_CHARSET
           Font.Color = clBlack
-          Font.Height = -12
+          Font.Height = -15
           Font.Name = 'Consolas'
           Font.Pitch = fpFixed
           Font.Quality = fqDraft
-          ItemHeight = 14
+          ItemHeight = 18
           OnChange = ComboBox_log_searchChange
           OnKeyDown = ComboBox_log_searchKeyDown
           ParentFont = False
@@ -317,14 +320,14 @@ object Form1: TForm1
         end
         object ComboBox_title_search: TComboBox
           Left = 181
-          Height = 23
+          Height = 27
           Top = 2
-          Width = 100
+          Width = 125
           AutoComplete = True
           AutoCompleteText = [cbactEnabled, cbactEndOfLineComplete, cbactSearchAscending]
           AutoDropDown = True
           Color = clMoneyGreen
-          ItemHeight = 15
+          ItemHeight = 19
           OnChange = ComboBox_title_searchChange
           OnKeyDown = ComboBox_title_searchKeyDown
           TabOrder = 1
@@ -336,9 +339,9 @@ object Form1: TForm1
   object Splitter2: TSplitter
     Cursor = crVSplit
     Left = 0
-    Height = 8
-    Top = 288
-    Width = 1246
+    Height = 10
+    Top = 360
+    Width = 1558
     Align = alTop
     Beveled = True
     Color = clYellow
@@ -348,33 +351,33 @@ object Form1: TForm1
   end
   object StatusBar1: TStatusBar
     Left = 0
-    Height = 22
-    Top = 712
-    Width = 1246
+    Height = 27
+    Top = 890
+    Width = 1558
     Panels = <    
       item
-        Width = 200
+        Width = 250
       end    
       item
-        Width = 200
+        Width = 250
       end    
       item
-        Width = 100
+        Width = 125
       end>
     SimplePanel = False
   end
   object StringGrid2: TStringGrid
-    Left = 880
-    Height = 128
-    Top = 552
-    Width = 352
+    Left = 1100
+    Height = 160
+    Top = 690
+    Width = 440
     TabOrder = 4
     Visible = False
   end
   object MainMenu1: TMainMenu
     Images = ImageList1
-    Left = 51
-    Top = 26
+    Left = 64
+    Top = 33
     object MenuItem1: TMenuItem
       Caption = 'Files'
       object MenuItem_Open: TMenuItem
@@ -442,20 +445,20 @@ object Form1: TForm1
     end
   end
   object ListChartSource1: TListChartSource
-    Left = 256
-    Top = 72
+    Left = 320
+    Top = 90
   end
   object OpenDialog1: TOpenDialog
     FileName = 'D:\data\lazarus\chart\Log_analysis\6D11_MSE_RF_170330_31_4F.CSV'
     InitialDir = 'D:\data\lazarus\chart\Log_analysis\'
     Options = [ofAllowMultiSelect, ofEnableSizing, ofViewDetail]
-    Left = 648
-    Top = 504
+    Left = 810
+    Top = 630
   end
   object PopupMenu1: TPopupMenu
     Images = ImageList1
-    Left = 704
-    Top = 408
+    Left = 880
+    Top = 510
     object MenuItem16: TMenuItem
       Action = Action_Save_As_New_Log_File
       Caption = 'Save_As_New_Log_File'
@@ -527,10 +530,6 @@ object Form1: TForm1
       Action = Action_Keep_Unique
       Caption = 'Keep_Unique'
     end
-    object MenuItem22: TMenuItem
-      Action = Action_Keep_AllUnique
-      Caption = 'Keep_AllUnique'
-    end
     object MenuItem_clean_up: TMenuItem
       Action = Action_CleanUp
       Caption = 'Cleanup'
@@ -578,12 +577,12 @@ object Form1: TForm1
     end
   end
   object ListChartSource2: TListChartSource
-    Left = 360
-    Top = 616
+    Left = 450
+    Top = 770
   end
   object ImageList1: TImageList
-    Left = 624
-    Top = 408
+    Left = 780
+    Top = 510
     Bitmap = {
       4C7A1B0000001000000010000000EB1300000000000078DAED9C0B78145596C7
       5B5D751404DC1D1DE380ABA819615745A246E5037A208E2CB4022ABBCB28332C
@@ -750,8 +749,8 @@ object Form1: TForm1
   end
   object ActionList1: TActionList
     Images = ImageList1
-    Left = 568
-    Top = 472
+    Left = 710
+    Top = 590
     object Action_del_col: TAction
       Caption = 'Action_del_col'
       ImageIndex = 0
@@ -860,18 +859,14 @@ object Form1: TForm1
       Caption = 'Action_Keep_Unique'
       OnExecute = Action_Keep_UniqueExecute
     end
-    object Action_Keep_AllUnique: TAction
-      Caption = 'Action_Keep_AllUnique'
-      OnExecute = Action_Keep_AllUniqueExecute
-    end
   end
   object ListChartSource3: TListChartSource
-    Left = 312
-    Top = 136
+    Left = 390
+    Top = 170
   end
   object ChartToolset1: TChartToolset
-    Left = 682
-    Top = 148
+    Left = 853
+    Top = 185
     object ChartToolset1DataPointCrosshairTool1: TDataPointCrosshairTool
       OnDraw = ChartToolset1DataPointCrosshairTool1Draw
     end
@@ -893,7 +888,7 @@ object Form1: TForm1
   end
   object SaveDialog1: TSaveDialog
     Filter = 'CSV file|*.csv'
-    Left = 611
-    Top = 350
+    Left = 764
+    Top = 438
   end
 end

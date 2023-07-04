@@ -3,9 +3,7 @@ program log_analysis;
 {$mode objfpc}{$H+}
 
 uses
-  {$IFDEF UNIX}{$IFDEF UseCThreads}
-  cthreads,
-  {$ENDIF}{$ENDIF}
+
   Interfaces, // this includes the LCL widgetset
   Forms, tachartlazaruspkg,  Unit1, about
   { you can add units after this };

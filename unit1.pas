@@ -6,15 +6,14 @@ interface
 
 uses
   Classes, SysUtils, TAGraph, TASources, TASeries, Forms, Controls, Graphics,
-  Dialogs, Menus, Grids, ExtCtrls, ComCtrls, ActnList, ValEdit, StdCtrls, Math,
-  about, TADrawUtils, TACustomSeries, TATools, TACustomSource, Types;
+  Dialogs, Menus, Grids, ExtCtrls, ComCtrls, ActnList,  StdCtrls, Math,
+  about, TACustomSeries, TATools, TACustomSource;
 
 type
 
   { TForm1 }
 
   TForm1 = class(TForm)
-    Action_Keep_AllUnique: TAction;
     Action_Keep_Unique: TAction;
     Action_remove_empth_row: TAction;
     Action_Save_As_New_Log_File: TAction;
@@ -75,7 +74,6 @@ type
     MenuItem19: TMenuItem;
     MenuItem20: TMenuItem;
     MenuItem21: TMenuItem;
-    MenuItem22: TMenuItem;
     MenuItem_include_none_limit_field: TMenuItem;
     MenuItem_Reload_file: TMenuItem;
     N4:     TMenuItem;
@@ -124,7 +122,6 @@ type
     ToolButton7: TToolButton;
     ToolButton8: TToolButton;
     ToolButton9: TToolButton;
-    procedure Action_Keep_AllUniqueExecute(Sender: TObject);
     procedure Action_Keep_UniqueExecute(Sender: TObject);
     procedure Action_AnalysisExecute(Sender: TObject);
     procedure Action_Append_FileExecute(Sender: TObject);
@@ -148,6 +145,7 @@ type
     procedure Action_Title_ProcessExecute(Sender: TObject);
     procedure Action_Title_Process_Field_alignExecute(Sender: TObject);
     procedure Chart1DblClick(Sender: TObject);
+    procedure Chart2DblClick(Sender: TObject);
     procedure ChartToolset1DataPointCrosshairTool1Draw(ASender: TDataPointDrawTool);
     procedure ComboBox_log_searchChange(Sender: TObject);
     procedure ComboBox_log_searchKeyDown(Sender: TObject; var Key: word; Shift: TShiftState);
@@ -383,31 +381,6 @@ begin
   end;
 
 end;
-
-procedure TForm1.Action_Keep_AllUniqueExecute(Sender: TObject);
-var
-  s, s1:      string;
-  row1, col1: integer;
-begin
-  StringGrid1.SortColRow(True, StringGrid1.Col, 9,
-    StringGrid1.RowCount - 1);
-  col1 := StringGrid1.col;
-  row1 := 9;
-  while row1 < StringGrid1.RowCount -1  do
-  begin
-    s := StringGrid1.Cells[col1, row1];
-    s1 := StringGrid1.Cells[col1, row1+1];
-    if s1 = s then
-    begin
-      StringGrid1.DeleteRow(row1);
-    end;
-    if s1 <> s then
-    begin
-      Inc(row1);
-    end;
-  end;
-end;
-
 
 
 function TForm1.Action_Analysis_range(x0, y0, x1, y1: integer): boolean;
@@ -1256,7 +1229,12 @@ end;
 
 procedure TForm1.Chart1DblClick(Sender: TObject);
 begin
-  Chart1.ZoomFull;
+  Chart2.ZoomFull;
+
+end;
+
+procedure TForm1.Chart2DblClick(Sender: TObject);
+begin
 
 end;
 

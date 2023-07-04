@@ -19,10 +19,11 @@
     <VersionInfo>
       <UseVersionInfo Value="True"/>
       <AutoIncrementBuild Value="True"/>
-      <MajorVersionNr Value="22"/>
-      <MinorVersionNr Value="3"/>
-      <RevisionNr Value="24"/>
+      <MajorVersionNr Value="23"/>
+      <MinorVersionNr Value="7"/>
+      <RevisionNr Value="4"/>
       <BuildNr Value="1"/>
+      <CharSet Value="04B0"/>
       <StringTable ProductName="Log Analysis"/>
     </VersionInfo>
     <BuildModes Count="3">
@@ -88,6 +89,7 @@
           <Linking>
             <Debugging>
               <GenerateDebugInfo Value="False"/>
+              <DebugInfoType Value="dsDwarf2Set"/>
             </Debugging>
             <LinkSmart Value="True"/>
             <Options>
@@ -104,13 +106,15 @@
     </PublishOptions>
     <RunParams>
       <local>
-        <CommandLineParams Value="&quot;d:\data\lazarus\chart\Log_analysis\BENCHMARK_FT_210429_50_3B_0.csv&quot;"/>
+        <CommandLineParams Value="&quot;01_log_example.CSV&quot;"/>
+        <LaunchingApplication PathPlusParams="C:\WINDOWS\system32\cmd.exe /C ${TargetCmdLine}"/>
       </local>
       <FormatVersion Value="2"/>
       <Modes Count="1">
         <Mode0 Name="default">
           <local>
-            <CommandLineParams Value="&quot;d:\data\lazarus\chart\Log_analysis\BENCHMARK_FT_210429_50_3B_0.csv&quot;"/>
+            <CommandLineParams Value="&quot;01_log_example.CSV&quot;"/>
+            <LaunchingApplication PathPlusParams="C:\WINDOWS\system32\cmd.exe /C ${TargetCmdLine}"/>
           </local>
         </Mode0>
       </Modes>
