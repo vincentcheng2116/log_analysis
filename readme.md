@@ -50,3 +50,4 @@ use synapse40  to achieve this feature.
 ## license
 This project is licensed under the MIT License - see the LICENSE.txt file for details
 [License.txt](https://github.com/vincentcheng2116/vincentcheng2116/blob/main/License.txt)
+![log_analysis.png](log_analysis.png)
